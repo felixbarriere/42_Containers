@@ -1,28 +1,25 @@
-
-
-template < typename T, typename Alloc = std::allocator<T> >
-class vector
+namespace ft
 {
-		/************ Aliases ***********/
+	template < typename T, typename Alloc = std::allocator<T> >
+	class vector
+	{
 	public:
-		typedef T												value_type;
-		typedef Alloc											allocator_type;
-		typedef size_t										size_type;
-		typedef ptrdiff_t										difference_type;
-		typedef allocator_type::reference						reference;
-		typedef allocator_type::const_reference				const_reference;
-		typedef allocator_type::pointer						pointer;
-		typedef allocator_type::const_pointer					const_pointer;
-		typedef iterator										iterator;
-		typedef const_iterator								const_iterator;
-		typedef reverse_iterator<iterator>					reverse_iterator;
-		typedef reverse_iterator<const_iterator>				const_reverse_iterator;
+		/************ Aliases ***********/
+		typedef T										value_type;
+		typedef Alloc									allocator_type;
+		typedef size_t									size_type;
+		typedef ptrdiff_t								difference_type;
+		typedef allocator_type::reference				reference;
+		typedef allocator_type::const_reference			const_reference;
+		typedef allocator_type::pointer					pointer;
+		typedef allocator_type::const_pointer			const_pointer;
+		typedef iterator								iterator;
+		typedef const_iterator							const_iterator;
+		typedef reverse_iterator<iterator>				reverse_iterator;
+		typedef reverse_iterator<const_iterator>		const_reverse_iterator;
 
-		
 
 		/********** member functions **********/
-
-
 		/* Constructors / Destructor */
 
 		vector(const allocator_type& alloc = allocator_type() : _size(0), _capacity(0)) //default constructor
@@ -98,7 +95,7 @@ class vector
 		allocator_type		_allocator;
 		pointer				_begin;
 		pointer				_end; //? ok de looper a chaque fois (begin + _size)
-};
+	};
 
 template<class T, class Alloc>
 bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
@@ -119,3 +116,5 @@ template<class T, class Alloc>
 bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
 
 void swap (vector<T,Alloc>& x, vector<T,Alloc>& y);
+
+}
