@@ -1,3 +1,9 @@
+#pragma once
+
+#include "iterators.hpp"
+#include "reverse_iterators.hpp"
+
+
 namespace ft
 {
 	template < typename T, typename Alloc = std::allocator<T> >
@@ -5,24 +11,24 @@ namespace ft
 	{
 	public:
 		/************ Aliases ***********/
-		typedef T										value_type;
-		typedef Alloc									allocator_type;
-		typedef size_t									size_type;
-		typedef ptrdiff_t								difference_type;
-		typedef allocator_type::reference				reference;
-		typedef allocator_type::const_reference			const_reference;
-		typedef allocator_type::pointer					pointer;
-		typedef allocator_type::const_pointer			const_pointer;
-		typedef iterator								iterator;
-		typedef const_iterator							const_iterator;
-		typedef reverse_iterator<iterator>				reverse_iterator;
-		typedef reverse_iterator<const_iterator>		const_reverse_iterator;
+		typedef T											value_type;
+		typedef Alloc										allocator_type;
+		typedef size_t										size_type;
+		typedef ptrdiff_t									difference_type;
+		typedef typename allocator_type::reference			reference;
+		typedef typename allocator_type::const_reference	const_reference;
+		typedef typename allocator_type::pointer			pointer;
+		typedef typename allocator_type::const_pointer		const_pointer;
+		typedef ft::iterator_traits<T>								iterator;
+		typedef ft::iterator_traits<const T>						const_iterator;
+		typedef ft::reverse_iterator<iterator>				reverse_iterator;
+		typedef ft::reverse_iterator<const_iterator>		const_reverse_iterator;
 
 
 		/********** member functions **********/
 		/* Constructors / Destructor */
 
-		vector(const allocator_type& alloc = allocator_type() : _size(0), _capacity(0)) //default constructor
+		vector(const allocator_type& alloc = allocator_type()) : _size(0), _capacity(0) //default constructor
 		{
 			_value = NULL;
 			_begin = NULL;
@@ -69,8 +75,8 @@ namespace ft
 		const T&	front() const;
 		T&			back();
 		const T&	back() const;
-		T*			data() noexcept;			 // Returns pointer to the underlying array serving as element storage. a confirmer
-		const T*	data() const noexcept;
+		T*			data() ;			 // Returns pointer to the underlying array serving as element storage. a confirmer
+		const T*	data() const;
 
 		/* Modifiers */
 		T			assign(Iterator first, Iterator last);	// Assigns new contents to the vector, replacing its current contents, and modifying its size accordingly.
@@ -117,4 +123,4 @@ bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
 
 void swap (vector<T,Alloc>& x, vector<T,Alloc>& y);
 
-}
+};
