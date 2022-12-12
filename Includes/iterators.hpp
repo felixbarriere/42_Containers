@@ -1,7 +1,9 @@
 #pragma once   // directive de préprocesseur: le fichier source actuel est inclu une seule fois dans une seule compilation.
 
-# include <iostream>
+// # include <iostream>
 # include <cstddef>
+#include <memory>
+
 # include "enable_if.hpp"
 
 
@@ -13,7 +15,7 @@ namespace ft
 
 	/**
 	*	Traits class for iterators.
-	* 	This class does nothing but define nested typedefs. 
+	* 	This class does nothing but defines nested typedefs. 
 	*/
 
 	template<typename _Category, typename _Tp, typename _Distance = ptrdiff_t, typename _Pointer = _Tp*, typename _Reference = _Tp&>

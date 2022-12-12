@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <deque>
+// #include <deque>
 // #if 1 //CREATE A REAL STL EXAMPLE
 	// #include <map>
 	// #include <stack>
@@ -9,21 +9,56 @@
 // #else
 // 	#include <map.hpp>
 // 	#include <stack.hpp>
-	#include "Includes/vector.hpp"
+#include "Includes/vector.hpp"
+
 // #endif
 
-#include <stdlib.h>
+// #include <stdlib.h>
 
-#define MAX_RAM 42949
-#define BUFFER_SIZE 4096
-struct Buffer
+/* ****************************************  MAIN PERSO **************************************************** */
+
+int main (int argc, char **argv)
 {
-	int idx;
-	char buff[BUFFER_SIZE];
-};
+	(void)argc;
+	(void)argv;
+
+	// ft::vector<int> test;
+
+	ft::vector<int> test2(3, 8);
+	std::cout << test2[2] << std::endl;
+
+	// ft::vector<int>::iterator first;
+	// ft::vector<int>::iterator last;
+
+	ft::vector<int> test3(test2.begin(), test2.end());
+	std::cout << test3[0] << std::endl;
 
 
-#define COUNT (MAX_RAM / (int)sizeof(Buffer))
+	return (0);
+}
+
+
+
+
+
+
+
+
+
+
+
+/* ****************************************  MAIN INTRA **************************************************** */
+
+// #define MAX_RAM 42949
+// #define BUFFER_SIZE 4096
+// struct Buffer
+// {
+// 	int idx;
+// 	char buff[BUFFER_SIZE];
+// };
+
+
+// #define COUNT (MAX_RAM / (int)sizeof(Buffer))
 
 // template<typename T>
 // class MutantStack : public ft::stack<T>
@@ -44,21 +79,21 @@ struct Buffer
 // 	iterator end() { return this->c.end(); }
 // };
 
-int main(int argc, char** argv) {
-	if (argc != 2)
-	{
-		std::cerr << "Usage: ./test seed" << std::endl;
-		std::cerr << "Provide a seed please" << std::endl;
-		std::cerr << "Count value:" << COUNT << std::endl;
-		return 1;
-	}
-	const int seed = atoi(argv[1]);
-	srand(seed);
+// int main(int argc, char** argv) {
+// 	if (argc != 2)
+// 	{
+// 		std::cerr << "Usage: ./test seed" << std::endl;
+// 		std::cerr << "Provide a seed please" << std::endl;
+// 		std::cerr << "Count value:" << COUNT << std::endl;
+// 		return 1;
+// 	}
+// 	const int seed = atoi(argv[1]);
+// 	srand(seed);
 
-	ft::vector<std::string> vector_str;
-	ft::vector<int> vector_int;
+	// ft::vector<std::string> vector_str;
+	// ft::vector<int> vector_int;
 	// ft::stack<int> stack_int;
-	ft::vector<Buffer> vector_buffer;
+	// ft::vector<Buffer> vector_buffer;
 	// ft::stack<Buffer, std::deque<Buffer> > stack_deq_buffer;
 	// ft::map<int, int> map_int;
 
@@ -116,6 +151,6 @@ int main(int argc, char** argv) {
 	// {
 	// 	std::cout << *it;
 	// }
-	std::cout << std::endl;
-	return (0);
-}
+// 	std::cout << std::endl;
+// 	return (0);
+// }
