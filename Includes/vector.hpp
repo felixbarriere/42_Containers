@@ -1,9 +1,12 @@
 // #pragma once
 
+#include <iostream>
+#include <stdexcept>
 #include "iterators.hpp"
+
 // #include "reverse_iterators.hpp"
 
-
+// std::is_integral<int>::value;
 
 namespace ft
 {
@@ -29,35 +32,41 @@ namespace ft
 	// 	/********** member functions **********/
 	// 	/* Constructors / Destructor */
 
-		vector(const allocator_type& alloc = allocator_type()) : _size(0), _capacity(0), _value(0), _allocator(alloc), _begin(NULL), _end(NULL) //default constructor
+		/* default constructor */
+		vector(const allocator_type& alloc = allocator_type()) : _size(0), _capacity(0), _value(0), _allocator(alloc), _begin(NULL), _end(NULL)
 		{}
 
-		vector(size_type n, const T& val, const allocator_type& alloc = allocator_type()) : _size(n), _capacity(n), _value(val), _allocator(alloc), _begin(_allocator.allocate(n, 0)), _end(_begin + n) // fill constructor: Each of the n elements in the container will be initialized to a copy of this value.
+		/* fill constructor: Each of the n elements in the container will be initialized to a copy of this value. */
+		vector(size_type n, const T& val, const allocator_type& alloc = allocator_type()) : _size(n), _capacity(n), _value(val), _allocator(alloc), _begin(_allocator.allocate(n, 0)), _end(_begin + n) 
 		{
 			for (size_t i = 0; i < n ; i++)
-			{
 				_allocator.construct(_begin + i, val);  /* prototype ==> void construct ( pointer p, const_reference val ); */
-			}
 		}
 
-		vector(iterator first, iterator last, const allocator_type& alloc = allocator_type()) : _begin(first), _end(last)		// range constructor
+		/* range constructor */
+		template <class InputIterator>
+		vector( InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last, const allocator_type& alloc = allocator_type())
+													: _size(std::distance(first, last)), _capacity(std::distance(first, last)), _value(0), _allocator(alloc),
+													_begin(_allocator.allocate(std::distance(first, last), 0)), _end(first + std::distance(first, last))
 		{
-			// ptrdiff_t ptrdiff = _end - _begin;
-			_capacity = std::distance(_begin, _end);
-			_size = std::distance(_begin, _end);
-			_value = 0;
-			_allocator = alloc; //?
+			for (size_t i = 0; first != last; i++, first++)
+				_allocator.construct(_begin + i, *(first));
 		}
 
-		// vector(const vector& cpy); 					// copy constructor
+		/* copy constructor */
+		// vector(const vector& cpy); 
 		~vector()
 		{
+			std::cout << "test destructor" << std::endl;
+
 			if (_capacity != 0)
 			{
 				for (size_t i = 0; i < _size; i++)
 					_allocator.destroy(_begin + i);
 				_allocator.deallocate(_begin, _capacity);
 			}		
+			std::cout << "test 2 destructor" << std::endl;
+
 		}
 
 		// vector&	operator=(const vector&);
@@ -68,12 +77,21 @@ namespace ft
 		{
 			return (_begin);
 		}
+		
+		iterator	begin() const
+		{
+			return ((const_iterator)_begin);
+		}
 
 		iterator	end()
 		{
 			return (_end);
 		}
-		
+
+		iterator	end() const
+		{
+			return ((const_iterator)_end);
+		}
 
 		// /* Capacity */
 		// size_type	size() const;
@@ -86,11 +104,28 @@ namespace ft
 		// /* Element access */
 		T&			operator[](size_type n)		 // should never call this function with an argument n that is out of range ==> undefined behavior.
 		{
-				return (*(this->_begin + n));
+			return (*(this->_begin + n));
 		}
-		// const T&	operator[](size_type n) const;
-		// T&			at(size_type n);				 // throwing an out_of_range exception if it is not
-		// const T&	at(size_type n) const;
+		const T&	operator[](size_type n) const
+		{
+			return ((const_iterator)*(this->_begin + n));
+		}
+
+		T&			at(size_type n)				 // throwing an out_of_range exception if it is not
+		{
+			if (n <= this->_size)
+				return (*(this->_begin + n));
+			else
+				throw std::out_of_range("Requested index is out of range");
+		}
+		
+		const T&	at(size_type n) const
+		{
+			if (n <= this->_size)
+				return ((const_iterator)*(this->_begin + n));
+			else
+				throw std::out_of_range("Requested index is out of range");
+		}
 		// T&			front();					 // Unlike member vector::begin, which returns an iterator to this same element, this function returns a direct reference.
 		// const T&	front() const;
 		// T&			back();
@@ -121,6 +156,14 @@ namespace ft
 		allocator_type		_allocator;
 		pointer				_begin;
 		pointer				_end; //? ok de looper a chaque fois (begin + _size)
+
+
+		// class SizeTooImportant : public std::exceptions
+		// {
+		// 	public: virtual const char*	what() const throw();
+		// };
+
+
 	};
 
 // template<class T, class Alloc>
@@ -145,5 +188,8 @@ namespace ft
 // bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
 
 // void swap (vector<T,Alloc>& x, vector<T,Alloc>& y);
+
+
+
 
 };

@@ -4,7 +4,7 @@
 // #if 1 //CREATE A REAL STL EXAMPLE
 	// #include <map>
 	// #include <stack>
-	// #include <vector>
+	#include <vector>
 	// namespace ft = std;
 // #else
 // 	#include <map.hpp>
@@ -22,17 +22,47 @@ int main (int argc, char **argv)
 	(void)argc;
 	(void)argv;
 
-	// ft::vector<int> test;
+	ft::vector<int> test;
 
-	ft::vector<int> test2(3, 8);
-	std::cout << test2[2] << std::endl;
-
-	// ft::vector<int>::iterator first;
-	// ft::vector<int>::iterator last;
+	ft::vector<int> test2(2, 100);
+	std::cout << "test2[1]= " << test2[1] << std::endl;
+	// std::cout << "test2[5]= " << test2[5] << std::endl;  //should create an error
 
 	ft::vector<int> test3(test2.begin(), test2.end());
-	std::cout << test3[0] << std::endl;
+	std::cout << "test3[0]= " << test3[0] << std::endl;
 
+	ft::vector<int>::iterator first = test2.begin();
+	ft::vector<int>::iterator last = test2.end();
+
+	// (void)first;
+	// (void)last;
+
+	ft::vector<int> test4(first, last);
+	std::cout << "test4[0]= " << test4[0] << std::endl;
+	std::cout << "test4.at(1)= " << test4.at(1) << std::endl;
+
+
+	/* **************************** STD ********************************** */
+
+
+	// ft::vector<int> test2(2, 100);
+	// std::cout << "test2[1]= " << test2[1] << std::endl;
+	// std::cout << "test2[5]= " << test2[5] << std::endl;
+
+	// // ft::vector<int>::iterator first;
+	// // ft::vector<int>::iterator last;
+
+	// std::vector<int> test3(test2.begin() + 1, test2.end());
+	// std::cout << test3[1] << std::endl;
+
+	// std::vector<int>::iterator first = test3.begin();
+	// std::vector<int>::iterator last = test3.end();
+
+	// // (void)first;
+	// // (void)last;
+
+	// std::vector<int> test4(first, last);
+	// std::cout << test4[0] << std::endl;
 
 	return (0);
 }
