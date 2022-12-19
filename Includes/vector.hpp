@@ -14,7 +14,8 @@ namespace ft
 	class vector
 	{
 	public:
-		/************ Aliases ***********/
+		/* ****************************************************************************************** */
+		/****************************************** ALIASES *******************************************/
 		typedef T											value_type;
 		typedef Alloc										allocator_type;
 		typedef size_t										size_type;
@@ -28,19 +29,21 @@ namespace ft
 		// typedef ft::reverse_iterator<iterator>			reverse_iterator;
 		// typedef ft::reverse_iterator<const_iterator>		const_reverse_iterator;
 
-
-	// 	/********** member functions **********/
-	// 	/* Constructors / Destructor */
+		/* ****************************************************************************************** */
+		/************************************** MEMBER FUNCTIONS **************************************/
+		
+		/***************** Constructors / Destructor *****************/
 
 		/* default constructor */
 		vector(const allocator_type& alloc = allocator_type()) : _size(0), _capacity(0), _value(0), _allocator(alloc), _begin(NULL), _end(NULL)
 		{}
 
-		/* fill constructor: Each of the n elements in the container will be initialized to a copy of this value. */
-		vector(size_type n, const T& val, const allocator_type& alloc = allocator_type()) : _size(n), _capacity(n), _value(val), _allocator(alloc), _begin(_allocator.allocate(n, 0)), _end(_begin + n) 
+		/* fill constructor */
+		vector(size_type n, const T& val, const allocator_type& alloc = allocator_type()) : _size(n), _capacity(n), _value(val), _allocator(alloc),
+																							_begin(_allocator.allocate(n, 0)), _end(_begin + n) 
 		{
 			for (size_t i = 0; i < n ; i++)
-				_allocator.construct(_begin + i, val);  /* prototype ==> void construct ( pointer p, const_reference val ); */
+				_allocator.construct(_begin + i, val);
 		}
 
 		/* range constructor */
@@ -61,12 +64,10 @@ namespace ft
 			this->_value = cpy._value;
 			this->_allocator = cpy._allocator;
 			this->_begin = _allocator.allocate(this->_capacity, 0);
-			this->_end = this->_begin + this->_capacity;
+			this->_end = this->_begin + this->_size;
 
 			for (size_t i = 0; i < _size; i++)
-			{
-				(*this)[i] = cpy[i];
-			}
+				_allocator.construct(this->_begin + i, *(cpy._begin + i));
 		}
 		~vector()
 		{
@@ -80,6 +81,8 @@ namespace ft
 
 		vector&	operator=(const vector& assign)
 		{
+			std::cout << "TEST Operator =" << std::endl;	
+
 			if (this->_capacity < assign._size)
 			{
 				this->_size = assign._size;
@@ -88,64 +91,85 @@ namespace ft
 				this->_allocator = assign._allocator;
 				this->_begin = _allocator.allocate(this->_capacity, 0);
 				this->_end = this->_begin + this->_capacity;
+				
 				for (size_t i = 0; i < _size; i++)
-				{
-					(*this)[i] = assign[i];
-				}
+					_allocator.construct(this->_begin + i, *(assign._begin + i));
 			}
 			else
 			{
 				this->_size = assign._size;
 				for (size_t i = 0; i < _size; i++)
-				{
-					(*this)[i] = assign[i];
-				}
+					_allocator.construct(this->_begin + i, *(assign._begin + i));
 			}
-
 			return (*this);	
 		}
 
-		// /* Iterators */
+		/***************** Iterators *****************/
 
-		iterator	begin()
-		{
-			return (_begin);
-		}
+		iterator
+		begin() { return (_begin); }
 		
-		iterator	begin() const
-		{
-			return ((const_iterator)_begin);
-		}
+		iterator
+		begin() const { return ((const_iterator)_begin); }
 
-		iterator	end()
-		{
-			return (_end);
-		}
+		iterator
+		end() { return (_end); }
 
-		iterator	end() const
-		{
-			return ((const_iterator)_end);
-		}
+		iterator
+		end() const { return ((const_iterator)_end); }
 
-		// /* Capacity */
-		// size_type	size() const;
-		// size_type	max_size() const;            // maximum potential size the container can reach due to known system or library implementation limitations
+		/***************** Capacity *****************/
+		size_type
+		size() const { return (this->_size); }
+		
+		size_type
+		max_size() const { return (this->_allocator.max_size()); }  // maximum potential size the container can reach due to known system
+		
 		// void		resize(size_type n, T val);     // Resizes the container so that it contains n elements. "val" is optional
-		// size_type	capacity() const;            // Return size of allocated storage capacity
-		// bool		empty() const;
-		// void		reserve(size_type n);           // Requests that the vector capacity be at least enough to contain n elements.
-
-		// /* Element access */
-		T&			operator[](size_type n)		 // should never call this function with an argument n that is out of range ==> undefined behavior.
+		
+		size_type
+		capacity() const { return (this->_capacity); }            // Return size of allocated storage capacity
+		
+		bool
+		empty() const
 		{
-			return (*(this->_begin + n));
+			if (this->_size == 0)
+				return 1;
+			else
+				return 0;
 		}
-		// const T&	operator[](size_type n) const
-		// {
-		// 	return ((const_iterator)*(this->_begin + n));
-		// }
 
-		T&			at(size_type n)				 // throwing an out_of_range exception if it is not
+		void		reserve(size_type n)           // Requests that the vector capacity be at least enough to contain n elements.
+		{
+			if (n < this->_capacity)
+				return ;
+			else if (n > this->max_size())
+				throw std::length_error("Reserve: n is superior to Max_size");
+			
+			pointer	temp = _allocator.allocate(n);
+			for (size_t i = 0; i < _size; i++)
+					_allocator.construct(temp + i, *(_begin + i));
+			
+			if (_capacity != 0)
+			{
+				for (size_t i = 0; i < _size; i++)
+					_allocator.destroy(_begin + i);
+				_allocator.deallocate(_begin, _capacity);
+			}
+
+			this->_begin = temp;
+			this->_end = this->_begin + n;
+			this->_capacity = n;
+		}
+		/***************** Element access *****************/
+		T&			
+		operator[](size_type n)	{ return (*(this->_begin + n)); }	 // should never call this function with an argument n that is out of range ==> undefined behavior.
+
+		const T&
+		operator[](size_type n) const { return ((const_iterator)*(this->_begin + n)); }
+
+		T&
+		at(size_type n)
 		{
 			if (n <= this->_size)
 				return (*(this->_begin + n));
@@ -153,13 +177,15 @@ namespace ft
 				throw std::out_of_range("Requested index is out of range");
 		}
 		
-		const T&	at(size_type n) const
+		const T&
+		at(size_type n) const
 		{
 			if (n <= this->_size)
 				return ((const_iterator)*(this->_begin + n));
 			else
 				throw std::out_of_range("Requested index is out of range");
 		}
+
 		// T&			front();					 // Unlike member vector::begin, which returns an iterator to this same element, this function returns a direct reference.
 		// const T&	front() const;
 		// T&			back();
@@ -167,10 +193,36 @@ namespace ft
 		// T*			data() ;			 // Returns pointer to the underlying array serving as element storage. a confirmer
 		// const T*	data() const;
 
-		// /* Modifiers */
+		/***************** Modifiers *****************/
 		// T			assign(Iterator first, Iterator last);	// Assigns new contents to the vector, replacing its current contents, and modifying its size accordingly.
 		// void		assign(size_type n, const T& val);			// In the fill version (2), the new contents are n elements, each initialized to a copy of val.
-		// void 		push_back(const T& val);
+		
+		void
+		push_back(const T& val)
+		{
+			std::cout << "TEST Push_Back; this->at(1) =" << this->at(1) << std::endl;
+
+			if (this->_size >= this->_capacity)
+			{
+				if (this->_capacity == 0)
+					this->reserve(1);
+				else
+					this->reserve(this->_capacity * 2);
+			}
+			std::cout << "TEST Push_Back; this->at(1) =" << this->at(1) << std::endl;
+			// std::cout << "TEST Push_Back; this->at(2) =" << this->at(2) << std::endl;
+
+			this->_end++; //?
+			_allocator.construct(this->_begin + this->_size, val);
+			this->_size++;
+			std::cout << "TEST Push_Back; this->at(2) =" << this->at(2) << std::endl;
+
+
+
+		}
+		
+		
+		
 		// void		pop_back();
 		// iterator	insert(iterator/member_type position, const T& val);		 // inserting new elements before the element at the specified position
 		// void		insert(iterator/member_type position, size_type n, const value_type& val);   		// fill reutiliser le premier
@@ -180,10 +232,11 @@ namespace ft
 		// void		swap(vector& x);							// non-member function exists
 		// void		clear();		// Removes all elements from the vector (which are destroyed), leaving the container with a size of 0.
 
-		// /* Allocator */
+		/***************** Allocator *****************/
 		// T			get_allocator() const;
 	// private:
-		/************ Member types ***********/
+		/* ****************************************************************************************** */
+		/**************************************** MEMBER TYPES ****************************************/
 		size_type			_size;
 		size_type			_capacity;
 		value_type			_value;

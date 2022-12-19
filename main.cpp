@@ -29,7 +29,7 @@ int main (int argc, char **argv)
 		std::cout << " \e[0;33m******  Constructors  ******\e[0m " << std::endl << std::endl;
 
 		ft::vector<int> test;
-		ft::vector<int> test2(2, 100);
+		ft::vector<int> test2(2, 98);
 		std::cout << "test2[1]= " << test2[1] << std::endl;
 		// std::cout << "test2[5]= " << test2[5] << std::endl;  //should return invalid read
 
@@ -48,8 +48,12 @@ int main (int argc, char **argv)
 		std::cout << "test_copy[0]= " << test_copy[0] << std::endl;
 
 
-		// ft::vector<int> test_operator_equal = test4; //creer operator = pour tester
-		// std::cout << "test_operator_equal[0]= " << test_operator_equal[0] << std::endl;
+		ft::vector<int> test_operator_equal = test4; //creer operator = pour tester
+		std::cout << "test_operator_equal[0]= " << test_operator_equal[0] << std::endl;
+
+		test_operator_equal.push_back(42);
+		std::cout << "PUSH_BACK: test_operator_equal[2]= " << test_operator_equal[2] << std::endl;
+
 	}
 
 	/* **************************** STD ********************************** */
@@ -60,7 +64,7 @@ int main (int argc, char **argv)
 		std::cout << " \e[0;33m******  Constructors  ******\e[0m " << std::endl << std::endl;
 
 		std::vector<int> test;
-		std::vector<int> test2(2, 100);
+		std::vector<int> test2(2, 98);
 		std::cout << "test2[1]= " << test2[1] << std::endl;
 		// std::cout << "test2[5]= " << test2[5] << std::endl;	//should return invalid read
 
@@ -79,8 +83,11 @@ int main (int argc, char **argv)
 		std::cout << "test_copy[0]= " << test_copy[0] << std::endl;
 
 
-		// std::vector<int> test_operator_equal = test4;
-		// std::cout << "test_operator_equal[0]= " << test_operator_equal[0] << std::endl;
+		std::vector<int> test_operator_equal = test4;
+		std::cout << "test_operator_equal[0]= " << test_operator_equal[0] << std::endl;
+
+		test_operator_equal.push_back(42);
+		std::cout << "PUSH_BACK: test_operator_equal[2]= " << test_operator_equal[2] << std::endl;
 	}
 	return (0);
 }
