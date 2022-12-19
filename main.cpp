@@ -17,53 +17,71 @@
 
 /* ****************************************  MAIN PERSO **************************************************** */
 
+
 int main (int argc, char **argv)
 {
 	(void)argc;
 	(void)argv;
+	{
+		std::cout << std::endl << " \e[0;33m******  FT  ******\e[0m " << std::endl << std::endl;
+		
+		/* Constructors */
+		std::cout << " \e[0;33m******  Constructors  ******\e[0m " << std::endl << std::endl;
 
-	ft::vector<int> test;
+		ft::vector<int> test;
+		ft::vector<int> test2(2, 100);
+		std::cout << "test2[1]= " << test2[1] << std::endl;
+		// std::cout << "test2[5]= " << test2[5] << std::endl;  //should return invalid read
 
-	ft::vector<int> test2(2, 100);
-	std::cout << "test2[1]= " << test2[1] << std::endl;
-	// std::cout << "test2[5]= " << test2[5] << std::endl;  //should create an error
+		ft::vector<int> test3(test2.begin() + 1, test2.end());
+		std::cout << "test3[0]= " << test3[0] << std::endl;
 
-	ft::vector<int> test3(test2.begin(), test2.end());
-	std::cout << "test3[0]= " << test3[0] << std::endl;
+		ft::vector<int>::iterator first = test2.begin();
+		ft::vector<int>::iterator last = test2.end();
 
-	ft::vector<int>::iterator first = test2.begin();
-	ft::vector<int>::iterator last = test2.end();
+		ft::vector<int> test4(first, last);
+		std::cout << "test4[0]= " << test4[0] << std::endl;
+		std::cout << "test4.at(1)= " << test4.at(1) << std::endl;
+		// std::cout << "test4.at(5)= " << test4.at(5) << std::endl;	//should send exception
 
-	// (void)first;
-	// (void)last;
+		ft::vector<int> test_copy(test4);
+		std::cout << "test_copy[0]= " << test_copy[0] << std::endl;
 
-	ft::vector<int> test4(first, last);
-	std::cout << "test4[0]= " << test4[0] << std::endl;
-	std::cout << "test4.at(1)= " << test4.at(1) << std::endl;
 
+		// ft::vector<int> test_operator_equal = test4; //creer operator = pour tester
+		// std::cout << "test_operator_equal[0]= " << test_operator_equal[0] << std::endl;
+	}
 
 	/* **************************** STD ********************************** */
+	{
+		std::cout << std::endl << " \e[0;33m******  STD  ******\e[0m " << std::endl << std::endl;
+
+		/* Constructors */
+		std::cout << " \e[0;33m******  Constructors  ******\e[0m " << std::endl << std::endl;
+
+		std::vector<int> test;
+		std::vector<int> test2(2, 100);
+		std::cout << "test2[1]= " << test2[1] << std::endl;
+		// std::cout << "test2[5]= " << test2[5] << std::endl;	//should return invalid read
+
+		std::vector<int> test3(test2.begin() + 1, test2.end());
+		std::cout << "test3[0]= " << test3[0] << std::endl;
+
+		std::vector<int>::iterator first = test2.begin();
+		std::vector<int>::iterator last = test2.end();
+
+		std::vector<int> test4(first, last);
+		std::cout << "test4[0]= " << test4[0] << std::endl;
+		std::cout << "test4.at(1)= " << test4.at(1) << std::endl;
+		// std::cout << "test4.at(5)= " << test4.at(5) << std::endl;	//should send exception
+
+		std::vector<int> test_copy(test4);
+		std::cout << "test_copy[0]= " << test_copy[0] << std::endl;
 
 
-	// ft::vector<int> test2(2, 100);
-	// std::cout << "test2[1]= " << test2[1] << std::endl;
-	// std::cout << "test2[5]= " << test2[5] << std::endl;
-
-	// // ft::vector<int>::iterator first;
-	// // ft::vector<int>::iterator last;
-
-	// std::vector<int> test3(test2.begin() + 1, test2.end());
-	// std::cout << test3[1] << std::endl;
-
-	// std::vector<int>::iterator first = test3.begin();
-	// std::vector<int>::iterator last = test3.end();
-
-	// // (void)first;
-	// // (void)last;
-
-	// std::vector<int> test4(first, last);
-	// std::cout << test4[0] << std::endl;
-
+		// std::vector<int> test_operator_equal = test4;
+		// std::cout << "test_operator_equal[0]= " << test_operator_equal[0] << std::endl;
+	}
 	return (0);
 }
 

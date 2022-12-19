@@ -54,22 +54,56 @@ namespace ft
 		}
 
 		/* copy constructor */
-		// vector(const vector& cpy); 
+		vector(const vector& cpy)
+		{
+			this->_size = cpy._size;
+			this->_capacity = cpy._capacity;
+			this->_value = cpy._value;
+			this->_allocator = cpy._allocator;
+			this->_begin = _allocator.allocate(this->_capacity, 0);
+			this->_end = this->_begin + this->_capacity;
+
+			for (size_t i = 0; i < _size; i++)
+			{
+				(*this)[i] = cpy[i];
+			}
+		}
 		~vector()
 		{
-			std::cout << "test destructor" << std::endl;
-
 			if (_capacity != 0)
 			{
 				for (size_t i = 0; i < _size; i++)
 					_allocator.destroy(_begin + i);
 				_allocator.deallocate(_begin, _capacity);
 			}		
-			std::cout << "test 2 destructor" << std::endl;
-
 		}
 
-		// vector&	operator=(const vector&);
+		vector&	operator=(const vector& assign)
+		{
+			if (this->_capacity < assign._size)
+			{
+				this->_size = assign._size;
+				this->_capacity = assign._capacity;
+				this->_value = assign._value;
+				this->_allocator = assign._allocator;
+				this->_begin = _allocator.allocate(this->_capacity, 0);
+				this->_end = this->_begin + this->_capacity;
+				for (size_t i = 0; i < _size; i++)
+				{
+					(*this)[i] = assign[i];
+				}
+			}
+			else
+			{
+				this->_size = assign._size;
+				for (size_t i = 0; i < _size; i++)
+				{
+					(*this)[i] = assign[i];
+				}
+			}
+
+			return (*this);	
+		}
 
 		// /* Iterators */
 
@@ -106,10 +140,10 @@ namespace ft
 		{
 			return (*(this->_begin + n));
 		}
-		const T&	operator[](size_type n) const
-		{
-			return ((const_iterator)*(this->_begin + n));
-		}
+		// const T&	operator[](size_type n) const
+		// {
+		// 	return ((const_iterator)*(this->_begin + n));
+		// }
 
 		T&			at(size_type n)				 // throwing an out_of_range exception if it is not
 		{
