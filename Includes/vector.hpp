@@ -6,6 +6,10 @@
 # include <iostream>
 # include <stdexcept>
 # include "iterators.hpp"
+# include "equal.hpp"
+# include "lexicographical_compare.hpp"
+
+
 
 // #include "reverse_iterators.hpp"
 
@@ -43,7 +47,7 @@ namespace ft
 		{}
 
 		/* fill constructor */
-		vector(size_type n, const T& val, const allocator_type& alloc = allocator_type()) : _size(n), _capacity(n), _value(val), _allocator(alloc),
+		vector(size_type n, const T& val = value_type(), const allocator_type& alloc = allocator_type()) : _size(n), _capacity(n), _value(val), _allocator(alloc),
 																							_begin(_allocator.allocate(n, 0)), _end(_begin + n) 
 		{
 			for (size_t i = 0; i < n ; i++)
@@ -257,8 +261,14 @@ namespace ft
 		// iterator 	erase (iterator position);				    // erase single element
 		// iterator 	erase (iterator first, iterator last);		// erase range
 		// void		swap(vector& x);							// non-member function exists
-		// void		clear();		// Removes all elements from the vector (which are destroyed), leaving the container with a size of 0.
-
+		void
+		clear()		// Removes all elements from the vector (which are destroyed), leaving the container with a size of 0.
+		{
+			for (size_t i = 0; i < _size; i++)
+				_allocator.destroy(_begin + i);
+			// _allocator.deallocate(_begin, _capacity);
+			this->_size = 0;
+		}
 		/***************** Allocator *****************/
 		// T			get_allocator() const;
 	// private:
@@ -272,11 +282,26 @@ namespace ft
 		pointer				_end; //? ok de looper a chaque fois (begin + _size)
 	};
 
-// template<class T, class Alloc>
-// bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+/* ****************************************************************************************** */
+/**************************************** OPERATORS ****************************************/
 
-// template<class T, class Alloc>
-// bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+template<class T, class Alloc>
+bool 
+operator==(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+{
+	if (lhs._size() != rhs.size()) // need ft_equal
+		return (false);
+	if ( ! ft::equal(lhs.begin(), lhs.end(), rhs.begin()))
+			return (false);
+	return (true);
+}
+
+template<class T, class Alloc>
+bool
+operator!=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+{
+	return (!(lhs != rhs));
+}
 
 // template<class T, class Alloc>
 // bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);

@@ -23,211 +23,121 @@ int main (int argc, char **argv)
 	(void)argc;
 	(void)argv;
 	{
-
-		ft::vector<int> v(1000, 0);
-		ft::vector<int> v1(v);
-		ft::vector<int> v2(v.begin() + 50, v.end() - 30);
-		ft::vector<int> v3(156, 42);
-		ft::vector<int> empty;
-
-		int i = 5;
-		for (ft::vector<int>::iterator it = v.begin(); it != v.end(); it++) {
-			*it = i++;
-		}
-
-		std::cout << "operator [] and at" << std::endl;
-
-		for(int i = 0; i < 5; i++) {
-			std::cout << v[i] << std::endl;
-			std::cout << v.at(i) << std::endl;
-
-		}
-
-		std::cout << "at exception test" << std::endl;
-
-		try {
-			std::cout << v.at(v.size() + 1) << std::endl;
-
-		} catch(const std::exception &e)
-		{
-			std::cout << e.what() << std::endl;
-		}
-		std::cout << "front" << std::endl;
-
-		std::cout << v.front() << std::endl;
-		std::cout << v1.front() << std::endl;
-		std::cout << v2.front() << std::endl;
-		std::cout << v3.front() << std::endl;
-		// COUT(empty.front()); // BOOM
-
-		std::cout << "back" << std::endl;
-
-		std::cout << v.back() << std::endl;
-		std::cout << v1.back() << std::endl;
-		std::cout << v2.back() << std::endl;
-		std::cout << v3.back() << std::endl;
-		// COUT(empty.back()); // BOOM
-
-	}
-
-	{
-
-		std::vector<int> v(1000, 0);
-		std::vector<int> v1(v);
-		std::vector<int> v2(v.begin() + 50, v.end() - 30);
-		std::vector<int> v3(156, 42);
-		std::vector<int> empty;
-
-		int i = 5;
-		for (std::vector<int>::iterator it = v.begin(); it != v.end(); it++) {
-			*it = i++;
-		}
-
-		std::cout << "operator [] and at" << std::endl;
-
-		for(int i = 0; i < 5; i++) {
-			std::cout << v[i] << std::endl;
-			std::cout << v.at(i) << std::endl;
-
-		}
-
-		std::cout << "at exception test" << std::endl;
-
-		try {
-			std::cout << v.at(v.size() + 1) << std::endl;
-
-		} catch(const std::exception &e)
-		{
-			std::cout << e.what() << std::endl;
-		}
-		std::cout << "front" << std::endl;
-
-		std::cout << v.front() << std::endl;
-		std::cout << v1.front() << std::endl;
-		std::cout << v2.front() << std::endl;
-		std::cout << v3.front() << std::endl;
-		// COUT(empty.front()); // BOOM
-
-		std::cout << "back" << std::endl;
-
-		std::cout << v.back() << std::endl;
-		std::cout << v1.back() << std::endl;
-		std::cout << v2.back() << std::endl;
-		std::cout << v3.back() << std::endl;
-		// COUT(empty.back()); // BOOM
-
-	}
-
-	// {
-	// 	std::cout << std::endl << " \e[0;33m************  FT  ************\e[0m " << std::endl << std::endl;
+		std::cout << std::endl << " \e[0;33m************  FT  ************\e[0m " << std::endl << std::endl;
 		
-	// 	/* Constructors */
-	// 	std::cout << " \e[0;33m************  Constructors  ************\e[0m " << std::endl << std::endl;
+		/* Constructors */
+		std::cout << " \e[0;33m************  Constructors  ************\e[0m " << std::endl << std::endl;
 
-	// 	ft::vector<int> test;
-	// 	ft::vector<int> test2(2, 98);
-	// 	std::cout << "test2[1]= " << test2[1] << std::endl;
-	// 	// std::cout << "test2[5]= " << test2[5] << std::endl;  //should return invalid read
+		ft::vector<int> test;
+		ft::vector<int> test2(2, 98);
+		std::cout << "test2[1]= " << test2[1] << std::endl;
+		// std::cout << "test2[5]= " << test2[5] << std::endl;  //should return invalid read
 
-	// 	ft::vector<int> test3(test2.begin() + 1, test2.end());
-	// 	std::cout << "test3[0]= " << test3[0] << std::endl;
+		ft::vector<int> test3(test2.begin() + 1, test2.end());
+		std::cout << "test3[0]= " << test3[0] << std::endl;
 
-	// 	ft::vector<int>::iterator first = test2.begin();
-	// 	ft::vector<int>::iterator last = test2.end();
+		ft::vector<int>::iterator first = test2.begin();
+		ft::vector<int>::iterator last = test2.end();
 
-	// 	ft::vector<int> test4(first, last);
-	// 	std::cout << "test4[0]= " << test4[0] << std::endl;
-	// 	std::cout << "test4.at(1)= " << test4.at(1) << std::endl;
-	// 	// std::cout << "test4.at(5)= " << test4.at(5) << std::endl;	//should send exception
-	// 	// std::cout << "test4.at(90)= " << test4.at(90) << std::endl;
-	// 	// std::cout << "test4.at(-90)= " << test4.at(-90) << std::endl;
+		ft::vector<int> test4(first, last);
+		std::cout << "test4[0]= " << test4[0] << std::endl;
+		std::cout << "test4.at(1)= " << test4.at(1) << std::endl;
+		// std::cout << "test4.at(5)= " << test4.at(5) << std::endl;	//should send exception
+		// std::cout << "test4.at(90)= " << test4.at(90) << std::endl;
+		// std::cout << "test4.at(-90)= " << test4.at(-90) << std::endl;
 
-	// 	ft::vector<int> test_copy(test4);
-	// 	std::cout << "test_copy[0]= " << test_copy[0] << std::endl;
-
-
-	// 	ft::vector<int> test_operator_equal = test4;
-	// 	std::cout << "test_operator_equal[0]= " << test_operator_equal[0] << std::endl;
-
-	// 	std::cout << std::endl << " \e[0;33m************  Modifiers  ************\e[0m " << std::endl << std::endl;
-
-	// 	test_operator_equal.push_back(42);
-	// 	std::cout << "PUSH_BACK: test_operator_equal[2]= " << test_operator_equal[2] << std::endl;
-
-	// 	std::cout << "test_operator_equal.front()= " << test_operator_equal.front() << std::endl;
-	// 	std::cout << "test_operator_equal.back()= " << test_operator_equal.back() << std::endl;
-	// 	std::cout << "test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
+		ft::vector<int> test_copy(test4);
+		std::cout << "test_copy[0]= " << test_copy[0] << std::endl;
 
 
-	// 	test_operator_equal.pop_back();
-	// 	std::cout << "POP_BACK: test_operator_equal.back()= " << test_operator_equal.back() << std::endl;
-	// 	std::cout << "POP_BACK: test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
+		ft::vector<int> test_operator_equal = test4;
+		std::cout << "test_operator_equal[0]= " << test_operator_equal[0] << std::endl;
 
-	// 	std::cout << std::endl << " \e[0;33m************  RESIZE  ************\e[0m " << std::endl << std::endl;
+		std::cout << std::endl << " \e[0;33m************  Modifiers  ************\e[0m " << std::endl << std::endl;
 
-	// 	test_operator_equal.resize(1);
-	// 	std::cout << "RESIZE(1): test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
-	// 	test_operator_equal.resize(5);
-	// 	std::cout << "RESIZE(5): test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
-	// 	test_operator_equal.resize(125);
-	// 	std::cout << "RESIZE(125): test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
-	// }
+		test_operator_equal.push_back(42);
+		std::cout << "PUSH_BACK: test_operator_equal[2]= " << test_operator_equal[2] << std::endl;
 
-	// /* **************************** STD ********************************** */
-	// {
-	// 	std::cout << std::endl << " \e[0;33m************  STD  ************\e[0m " << std::endl << std::endl;
+		// test_operator_equal.clear();
+		// std::cout << "Clear: test_operator_equal[2]= " << test_operator_equal[2] << std::endl;
 
-	// 	/* Constructors */
-	// 	std::cout << " \e[0;33m************  Constructors  ************\e[0m " << std::endl << std::endl;
-
-	// 	std::vector<int> test;
-	// 	std::vector<int> test2(2, 98);
-	// 	std::cout << "test2[1]= " << test2[1] << std::endl;
-	// 	// std::cout << "test2[5]= " << test2[5] << std::endl;	//should return invalid read
-
-	// 	std::vector<int> test3(test2.begin() + 1, test2.end());
-	// 	std::cout << "test3[0]= " << test3[0] << std::endl;
-
-	// 	std::vector<int>::iterator first = test2.begin();
-	// 	std::vector<int>::iterator last = test2.end();
-
-	// 	std::vector<int> test4(first, last);
-	// 	std::cout << "test4[0]= " << test4[0] << std::endl;
-	// 	std::cout << "test4.at(1)= " << test4.at(1) << std::endl;
-	// 	// std::cout << "test4.at(5)= " << test4.at(5) << std::endl;	//should send exception
-	// 	// std::cout << "test4.at(90)= " << test4.at(90) << std::endl;
-	// 	// std::cout << "test4.at(-90)= " << test4.at(-90) << std::endl;		
-
-	// 	std::vector<int> test_copy(test4);
-	// 	std::cout << "test_copy[0]= " << test_copy[0] << std::endl;
+		std::cout << "test_operator_equal.front()= " << test_operator_equal.front() << std::endl;
+		std::cout << "test_operator_equal.back()= " << test_operator_equal.back() << std::endl;
+		std::cout << "test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
 
 
-	// 	std::vector<int> test_operator_equal = test4;
-	// 	std::cout << "test_operator_equal[0]= " << test_operator_equal[0] << std::endl;
+		test_operator_equal.pop_back();
+		std::cout << "POP_BACK: test_operator_equal.back()= " << test_operator_equal.back() << std::endl;
+		std::cout << "POP_BACK: test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
 
-	// 	std::cout << std::endl << " \e[0;33m************  Modifiers  ************\e[0m " << std::endl << std::endl;
+		std::cout << std::endl << " \e[0;33m************  RESIZE  ************\e[0m " << std::endl << std::endl;
 
-	// 	test_operator_equal.push_back(42);
-	// 	std::cout << "PUSH_BACK: test_operator_equal[2]= " << test_operator_equal[2] << std::endl;
+		test_operator_equal.resize(1);
+		std::cout << "RESIZE(1): test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
+		test_operator_equal.resize(5);
+		std::cout << "RESIZE(5): test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
+		test_operator_equal.resize(125);
+		std::cout << "RESIZE(125): test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
+	}
 
-	// 	std::cout << "test_operator_equal.front()= " << test_operator_equal.front() << std::endl;
-	// 	std::cout << "test_operator_equal.back()= " << test_operator_equal.back() << std::endl;
-	// 	std::cout << "test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
+	/* **************************** STD ********************************** */
+	{
+		std::cout << std::endl << " \e[0;33m************  STD  ************\e[0m " << std::endl << std::endl;
 
-	// 	test_operator_equal.pop_back();
-	// 	std::cout << "POP_BACK: test_operator_equal.back()= " << test_operator_equal.back() << std::endl;
-	// 	std::cout << "POP_BACK: test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
+		/* Constructors */
+		std::cout << " \e[0;33m************  Constructors  ************\e[0m " << std::endl << std::endl;
 
-	// 	std::cout << std::endl << " \e[0;33m************  RESIZE  ************\e[0m " << std::endl << std::endl;
+		std::vector<int> test;
+		std::vector<int> test2(2, 98);
+		std::cout << "test2[1]= " << test2[1] << std::endl;
+		// std::cout << "test2[5]= " << test2[5] << std::endl;	//should return invalid read
 
-	// 	test_operator_equal.resize(1);
-	// 	std::cout << "RESIZE(1): test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
-	// 	test_operator_equal.resize(5);
-	// 	std::cout << "RESIZE(5): test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
-	// 	test_operator_equal.resize(125);
-	// 	std::cout << "RESIZE(125): test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
+		std::vector<int> test3(test2.begin() + 1, test2.end());
+		std::cout << "test3[0]= " << test3[0] << std::endl;
 
-	// }
+		std::vector<int>::iterator first = test2.begin();
+		std::vector<int>::iterator last = test2.end();
+
+		std::vector<int> test4(first, last);
+		std::cout << "test4[0]= " << test4[0] << std::endl;
+		std::cout << "test4.at(1)= " << test4.at(1) << std::endl;
+		// std::cout << "test4.at(5)= " << test4.at(5) << std::endl;	//should send exception
+		// std::cout << "test4.at(90)= " << test4.at(90) << std::endl;
+		// std::cout << "test4.at(-90)= " << test4.at(-90) << std::endl;		
+
+		std::vector<int> test_copy(test4);
+		std::cout << "test_copy[0]= " << test_copy[0] << std::endl;
+
+
+		std::vector<int> test_operator_equal = test4;
+		std::cout << "test_operator_equal[0]= " << test_operator_equal[0] << std::endl;
+
+		std::cout << std::endl << " \e[0;33m************  Modifiers  ************\e[0m " << std::endl << std::endl;
+
+		test_operator_equal.push_back(42);
+		std::cout << "PUSH_BACK: test_operator_equal[2]= " << test_operator_equal[2] << std::endl;
+
+		test_operator_equal.clear();
+		std::cout << "Clear: test_operator_equal[2]= " << test_operator_equal[2] << std::endl;
+
+		std::cout << "test_operator_equal.front()= " << test_operator_equal.front() << std::endl;
+		std::cout << "test_operator_equal.back()= " << test_operator_equal.back() << std::endl;
+		std::cout << "test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
+
+		test_operator_equal.pop_back();
+		std::cout << "POP_BACK: test_operator_equal.back()= " << test_operator_equal.back() << std::endl;
+		std::cout << "POP_BACK: test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
+
+		std::cout << std::endl << " \e[0;33m************  RESIZE  ************\e[0m " << std::endl << std::endl;
+
+		test_operator_equal.resize(1);
+		std::cout << "RESIZE(1): test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
+		test_operator_equal.resize(5);
+		std::cout << "RESIZE(5): test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
+		test_operator_equal.resize(125);
+		std::cout << "RESIZE(125): test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
+
+	}
 	return (0);
 }
 
