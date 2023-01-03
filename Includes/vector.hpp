@@ -186,6 +186,7 @@ namespace ft
 			this->_end = this->_begin + this->_size;
 			this->_capacity = n;
 		}
+
 		/***************** Element access *****************/
 
 		T&			
@@ -226,9 +227,25 @@ namespace ft
 
 		/***************** Modifiers *****************/
 
-		// T			assign(Iterator first, Iterator last);	// Assigns new contents to the vector, replacing its current contents, and modifying its size accordingly.
-		// void		assign(size_type n, const T& val);			// In the fill version (2), the new contents are n elements, each initialized to a copy of val.
+		T
+		assign(Iterator first, ft::enable_if<Iterator> last)	// Assigns new contents to the vector, replacing its current contents, and modifying its size accordingly.
+		{
+			size_ty distance = ft::distance(first, last);
+			this->clear();
+			reserve(distance);
+			for (size_t i = 0; first != last; ++first, ++i)
+				this->_allocator.construct(this->_begin, *first);
+			this->_size = distance;
+		}
 		
+		void
+		assign(size_type n, const T& val)			// In the fill version (2), the new contents are n elements, each initialized to a copy of val.
+		{
+			this->clear();
+			for (size_t i = 0; i < n; i++)
+				this->push_back(val);
+		}
+
 		void
 		push_back(const T& val)
 		{
@@ -255,12 +272,22 @@ namespace ft
 			// 	_allocator.deallocate(_begin, _capacity);
 		}
 
-		// iterator	insert(iterator/member_type position, const T& val);		 // inserting new elements before the element at the specified position
+		iterator
+		insert(iterator position, const T& val)		 // inserting new elements before the element at the specified position
+		{
+			
+		}
+		
+		
 		// void		insert(iterator/member_type position, size_type n, const value_type& val);   		// fill reutiliser le premier
 		// void		insert(iterator/member_type position, iterator first, iterator last);				// range
+		
+		
+		
 		// iterator 	erase (iterator position);				    // erase single element
 		// iterator 	erase (iterator first, iterator last);		// erase range
 		// void		swap(vector& x);							// non-member function exists
+		
 		void
 		clear()		// Removes all elements from the vector (which are destroyed), leaving the container with a size of 0.
 		{
@@ -282,46 +309,65 @@ namespace ft
 		pointer				_end; //? ok de looper a chaque fois (begin + _size)
 	};
 
-/* ****************************************************************************************** */
-/**************************************** OPERATORS ****************************************/
+	/* ****************************************************************************************** */
+	/**************************************** OPERATORS ****************************************/
 
-template<class T, class Alloc>
-bool 
-operator==(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-{
-	if (lhs._size() != rhs.size()) // need ft_equal
-		return (false);
-	if ( ! ft::equal(lhs.begin(), lhs.end(), rhs.begin()))
+	template<class T, class Alloc>
+	bool 
+	operator==(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		if (lhs._size() != rhs.size()) // need ft_equal
 			return (false);
-	return (true);
-}
+		if ( ! ft::equal(lhs.begin(), lhs.end(), rhs.begin()))
+				return (false);
+		return (true);
+	}
 
-template<class T, class Alloc>
-bool
-operator!=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-{
-	return (!(lhs != rhs));
-}
+	template<class T, class Alloc>
+	bool
+	operator!=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return (!(lhs == rhs));
+	}
 
-// template<class T, class Alloc>
-// bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	template<class T, class Alloc>
+	bool
+	operator<(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+	}
 
-// template<class T, class Alloc>
-// bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-// {
+	template<class T, class Alloc>
+	bool
+	operator<=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		if (lhs < rhs || lhs == rhs)
+			return (true);
+		return (false);
+	}
 
-// }
+	template<class T, class Alloc>
+	bool
+	operator>(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		if (lhs <= rhs)
+			return (false);
+		return (true);
+	}
 
-// template<class T, class Alloc>
-// bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	template<class T, class Alloc>
+	bool
+	operator>=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		if (lhs < rhs)
+			return (false);
+		return (true);
+	}
 
-// template<class T, class Alloc>
-// bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
-
-// void swap (vector<T,Alloc>& x, vector<T,Alloc>& y);
-
-
-
+	void swap (vector<T,Alloc>& x, vector<T,Alloc>& y)
+	{
+		x.swap(y);
+	}
 
 };
 
