@@ -11,8 +11,8 @@ class reverse_iterator : public ft::iterator<typename iterator_traits<_Iter>::it
 										typename iterator_traits<_Iter>::pointer,
 										typename iterator_traits<_Iter>::reference >
 {
-	private:
-    _Iter __t; 
+	// private:
+    // _Iter __t; 
 	protected:
     _Iter _current;
 	public:
@@ -23,72 +23,77 @@ class reverse_iterator : public ft::iterator<typename iterator_traits<_Iter>::it
 	typedef typename ft::iterator_traits<_Iter>::iterator_category  	iterator_category;
     typedef typename ft::iterator_traits<_Iter>::value_type     	 	value_type;
 
+	/***************** Constructors / Destructor *****************/
 
-    reverse_iterator() : __t(), _current() {}
+    reverse_iterator() : _current() {}
 
     explicit
-	reverse_iterator(_Iter it) : __t(it), _current(it) {}
+	reverse_iterator(_Iter it) : _current(it) {}
 
     template <class Iter>
-    reverse_iterator(const reverse_iterator<Iter>& rev_it) : __t(rev_it.base()), _current(rev_it.base()) {}
+    reverse_iterator(const reverse_iterator<Iter>& rev_it) : _current(rev_it.base()) {}
 
-    template <class Iter>  // C++11
-    reverse_iterator& 
-	operator=(const reverse_iterator<Iter>& rev_it)
-	{
-        __t = _current = rev_it.base();
-        return *this;
-    }
+	/***************** Members Operators *****************/
 
     _Iter
-	base() const {return _current;}
+	base() const { return _current; }
     
+	reverse_iterator&
+	operator=(const reverse_iterator<_Iter>& rhs)
+	{
+		if (this != rhs)
+			this->_current = rhs._current;
+		return *this;
+	}
+
 	reference
 	operator*() const 
 	{
-		_Iter __tmp = _current;
-		return *--__tmp;
+		_Iter _tmp = _current;
+		return *--_tmp;
 	}
     
 	pointer
 	operator->() const {return &(operator*());}
     
 	reverse_iterator&								// pre-increment version
-	operator++() {--_current; return *this;}
+	operator++() {--_current; return (*this);}
     
 	reverse_iterator    							// post-increment version
 	operator++(int) {
-		reverse_iterator __tmp(*this);
+		reverse_iterator _tmp(*this);
 		--_current;
-		return __tmp;
+		return _tmp;
 	}
     
 	reverse_iterator&
-	operator--() {++_current; return *this;}
+	operator--() {++_current; return (*this);}
     
 	reverse_iterator
 	operator--(int)
 	{
-		reverse_iterator __tmp(*this);
+		reverse_iterator _tmp(*this);
 		++_current;
-		return __tmp;
+		return _tmp;
 	}
     
 	reverse_iterator
 	operator+ (difference_type _n) const {return reverse_iterator(_current - _n);}
     
 	reverse_iterator&
-	operator+=(difference_type _n) {_current -= _n; return *this;}
+	operator+=(difference_type _n) {_current -= _n; return (*this);}
     
 	reverse_iterator
 	operator- (difference_type _n) const {return reverse_iterator(_current + _n);}
     
 	reverse_iterator&
-	operator-=(difference_type _n) {_current += _n; return *this;}
+	operator-=(difference_type _n) {_current += _n; return (*this);}
     
 	reference
 	operator[](difference_type _n) const {return *(*this + _n);}
 };
+
+/***************** Non-Members Operators WIP *****************/
 
 template <class _Iter1, class _Iter2>
 bool

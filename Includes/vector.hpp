@@ -6,6 +6,7 @@
 # include <iostream>
 # include <stdexcept>
 # include "iterators.hpp"
+# include "reverse_iterators.hpp"
 # include "equal.hpp"
 # include "lexicographical_compare.hpp"
 
@@ -34,8 +35,8 @@ namespace ft
 		typedef typename allocator_type::const_pointer		const_pointer;
 		typedef T*											iterator;
 		typedef const T*									const_iterator;
-		// typedef ft::reverse_iterator<iterator>			reverse_iterator;
-		// typedef ft::reverse_iterator<const_iterator>		const_reverse_iterator;
+		typedef ft::reverse_iterator<iterator>			reverse_iterator;
+		typedef ft::reverse_iterator<const_iterator>		const_reverse_iterator;
 
 		/* ****************************************************************************************** */
 		/************************************** MEMBER FUNCTIONS **************************************/
@@ -227,10 +228,11 @@ namespace ft
 
 		/***************** Modifiers *****************/
 
-		T
-		assign(Iterator first, ft::enable_if<Iterator> last)	// Assigns new contents to the vector, replacing its current contents, and modifying its size accordingly.
+		template <class InputIterator>
+		void
+		assign(InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last)	// Assigns new contents to the vector, replacing its current contents, and modifying its size accordingly.
 		{
-			size_ty distance = ft::distance(first, last);
+			size_t distance = std::distance(first, last);
 			this->clear();
 			reserve(distance);
 			for (size_t i = 0; first != last; ++first, ++i)
@@ -275,19 +277,109 @@ namespace ft
 		iterator
 		insert(iterator position, const T& val)		 // inserting new elements before the element at the specified position
 		{
+			ptrdiff_t	pos = position - this->begin();
 			
+			if (this->_capacity == 0)
+				this->reserve(1);
+			else if (this->_size >= this->_capacity)
+				this->reserve(this->_capacity * 2);
+			
+			int			x = 1;
+			for (long i = this->_size; i > pos; i--, x++ )
+			{
+				this->_allocator.construct(this->begin() + i, *(this->end() - x));
+				this->_allocator.destroy(this->end() - x);
+			}
+
+			this->_allocator.construct(this->begin() + pos, val);
+			this->_size++;
+			return (this->begin() + pos);
 		}
 		
 		
-		// void		insert(iterator/member_type position, size_type n, const value_type& val);   		// fill reutiliser le premier
-		// void		insert(iterator/member_type position, iterator first, iterator last);				// range
+		void
+		insert(iterator position, size_type n, const value_type& val)			// fill reutiliser le premier
+		{
+			if (n == 0)
+				return ;
+			ptrdiff_t	pos = position - this->begin();
+			
+			if (this->_size + n >= this->_capacity)
+			{
+				if (this->_size + n > this->_capacity * 2)
+					this->reserve(this->_size + n);
+				else
+					 this->reserve(this->_size * 2);
+			}
+			for (size_t m = 0; m < n; m++)
+				this->insert(this->begin() + pos + m, val);			
+		}
+
+		template <class InputIterator>
+		void
+		insert(InputIterator position, InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last)	// range
+		{
+			ptrdiff_t	pos = std::distance(this->_begin, position);
+			ptrdiff_t	count = std::distance(first, last);
+			// size_t		i = 0;
+
+			if (this->_size + count >= this->_capacity)
+			{
+				if (this->_size + count > this->_capacity * 2)
+					this->reserve(this->_size + count);
+				else
+					 this->reserve(this->_size * 2);
+			}
+			for (size_t m = 0; first != last; first++, m++)
+				this->insert(this->_begin + pos + m, *first);
+		}
 		
+		iterator
+		erase (iterator position)				    // erase single element. On destroy ce qu'il y a à position puis on y met la valeur de position + 1. On itere jusqu'a la fin du vector.
+		{
+			iterator	temp = position;
+			for (; position + 1 != this->end(); position++)
+			{
+				this->_allocator.destroy(position);
+				this->_allocator.construct(position, *(position + 1));
+			} 
+			this->_allocator.destroy(position);		// on destroy le dernier iterator du vector.
+			this->_size--;
+			return (temp);
+		}
 		
+		iterator
+		erase (iterator first, iterator last)		// erase range
+		{
+			for (; first != last; last--)
+				this->erase(first);
+			return (first);
+		}
 		
-		// iterator 	erase (iterator position);				    // erase single element
-		// iterator 	erase (iterator first, iterator last);		// erase range
-		// void		swap(vector& x);							// non-member function exists
-		
+		void
+		swap(vector& x)							// non-member function exists
+		{
+			size_type			_temp_size = _size;
+			size_type			_temp_capacity = _capacity;
+			value_type			_temp_value = _value;
+			allocator_type		_temp_allocator = _allocator;
+			pointer				_temp_begin = _begin;
+			pointer				_temp_end = _end;
+
+			_size = x._size;
+			_capacity = x._capacity;
+			_value = x._value;
+			_allocator = x._allocator;
+			_begin = x._begin;
+			_end = x._end;
+
+			x._size = _temp_size;
+			x._capacity = _temp_capacity;
+			x._value = _temp_value;
+			x._allocator = _temp_allocator;
+			x._begin = _temp_begin;
+			x._end = _temp_end;
+		}
 		void
 		clear()		// Removes all elements from the vector (which are destroyed), leaving the container with a size of 0.
 		{
@@ -297,7 +389,8 @@ namespace ft
 			this->_size = 0;
 		}
 		/***************** Allocator *****************/
-		// T			get_allocator() const;
+		T			get_allocator() const { return (this->_allocator); }
+
 	// private:
 		/* ****************************************************************************************** */
 		/**************************************** MEMBER TYPES ****************************************/
@@ -364,7 +457,9 @@ namespace ft
 		return (true);
 	}
 
-	void swap (vector<T,Alloc>& x, vector<T,Alloc>& y)
+	template<class T, class Alloc>
+	void
+	swap (vector<T,Alloc>& x, vector<T,Alloc>& y)
 	{
 		x.swap(y);
 	}
