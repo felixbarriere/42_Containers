@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-// #include <deque>
+#include <deque>
 // #if 1 //CREATE A REAL STL EXAMPLE
 	// #include <map>
 	// #include <stack>
@@ -25,117 +25,192 @@ int main (int argc, char **argv)
 	{
 		std::cout << std::endl << " \e[0;33m************  FT  ************\e[0m " << std::endl << std::endl;
 		
-		/* Constructors */
 		std::cout << " \e[0;33m************  Constructors  ************\e[0m " << std::endl << std::endl;
 
 		ft::vector<int> test;
-		ft::vector<int> test2(2, 98);
-		std::cout << "test2[1]= " << test2[1] << std::endl;
+		// ft::vector<int> test2(2, 98);
+		// std::cout << "test2[1]= " << test2[1] << std::endl;
 		// std::cout << "test2[5]= " << test2[5] << std::endl;  //should return invalid read
 
-		ft::vector<int> test3(test2.begin() + 1, test2.end());
-		std::cout << "test3[0]= " << test3[0] << std::endl;
-
-		ft::vector<int>::iterator first = test2.begin();
-		ft::vector<int>::iterator last = test2.end();
-
-		ft::vector<int> test4(first, last);
-		std::cout << "test4[0]= " << test4[0] << std::endl;
-		std::cout << "test4.at(1)= " << test4.at(1) << std::endl;
-		// std::cout << "test4.at(5)= " << test4.at(5) << std::endl;	//should send exception
-		// std::cout << "test4.at(90)= " << test4.at(90) << std::endl;
-		// std::cout << "test4.at(-90)= " << test4.at(-90) << std::endl;
-
-		ft::vector<int> test_copy(test4);
-		std::cout << "test_copy[0]= " << test_copy[0] << std::endl;
+		// ft::vector<int> test3(test2.begin() + 1, test2.end());
+		// std::cout << "test3[0]= " << test3[0] << std::endl;
 
 
-		ft::vector<int> test_operator_equal = test4;
-		std::cout << "test_operator_equal[0]= " << test_operator_equal[0] << std::endl;
+		// std::cout << " \e[0;33m************  Assign  ************\e[0m " << std::endl << std::endl;
 
-		std::cout << std::endl << " \e[0;33m************  Modifiers  ************\e[0m " << std::endl << std::endl;
-
-		test_operator_equal.push_back(42);
-		std::cout << "PUSH_BACK: test_operator_equal[2]= " << test_operator_equal[2] << std::endl;
-
-		// test_operator_equal.clear();
-		// std::cout << "Clear: test_operator_equal[2]= " << test_operator_equal[2] << std::endl;
-
-		std::cout << "test_operator_equal.front()= " << test_operator_equal.front() << std::endl;
-		std::cout << "test_operator_equal.back()= " << test_operator_equal.back() << std::endl;
-		std::cout << "test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
+		// test2.push_back(103);
+		// test2.push_back(104);
+		// test2.push_back(105);
+		// test.assign(test2.begin() + 1, test2.end());
+		// std::cout << "test[2]= " << test[2] << std::endl;
+		// std::cout << "test[3]= " << test[3] << std::endl;
 
 
-		test_operator_equal.pop_back();
-		std::cout << "POP_BACK: test_operator_equal.back()= " << test_operator_equal.back() << std::endl;
-		std::cout << "POP_BACK: test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
+		std::cout << " \e[0;33m************  Push Pop  ************\e[0m " << std::endl << std::endl;
+		
+		// test.push_back(11);
+		// test.push_back(34);
+		// test.push_back(23);
+		// for (size_t i = 0; i < test.size(); i++)
+		// 	std::cout << "test[i]= " << test[i] << std::endl;
+		// test.pop_back();
+		// std::cout << "Pop_back" << std::endl;
+		// std::cout << "test[last]= " << test[test.size()] << std::endl;
+		// test.pop_back();
+		// std::cout << "Pop_back" << std::endl;
+		// std::cout << "test[last]= " << test[test.size()] << std::endl;
 
-		std::cout << std::endl << " \e[0;33m************  RESIZE  ************\e[0m " << std::endl << std::endl;
+		std::cout << "Strings" << std::endl;
 
-		test_operator_equal.resize(1);
-		std::cout << "RESIZE(1): test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
-		test_operator_equal.resize(5);
-		std::cout << "RESIZE(5): test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
-		test_operator_equal.resize(125);
-		std::cout << "RESIZE(125): test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
+		ft::vector<std::string> vct(8);
+		// ft::vector<std::string> vct2;
+		// std::vector<std::string>::iterator it = vct.begin();
+
+		vct.push_back("One long string");
+		// vct2.push_back("Another long string");
+		
+		std::cout << "vct[8]= " << vct[8] << std::endl;
+		// std::cout << "vct2[0]= " << vct2[0] << std::endl;
+
+		// ft::vector<int>::iterator first = test2.begin();
+		// ft::vector<int>::iterator last = test2.end();
+
+		// ft::vector<int> test4(first, last);
+		// std::cout << "test4[0]= " << test4[0] << std::endl;
+		// std::cout << "test4.at(1)= " << test4.at(1) << std::endl;
+		// // std::cout << "test4.at(5)= " << test4.at(5) << std::endl;	//should send exception
+		// // std::cout << "test4.at(90)= " << test4.at(90) << std::endl;
+		// // std::cout << "test4.at(-90)= " << test4.at(-90) << std::endl;
+
+		// ft::vector<int> test_copy(test4);
+		// std::cout << "test_copy[0]= " << test_copy[0] << std::endl;
+
+
+		// ft::vector<int> test_operator_equal = test4;
+		// std::cout << "test_operator_equal[0]= " << test_operator_equal[0] << std::endl;
+
+		// std::cout << std::endl << " \e[0;33m************  Modifiers  ************\e[0m " << std::endl << std::endl;
+
+		// test_operator_equal.push_back(42);
+		// std::cout << "PUSH_BACK: test_operator_equal[2]= " << test_operator_equal[2] << std::endl;
+
+		// // test_operator_equal.clear();
+		// // std::cout << "Clear: test_operator_equal[2]= " << test_operator_equal[2] << std::endl;
+
+		// std::cout << "test_operator_equal.front()= " << test_operator_equal.front() << std::endl;
+		// std::cout << "test_operator_equal.back()= " << test_operator_equal.back() << std::endl;
+		// std::cout << "test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
+
+
+		// test_operator_equal.pop_back();
+		// std::cout << "POP_BACK: test_operator_equal.back()= " << test_operator_equal.back() << std::endl;
+		// std::cout << "POP_BACK: test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
+
+		// std::cout << std::endl << " \e[0;33m************  RESIZE  ************\e[0m " << std::endl << std::endl;
+
+		// test_operator_equal.resize(1);
+		// std::cout << "RESIZE(1): test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
+		// test_operator_equal.resize(5);
+		// std::cout << "RESIZE(5): test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
+		// test_operator_equal.resize(125);
+		// std::cout << "RESIZE(125): test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
+
+
+
 	}
 
 	/* **************************** STD ********************************** */
 	{
 		std::cout << std::endl << " \e[0;33m************  STD  ************\e[0m " << std::endl << std::endl;
 
-		/* Constructors */
 		std::cout << " \e[0;33m************  Constructors  ************\e[0m " << std::endl << std::endl;
 
 		std::vector<int> test;
 		std::vector<int> test2(2, 98);
 		std::cout << "test2[1]= " << test2[1] << std::endl;
-		// std::cout << "test2[5]= " << test2[5] << std::endl;	//should return invalid read
+		std::cout << "test2[5]= " << test2[5] << std::endl;	//should return invalid read
 
 		std::vector<int> test3(test2.begin() + 1, test2.end());
 		std::cout << "test3[0]= " << test3[0] << std::endl;
 
-		std::vector<int>::iterator first = test2.begin();
-		std::vector<int>::iterator last = test2.end();
-
-		std::vector<int> test4(first, last);
-		std::cout << "test4[0]= " << test4[0] << std::endl;
-		std::cout << "test4.at(1)= " << test4.at(1) << std::endl;
-		// std::cout << "test4.at(5)= " << test4.at(5) << std::endl;	//should send exception
-		// std::cout << "test4.at(90)= " << test4.at(90) << std::endl;
-		// std::cout << "test4.at(-90)= " << test4.at(-90) << std::endl;		
-
-		std::vector<int> test_copy(test4);
-		std::cout << "test_copy[0]= " << test_copy[0] << std::endl;
+		// std::cout << " \e[0;33m************  Assign  ************\e[0m " << std::endl << std::endl;
+		
+		// test2.push_back(103);
+		// test2.push_back(104);
+		// test2.push_back(105);
+		// test.assign(test2.begin() + 1, test2.end());
+		// std::cout << "test[2]= " << test[2] << std::endl;
+		// std::cout << "test[3]= " << test[3] << std::endl;
 
 
-		std::vector<int> test_operator_equal = test4;
-		std::cout << "test_operator_equal[0]= " << test_operator_equal[0] << std::endl;
+		std::cout << " \e[0;33m************  Push_back / Pop_back  ************\e[0m " << std::endl << std::endl;
+		
+		// test.push_back(11);
+		// test.push_back(34);
+		// test.push_back(23);
+		// for (size_t i = 0; i < test.size(); i++)
+		// 	std::cout << "test[i]= " << test[i] << std::endl;
+		// test.pop_back();
+		// std::cout << "Pop_back" << std::endl;
+		// std::cout << "test[last]= " << test[test.size()] << std::endl;
+		// test.pop_back();
+		// std::cout << "Pop_back" << std::endl;
+		// std::cout << "test[last]= " << test[test.size()] << std::endl;
 
-		std::cout << std::endl << " \e[0;33m************  Modifiers  ************\e[0m " << std::endl << std::endl;
+		std::cout << "Strings" << std::endl;
 
-		test_operator_equal.push_back(42);
-		std::cout << "PUSH_BACK: test_operator_equal[2]= " << test_operator_equal[2] << std::endl;
+		std::vector<std::string> vct(8);
+		std::vector<std::string> vct2;
+		// std::vector<std::string>::iterator it = vct.begin();
 
-		test_operator_equal.clear();
-		std::cout << "Clear: test_operator_equal[2]= " << test_operator_equal[2] << std::endl;
+		vct.push_back("One long string");
+		vct2.push_back("Another long string");
+		
+		std::cout << "vct[8]= " << vct[8] << std::endl;
+		std::cout << "vct2[0]= " << vct2[0] << std::endl;
 
-		std::cout << "test_operator_equal.front()= " << test_operator_equal.front() << std::endl;
-		std::cout << "test_operator_equal.back()= " << test_operator_equal.back() << std::endl;
-		std::cout << "test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
 
-		test_operator_equal.pop_back();
-		std::cout << "POP_BACK: test_operator_equal.back()= " << test_operator_equal.back() << std::endl;
-		std::cout << "POP_BACK: test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
+		// std::vector<int>::iterator first = test2.begin();
+		// std::vector<int>::iterator last = test2.end();
 
-		std::cout << std::endl << " \e[0;33m************  RESIZE  ************\e[0m " << std::endl << std::endl;
+		// std::vector<int> test4(first, last);
+		// std::cout << "test4[0]= " << test4[0] << std::endl;
+		// std::cout << "test4.at(1)= " << test4.at(1) << std::endl;
+		// // std::cout << "test4.at(5)= " << test4.at(5) << std::endl;	//should send exception
+		// // std::cout << "test4.at(90)= " << test4.at(90) << std::endl;
+		// // std::cout << "test4.at(-90)= " << test4.at(-90) << std::endl;		
 
-		test_operator_equal.resize(1);
-		std::cout << "RESIZE(1): test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
-		test_operator_equal.resize(5);
-		std::cout << "RESIZE(5): test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
-		test_operator_equal.resize(125);
-		std::cout << "RESIZE(125): test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
+		// std::vector<int> test_copy(test4);
+		// std::cout << "test_copy[0]= " << test_copy[0] << std::endl;
+
+
+		// std::vector<int> test_operator_equal = test4;
+		// std::cout << "test_operator_equal[0]= " << test_operator_equal[0] << std::endl;
+
+		// std::cout << std::endl << " \e[0;33m************  Modifiers  ************\e[0m " << std::endl << std::endl;
+
+		// test_operator_equal.push_back(42);
+		// std::cout << "PUSH_BACK: test_operator_equal[2]= " << test_operator_equal[2] << std::endl;
+
+		// test_operator_equal.clear();
+		// std::cout << "Clear: test_operator_equal[2]= " << test_operator_equal[2] << std::endl;
+
+		// std::cout << "test_operator_equal.front()= " << test_operator_equal.front() << std::endl;
+		// std::cout << "test_operator_equal.back()= " << test_operator_equal.back() << std::endl;
+		// std::cout << "test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
+
+		// test_operator_equal.pop_back();
+		// std::cout << "POP_BACK: test_operator_equal.back()= " << test_operator_equal.back() << std::endl;
+		// std::cout << "POP_BACK: test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
+
+		// std::cout << std::endl << " \e[0;33m************  RESIZE  ************\e[0m " << std::endl << std::endl;
+
+		// test_operator_equal.resize(1);
+		// std::cout << "RESIZE(1): test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
+		// test_operator_equal.resize(5);
+		// std::cout << "RESIZE(5): test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
+		// test_operator_equal.resize(125);
+		// std::cout << "RESIZE(125): test_operator_equal.size()= " << test_operator_equal.size() << std::endl;
 
 	}
 	return (0);
