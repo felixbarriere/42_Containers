@@ -60,17 +60,37 @@ int main (int argc, char **argv)
 		// std::cout << "Pop_back" << std::endl;
 		// std::cout << "test[last]= " << test[test.size()] << std::endl;
 
-		std::cout << "Strings" << std::endl;
+		// std::cout << "Strings" << std::endl;
 
-		ft::vector<std::string> vct(8);
+		// ft::vector<std::string> vct(8);
 		// ft::vector<std::string> vct2;
-		// std::vector<std::string>::iterator it = vct.begin();
 
-		vct.push_back("One long string");
+		// vct.push_back("One long string");
 		// vct2.push_back("Another long string");
 		
-		std::cout << "vct[8]= " << vct[8] << std::endl;
+		// std::cout << "vct[8]= " << vct[8] << std::endl;
 		// std::cout << "vct2[0]= " << vct2[0] << std::endl;
+
+		std::cout << " \e[0;33m************  Resize  ************\e[0m " << std::endl << std::endl;
+
+		ft::vector<int> vct(2);
+
+		for (size_t i = 0; i < vct.size(); i++)
+			std::cout << "vct[i]= " << vct[i] << std::endl;
+		std::cout << "vct.size()= " << vct.size() << std::endl;
+		vct.resize(5);
+		std::cout << "Resize" << std::endl;
+
+
+		for (size_t i = 0; i < vct.size(); i++)
+			std::cout << "vct[i]= " << vct[i] << std::endl;
+		std::cout << "vct.size()= " << vct.size() << std::endl;
+
+		vct[2] = 42;
+		std::cout << "vct[2]= " << vct[2] << std::endl;
+
+		for (size_t i = 0; i < vct.size(); i++)
+			std::cout << "vct[i]= " << vct[i] << std::endl;
 
 		// ft::vector<int>::iterator first = test2.begin();
 		// ft::vector<int>::iterator last = test2.end();
@@ -126,12 +146,12 @@ int main (int argc, char **argv)
 		std::cout << " \e[0;33m************  Constructors  ************\e[0m " << std::endl << std::endl;
 
 		std::vector<int> test;
-		std::vector<int> test2(2, 98);
-		std::cout << "test2[1]= " << test2[1] << std::endl;
-		std::cout << "test2[5]= " << test2[5] << std::endl;	//should return invalid read
+		// std::vector<int> test2(2, 98);
+		// std::cout << "test2[1]= " << test2[1] << std::endl;
+		// std::cout << "test2[5]= " << test2[5] << std::endl;	//should return invalid read
 
-		std::vector<int> test3(test2.begin() + 1, test2.end());
-		std::cout << "test3[0]= " << test3[0] << std::endl;
+		// std::vector<int> test3(test2.begin() + 1, test2.end());
+		// std::cout << "test3[0]= " << test3[0] << std::endl;
 
 		// std::cout << " \e[0;33m************  Assign  ************\e[0m " << std::endl << std::endl;
 		
@@ -157,18 +177,40 @@ int main (int argc, char **argv)
 		// std::cout << "Pop_back" << std::endl;
 		// std::cout << "test[last]= " << test[test.size()] << std::endl;
 
-		std::cout << "Strings" << std::endl;
+		// std::cout << "Strings" << std::endl;
 
-		std::vector<std::string> vct(8);
-		std::vector<std::string> vct2;
-		// std::vector<std::string>::iterator it = vct.begin();
+		// std::vector<std::string> vct(8);
+		// std::vector<std::string> vct2;
+		// // std::vector<std::string>::iterator it = vct.begin();
 
-		vct.push_back("One long string");
-		vct2.push_back("Another long string");
+		// vct.push_back("One long string");
+		// vct2.push_back("Another long string");
 		
-		std::cout << "vct[8]= " << vct[8] << std::endl;
-		std::cout << "vct2[0]= " << vct2[0] << std::endl;
+		// std::cout << "vct[8]= " << vct[8] << std::endl;
+		// std::cout << "vct2[0]= " << vct2[0] << std::endl;
 
+		std::cout << " \e[0;33m************  Resize  ************\e[0m " << std::endl << std::endl;
+
+		std::vector<int> vct(2);
+		// std::vector<int> vct2(10);
+
+		for (size_t i = 0; i < vct.size(); i++)
+			std::cout << "vct[i]= " << vct[i] << std::endl;
+		
+		std::cout << "vct.size()= " << vct.size() << std::endl;
+		
+		vct.resize(5);
+		std::cout << "Resize" << std::endl;
+
+
+		for (size_t i = 0; i < vct.size(); i++)
+			std::cout << "vct[i]= " << vct[i] << std::endl;
+		std::cout << "vct.size()= " << vct.size() << std::endl;
+
+		vct[2] = 42;
+		std::cout << "vct[2]= " << vct[2] << std::endl;
+		for (size_t i = 0; i < vct.size(); i++)
+			std::cout << "vct[i]= " << vct[i] << std::endl;
 
 		// std::vector<int>::iterator first = test2.begin();
 		// std::vector<int>::iterator last = test2.end();
