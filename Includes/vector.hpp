@@ -75,11 +75,9 @@ namespace ft
 		vector(const vector& cpy)
 		{
 			this->_size = cpy._size;
-			this->_capacity = cpy._capacity;
-			// this->_value = cpy._value;
+			this->_capacity = cpy._size;
 			this->_allocator = cpy._allocator;
 			this->_begin = _allocator.allocate(this->_capacity, 0);
-			// this->_end = this->_begin + this->_size;
 
 			for (size_t i = 0; i < _size; i++)
 				_allocator.construct(this->_begin + i, *(cpy._begin + i));
@@ -97,24 +95,22 @@ namespace ft
 
 		vector&	operator=(const vector& assign)
 		{
+			if (this == &assign)
+				return (*this);
+			
+			if (this->_capacity)
+				for (size_t i = 0; i < _size; i++)
+					this->_allocator.destroy(this->_begin + this->_size - 1);
+			
+			this->_allocator.deallocate(_begin, _capacity);
 			if (this->_capacity < assign._size)
-			{
-				this->_size = assign._size;
 				this->_capacity = assign._capacity;
-				// this->_value = assign._value;
-				this->_allocator = assign._allocator;
-				this->_begin = _allocator.allocate(this->_capacity, 0);
-				// this->_end = this->_begin + this->_capacity;
-				
-				for (size_t i = 0; i < _size; i++)
+			
+			this->_allocator = assign._allocator;
+			this->_size = assign._size;
+			this->_begin = _allocator.allocate(this->_capacity, 0);
+			for (size_t i = 0; i < _size; i++)
 					_allocator.construct(this->_begin + i, *(assign._begin + i));
-			}
-			else
-			{
-				this->_size = assign._size;
-				for (size_t i = 0; i < _size; i++)
-					_allocator.construct(this->_begin + i, *(assign._begin + i));
-			}
 			return (*this);	
 		}
 
@@ -123,13 +119,13 @@ namespace ft
 		iterator
 		begin() { return (this->_begin); }
 		
-		iterator
+		const_iterator
 		begin() const { return (this->_begin); }
 
 		iterator
 		end() { return (this->_begin + this->_size); }
 
-		iterator
+		const_iterator
 		end() const { return (this->_begin + this->_size); }
 
 		reverse_iterator
@@ -138,10 +134,10 @@ namespace ft
 		reverse_iterator
 		rend() { return (reverse_iterator(this->_begin)); }
 
-		reverse_iterator
+		const_reverse_iterator
 		rbegin() const { return (reverse_iterator(this->_begin + this->_size)); }
 
-		reverse_iterator
+		const_reverse_iterator
 		rend() const { return (reverse_iterator(this->_begin)); }
 
 		/***************** Capacity *****************/
@@ -217,7 +213,7 @@ namespace ft
 			if (n < this->_capacity)
 				return ;
 			else if (n > this->max_size())
-				throw std::length_error("Reserve: n is superior to Max_size");
+				throw std::length_error("vector::reserve");
 			
 			pointer	temp = _allocator.allocate(n);
 			for (size_t i = 0; i < _size; i++)
