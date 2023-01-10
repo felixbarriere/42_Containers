@@ -27,7 +27,7 @@ int main (int argc, char **argv)
 		
 		std::cout << " \e[0;33m************  Constructors  ************\e[0m " << std::endl << std::endl;
 
-		ft::vector<int> test;
+		// ft::vector<int> test;
 		// ft::vector<int> test2(2, 98);
 		// std::cout << "test2[1]= " << test2[1] << std::endl;
 		// std::cout << "test2[5]= " << test2[5] << std::endl;  //should return invalid read
@@ -71,26 +71,26 @@ int main (int argc, char **argv)
 		// std::cout << "vct[8]= " << vct[8] << std::endl;
 		// std::cout << "vct2[0]= " << vct2[0] << std::endl;
 
-		std::cout << " \e[0;33m************  Resize  ************\e[0m " << std::endl << std::endl;
+		// std::cout << " \e[0;33m************  Resize  ************\e[0m " << std::endl << std::endl;
 
-		ft::vector<int> vct(2);
+		// ft::vector<int> vct(2);
 
-		for (size_t i = 0; i < vct.size(); i++)
-			std::cout << "vct[i]= " << vct[i] << std::endl;
-		std::cout << "vct.size()= " << vct.size() << std::endl;
-		vct.resize(5);
-		std::cout << "Resize" << std::endl;
+		// for (size_t i = 0; i < vct.size(); i++)
+		// 	std::cout << "vct[i]= " << vct[i] << std::endl;
+		// std::cout << "vct.size()= " << vct.size() << std::endl;
+		// vct.resize(5);
+		// std::cout << "Resize" << std::endl;
 
 
-		for (size_t i = 0; i < vct.size(); i++)
-			std::cout << "vct[i]= " << vct[i] << std::endl;
-		std::cout << "vct.size()= " << vct.size() << std::endl;
+		// for (size_t i = 0; i < vct.size(); i++)
+		// 	std::cout << "vct[i]= " << vct[i] << std::endl;
+		// std::cout << "vct.size()= " << vct.size() << std::endl;
 
-		vct[2] = 42;
-		std::cout << "vct[2]= " << vct[2] << std::endl;
+		// vct[2] = 42;
+		// std::cout << "vct[2]= " << vct[2] << std::endl;
 
-		for (size_t i = 0; i < vct.size(); i++)
-			std::cout << "vct[i]= " << vct[i] << std::endl;
+		// for (size_t i = 0; i < vct.size(); i++)
+		// 	std::cout << "vct[i]= " << vct[i] << std::endl;
 
 		// ft::vector<int>::iterator first = test2.begin();
 		// ft::vector<int>::iterator last = test2.end();
@@ -104,6 +104,29 @@ int main (int argc, char **argv)
 
 		// ft::vector<int> test_copy(test4);
 		// std::cout << "test_copy[0]= " << test_copy[0] << std::endl;
+
+		std::cout << std::endl << " \e[0;33m************  Insert  ************\e[0m " << std::endl << std::endl;
+
+		ft::vector<int> test;
+
+		test.insert(test.begin(), 3);
+		test.push_back(4);
+		test.push_back(5);
+		test.push_back(6);
+		test.push_back(7);
+		test.insert(test.begin() + 1, 2);
+
+		for (size_t i = 0; i < test.size(); i++)
+			std::cout << "test[i]= " << test[i] << std::endl;
+
+
+		ft::vector<int> test_insert(test.begin(), test.end() - 1);
+		
+		test_insert.insert(test_insert.begin(), test.begin(), test.begin() + 3);
+		for (size_t i = 0; i < test_insert.size(); i++)
+			std::cout << "test_insert[i]= " << test_insert[i] << std::endl;
+
+
 
 
 		// ft::vector<int> test_operator_equal = test4;
@@ -189,28 +212,28 @@ int main (int argc, char **argv)
 		// std::cout << "vct[8]= " << vct[8] << std::endl;
 		// std::cout << "vct2[0]= " << vct2[0] << std::endl;
 
-		std::cout << " \e[0;33m************  Resize  ************\e[0m " << std::endl << std::endl;
+		// std::cout << " \e[0;33m************  Resize  ************\e[0m " << std::endl << std::endl;
 
-		std::vector<int> vct(2);
-		// std::vector<int> vct2(10);
+		// std::vector<int> vct(2);
+		// // std::vector<int> vct2(10);
 
-		for (size_t i = 0; i < vct.size(); i++)
-			std::cout << "vct[i]= " << vct[i] << std::endl;
+		// for (size_t i = 0; i < vct.size(); i++)
+		// 	std::cout << "vct[i]= " << vct[i] << std::endl;
 		
-		std::cout << "vct.size()= " << vct.size() << std::endl;
+		// std::cout << "vct.size()= " << vct.size() << std::endl;
 		
-		vct.resize(5);
-		std::cout << "Resize" << std::endl;
+		// vct.resize(5);
+		// std::cout << "Resize" << std::endl;
 
 
-		for (size_t i = 0; i < vct.size(); i++)
-			std::cout << "vct[i]= " << vct[i] << std::endl;
-		std::cout << "vct.size()= " << vct.size() << std::endl;
+		// for (size_t i = 0; i < vct.size(); i++)
+		// 	std::cout << "vct[i]= " << vct[i] << std::endl;
+		// std::cout << "vct.size()= " << vct.size() << std::endl;
 
-		vct[2] = 42;
-		std::cout << "vct[2]= " << vct[2] << std::endl;
-		for (size_t i = 0; i < vct.size(); i++)
-			std::cout << "vct[i]= " << vct[i] << std::endl;
+		// vct[2] = 42;
+		// std::cout << "vct[2]= " << vct[2] << std::endl;
+		// for (size_t i = 0; i < vct.size(); i++)
+		// 	std::cout << "vct[i]= " << vct[i] << std::endl;
 
 		// std::vector<int>::iterator first = test2.begin();
 		// std::vector<int>::iterator last = test2.end();
@@ -224,6 +247,25 @@ int main (int argc, char **argv)
 
 		// std::vector<int> test_copy(test4);
 		// std::cout << "test_copy[0]= " << test_copy[0] << std::endl;
+
+		std::cout << std::endl << " \e[0;33m************  Insert  ************\e[0m " << std::endl << std::endl;
+
+		std::vector<int> test2;
+
+		test2.insert(test2.begin(), 3);
+		test2.push_back(4);
+		test2.push_back(5);
+		test2.insert(test2.begin() + 1, 2);
+
+		for (size_t i = 0; i < test2.size(); i++)
+			std::cout << "test2[i]= " << test2[i] << std::endl;
+
+
+		ft::vector<int> test_insert2(test2.begin(), test2.end() - 1);
+		
+		test_insert2.insert(test_insert2.begin(), test2.begin(), test2.begin() + 3);
+		for (size_t i = 0; i < test_insert2.size(); i++)
+			std::cout << "test_insert2[i]= " << test_insert2[i] << std::endl;
 
 
 		// std::vector<int> test_operator_equal = test4;
