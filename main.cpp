@@ -1,15 +1,21 @@
 #include <iostream>
 #include <string>
 #include <deque>
-// #if 1 //CREATE A REAL STL EXAMPLE
+// #ifndef WHAT_LIB //CREATE A REAL STL EXAMPLE
+	#include <vector>
+	// #pragma message("STD")
 	// #include <map>
 	// #include <stack>
-	#include <vector>
 	// namespace ft = std;
 // #else
+	#include "Includes/vector.hpp"
+	// #pragma message("FT")
 // 	#include <map.hpp>
 // 	#include <stack.hpp>
-#include "Includes/vector.hpp"
+
+
+
+
 
 // #endif
 
@@ -107,7 +113,7 @@ int main (int argc, char **argv)
 
 		std::cout << std::endl << " \e[0;33m************  Insert  ************\e[0m " << std::endl << std::endl;
 
-		ft::vector<int> test;
+		LIB::vector<int> test;
 
 		test.insert(test.begin(), 3);
 		test.push_back(4);
@@ -120,14 +126,18 @@ int main (int argc, char **argv)
 			std::cout << "test[i]= " << test[i] << std::endl;
 
 
-		ft::vector<int> test_insert(test.begin(), test.end() - 1);
+		LIB::vector<int> test_insert(test.begin(), test.end() - 1);
 		
 		test_insert.insert(test_insert.begin(), test.begin(), test.begin() + 3);
 		for (size_t i = 0; i < test_insert.size(); i++)
 			std::cout << "test_insert[i]= " << test_insert[i] << std::endl;
 
+		LIB::vector<int> test3(test_insert.begin(), test_insert.end() - 1);
 
+		test3.insert(test3.begin(), test3.begin(), test3.begin() + 4);
 
+		for (size_t i = 0; i < test3.size(); i++)
+			std::cout << "test3[i]= " << test3[i] << std::endl;
 
 		// ft::vector<int> test_operator_equal = test4;
 		// std::cout << "test_operator_equal[0]= " << test_operator_equal[0] << std::endl;
@@ -168,7 +178,7 @@ int main (int argc, char **argv)
 
 		std::cout << " \e[0;33m************  Constructors  ************\e[0m " << std::endl << std::endl;
 
-		std::vector<int> test;
+		// LIB::vector<int> test;
 		// std::vector<int> test2(2, 98);
 		// std::cout << "test2[1]= " << test2[1] << std::endl;
 		// std::cout << "test2[5]= " << test2[5] << std::endl;	//should return invalid read
@@ -248,24 +258,31 @@ int main (int argc, char **argv)
 		// std::vector<int> test_copy(test4);
 		// std::cout << "test_copy[0]= " << test_copy[0] << std::endl;
 
-		std::cout << std::endl << " \e[0;33m************  Insert  ************\e[0m " << std::endl << std::endl;
+		// std::cout << std::endl << " \e[0;33m************  Insert  ************\e[0m " << std::endl << std::endl;
 
-		std::vector<int> test2;
+		// LIB::vector<int> test2;
 
-		test2.insert(test2.begin(), 3);
-		test2.push_back(4);
-		test2.push_back(5);
-		test2.insert(test2.begin() + 1, 2);
+		// test2.insert(test2.begin(), 3);
+		// test2.push_back(4);
+		// test2.push_back(5);
+		// test2.insert(test2.begin() + 1, 2);
 
-		for (size_t i = 0; i < test2.size(); i++)
-			std::cout << "test2[i]= " << test2[i] << std::endl;
+		// for (size_t i = 0; i < test2.size(); i++)
+		// 	std::cout << "test2[i]= " << test2[i] << std::endl;
 
 
-		ft::vector<int> test_insert2(test2.begin(), test2.end() - 1);
+		// LIB::vector<int> test_insert2(test2.begin(), test2.end() - 1);
 		
-		test_insert2.insert(test_insert2.begin(), test2.begin(), test2.begin() + 3);
-		for (size_t i = 0; i < test_insert2.size(); i++)
-			std::cout << "test_insert2[i]= " << test_insert2[i] << std::endl;
+		// test_insert2.insert(test_insert2.begin(), test2.begin(), test2.begin() + 3);
+		// for (size_t i = 0; i < test_insert2.size(); i++)
+		// 	std::cout << "test_insert2[i]= " << test_insert2[i] << std::endl;
+
+		// LIB::vector<int> test4(test_insert2.begin(), test_insert2.end() - 1);
+
+		// test4.insert(test4.begin(), test4.begin(), test4.begin() + 3);
+
+		// for (size_t i = 0; i < test4.size(); i++)
+		// 	std::cout << "test4[i]= " << test4[i] << std::endl;
 
 
 		// std::vector<int> test_operator_equal = test4;

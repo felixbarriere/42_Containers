@@ -363,17 +363,32 @@ namespace ft
 		{
 			difference_type		pos = std::distance(this->_begin, position);
 			difference_type		count = std::distance(first, last);
-			// size_t		i = 0;
+			size_t m = 0;
 
-			if (this->_size + count >= this->_capacity)
+			if (this->_size + count > this->_capacity * 2)
+				this->_capacity = this->_size + count;
+			else if (this->_size + count >= this->_capacity)
+				this->_capacity = this->_size * 2;
+			
+			pointer temp = this->_allocator.allocate(_capacity);
+
+			for (; m < (size_t)pos; m++)
+				this->_allocator.construct(temp + m, *(this->_begin + m));  // copy first to pos of current vector
+
+			for (; first != last; first++, m++)
+				this->_allocator.construct(temp + m, *first);	// insert 
+
+			for (; (size_t)pos < this->_size; pos++, m++)
+				this->_allocator.construct(temp + m, *(this->_begin + pos));	//copy pos to last of current vector
+			
+			if (this->_capacity)
 			{
-				if (this->_size + count > this->_capacity * 2)
-					this->reserve(this->_size + count);
-				else
-					 this->reserve(this->_size * 2);
+				for (size_t i = 0;i < this->_size; i++)
+					this->_allocator.destroy(this->_begin + i);
 			}
-			for (size_t m = 0; first != last; first++, m++)
-				this->insert(this->_begin + pos + m, *first);
+			this->_allocator.deallocate(this->_begin, this->_capacity);
+			this->_begin = temp;
+			this->_size += count; 
 		}
 		
 		iterator
