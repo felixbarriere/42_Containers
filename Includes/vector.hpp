@@ -100,15 +100,18 @@ namespace ft
 			
 			if (this->_capacity)
 				for (size_t i = 0; i < _size; i++)
-					this->_allocator.destroy(this->_begin + this->_size - 1);
-			
+					this->_allocator.destroy(this->_begin + i);
 			this->_allocator.deallocate(_begin, _capacity);
-			if (this->_capacity < assign._size)
-				this->_capacity = assign._capacity;
 			
-			this->_allocator = assign._allocator;
+			if (this->_capacity < assign._size)
+			{
+				// this->_capacity = assign._capacity;
+				this->_capacity = assign._size;
+			}
+			// this->_allocator = assign._allocator;
 			this->_size = assign._size;
 			this->_begin = _allocator.allocate(this->_capacity, 0);
+			
 			for (size_t i = 0; i < _size; i++)
 					_allocator.construct(this->_begin + i, *(assign._begin + i));
 			return (*this);	
@@ -153,47 +156,31 @@ namespace ft
 		{
 			if (n < this->size()) 
 			{
-				
-
-
 				// Supprimer les éléments en trop
 				iterator it = this->begin() + n;
 				this->erase(it, this->end());
+				// (*this).erase(begin() + n, end());
     		}
-			else if (n > this->size())
+			else
 			{
 				if (n > this->_capacity)
 				{
 					if (this->_capacity * 2 > n)
+					{
+						// std::cout << "this->_capacity * 2 > n" << std::endl;
 						reserve(this->_capacity * 2);
+					}
 					else
+					{
+						// std::cout << "this->_capacity * 2 <= n" << std::endl;
 						reserve (n);
+					}
 				}
 				// Ajouter des éléments en fin de container
 				for (; this->_size < n; this->_size++) 
 					this->_allocator.construct((this->_begin + this->_size), val);
-					// this->push_back(val);
-				// this->_size = n;
+				this->_size = n;
       		}
-
-
-
-			/* if (n < this->_size)
-			{
-				while (n < this->_size)
-					this->pop_back();
-			}
-			else if (n > this->_size)
-			{
-				while (n > this->_size)
-				{
-					if (val)
-						this->push_back(val);
-					this->push_back(0);
-				}
-			}
-			else if (n > this->_capacity)
-				reserve(n); */
 		}
 
 		size_type
@@ -223,8 +210,8 @@ namespace ft
 			{
 				for (size_t i = 0; i < _size; i++)
 					_allocator.destroy(_begin + i);
-				_allocator.deallocate(_begin, _capacity);
 			}
+			_allocator.deallocate(_begin, _capacity);
 			this->_begin = temp;
 			// this->_end = this->_begin + this->_size;
 			this->_capacity = n;
@@ -285,9 +272,17 @@ namespace ft
 		void
 		assign(size_type n, const T& val)			// In the fill version (2), the new contents are n elements, each initialized to a copy of val.
 		{
-			this->clear();
-			for (size_t i = 0; i < n; i++)
-				this->push_back(val);
+			// this->clear();
+			// for (size_t i = 0; i < n; i++)
+			// 	this->push_back(val);
+
+			reserve(n);
+			if (this->_capacity)
+			for (size_t i = 0; i < this->_size; i++)
+				this->_allocator.destroy(_begin + i);
+			for(size_t i = 0; i < n; i++)
+				this->_allocator.construct(_begin + i, val);
+			this->_size = n;
 		}
 
 		void
@@ -346,13 +341,11 @@ namespace ft
 				return ;
 			difference_type	pos = position - this->begin();
 			
-			if (this->_size + n >= this->_capacity)
-			{
-				if (this->_size + n > this->_capacity * 2)
-					this->reserve(this->_size + n);
-				else
-					 this->reserve(this->_size * 2);
-			}
+			if (this->_size + n >= this->_capacity * 2)
+				this->reserve(this->_size + n);
+			else if (this->_size + n > this->_capacity)
+					this->reserve(this->_size * 2);
+
 			for (size_t m = 0; m < n; m++)
 				this->insert(this->begin() + pos + m, val);			
 		}
