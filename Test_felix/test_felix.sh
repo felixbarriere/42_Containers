@@ -4,7 +4,14 @@
 NAME="Containers"
 CC="clang++"
 CFLAGS="-Wall -Werror -Wextra  -std=c++98"
-INCLUDE="../main.cpp"
+INCLUDE="../main.cpp 
+	 ../srcs_main/vec_constructors.cpp
+	 ../srcs_main/vec_assign.cpp
+	 ../srcs_main/vec_pushpop.cpp
+	 ../srcs_main/vec_resize.cpp
+	 ../srcs_main/vec_insert.cpp
+	 ../srcs_main/vec_modifiers.cpp
+	 "
 
 # cd ..
 
@@ -28,6 +35,5 @@ echo "compilation STD done"
 ./Containers > result_std
 
 diff result_ft result_std > result_diff
-
 
 rm -f -r Containers result_ft result_std
