@@ -4,13 +4,12 @@
 // #ifndef WHAT_LIB //CREATE A REAL STL EXAMPLE
 	#include <vector>
 	// #pragma message("STD")
-	// #include <map>
+	#include <map>
 	// #include <stack>
 	// namespace ft = std;
 // #else
 	#include "Includes/vector.hpp"
-	// #pragma message("FT")
-// 	#include <map.hpp>
+	#include "Includes/map.hpp"
 // 	#include <stack.hpp>
 
 #include "tester_felix.hpp"
@@ -26,5 +25,7 @@ int main (int argc, char **argv)
 	resize_vector();
 	insert_vector();
 	modifiers_vector();
+
+	LIB::map<int, std::string>test;
 
 }

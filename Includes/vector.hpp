@@ -7,12 +7,12 @@
 # include <iterator>
 // # include <stdexcept>
 
-# include "iterators.hpp"
-# include "reverse_iterators.hpp"
-# include "equal.hpp"
-# include "lexicographical_compare.hpp"
-# include "enable_if.hpp"
-# include "equal.hpp"
+# include "utils/iterators.hpp"
+# include "utils/reverse_iterators.hpp"
+# include "utils/equal.hpp"
+# include "utils/lexicographical_compare.hpp"
+# include "utils/enable_if.hpp"
+# include "utils/equal.hpp"
 
 // std::is_integral<int>::value;
 
@@ -167,12 +167,10 @@ namespace ft
 				{
 					if (this->_capacity * 2 > n)
 					{
-						// std::cout << "this->_capacity * 2 > n" << std::endl;
 						reserve(this->_capacity * 2);
 					}
 					else
 					{
-						// std::cout << "this->_capacity * 2 <= n" << std::endl;
 						reserve (n);
 					}
 				}
@@ -213,7 +211,6 @@ namespace ft
 			}
 			_allocator.deallocate(_begin, _capacity);
 			this->_begin = temp;
-			// this->_end = this->_begin + this->_size;
 			this->_capacity = n;
 		}
 
@@ -295,7 +292,6 @@ namespace ft
 				else
 					this->reserve(this->_capacity * 2);
 			}
-			// this->_end++; //?
 			_allocator.construct(this->_begin + this->_size, val);
 			this->_size++;
 		}
@@ -306,7 +302,6 @@ namespace ft
 			if (!this->_size)
 				return ;
 			this->_allocator.destroy(this->_begin + this->_size - 1);
-			// this->_end--;
 			this->_size--;
 			// 	_allocator.deallocate(_begin, _capacity);
 		}
@@ -411,24 +406,18 @@ namespace ft
 		{
 			size_type			_temp_size = _size;
 			size_type			_temp_capacity = _capacity;
-			// value_type			_temp_value = _value;
 			allocator_type		_temp_allocator = _allocator;
 			pointer				_temp_begin = _begin;
-			// pointer				_temp_end = _end;
 
 			_size = x._size;
 			_capacity = x._capacity;
-			// _value = x._value;
 			_allocator = x._allocator;
 			_begin = x._begin;
-			// _end = x._end;
 
 			x._size = _temp_size;
 			x._capacity = _temp_capacity;
-			// x._value = _temp_value;
 			x._allocator = _temp_allocator;
 			x._begin = _temp_begin;
-			// x._end = _temp_end;
 		}
 		void
 		clear()		// Removes all elements from the vector (which are destroyed), leaving the container with a size of 0.
@@ -443,7 +432,7 @@ namespace ft
 
 	protected:
 		/* ****************************************************************************************** */
-		/**************************************** MEMBER TYPES ****************************************/
+		/**************************************** MEMBER DATAS ****************************************/
 		size_type			_size;
 		size_type			_capacity;
 		// value_type			_value;
