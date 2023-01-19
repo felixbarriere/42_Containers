@@ -11,16 +11,18 @@ namespace ft
 
 
         /* member types */
-        value_type		data;
+        value_type		key;
         int				color;
         // int         key;
-        node*			left;
-        node*			right;
-        node*			parent;
+        node*			left, right, parent;
+        node*			node_ptr; 
+
+        // node*			right;
+        // node*			parent;
 
         /* constructors */
 
-		node (value_type  &data2) : data(data2), color (RED), left(ft::nullptr), right(ft::nullptr), parent(ft::nullptr)
+		node (value_type  &data2) : key(data2), color (RED), left(ft::nullptr), right(ft::nullptr), parent(ft::nullptr)
 		{}
 
     };

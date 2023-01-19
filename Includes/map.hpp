@@ -24,6 +24,7 @@ to go before b in the strict weak ordering the function defines. */
 # include "utils/pair.hpp"
 # include "utils/node_struct.hpp"
 # include "utils/null_ptr.hpp"
+# include "utils/red_black_tree.hpp"
 // # include <stdexcept>
 
 
@@ -52,7 +53,22 @@ namespace ft
         typedef value_type                              iterator;
         typedef const value_type                        const_iterator;             
         typedef std::reverse_iterator<iterator>         reverse_iterator;         //change to ft         
-        typedef std::reverse_iterator<const_iterator>   const_reverse_iterator;   //change to ft                
+        typedef std::reverse_iterator<const_iterator>   const_reverse_iterator;   //change to ft  
+
+		/* ****************************************************************************************** */
+		/**************************************** NESTED CLASS ****************************************/
+		class value_compare : public std::binary_function<value_type, value_type, bool>
+		{
+			friend class map;
+		
+			protected:
+				key_compare	comp;
+				value_compare(key_compare c) : comp(c) {};
+			public:
+				typedef	bool result_type;
+				bool	operator()(const value_type& x, const value_type& y) const
+				{ return comp(x.first, y.first); }  // first ==>cf ft::pair
+		};              
 
         /* ****************************************************************************************** */
 		/****************************************** CONSTRUCTORS **************************************/
@@ -67,7 +83,7 @@ namespace ft
 
         // map (const map& x);
 
-		~map();
+		// ~map();
 
 		map& operator= (const map& x);
 
@@ -79,10 +95,10 @@ namespace ft
 		iterator end();const_iterator end() const;
 		reverse_iterator rbegin();const_reverse_iterator rbegin() const;
 		reverse_iterator rend();const_reverse_iterator rend() const;
-		const_iterator cbegin() const noexcept;
-		const_iterator cend() const noexcept;
-		const_reverse_iterator crbegin() const noexcept;
-		const_reverse_iterator crend() const noexcept;
+		const_iterator cbegin() const;
+		const_iterator cend() const;
+		const_reverse_iterator crbegin() const;
+		const_reverse_iterator crend() const;
 
 		/* Capacity */
 
@@ -99,7 +115,7 @@ namespace ft
 
 		pair<iterator,bool>
 		insert (const value_type& val)   //need make_pair
-		{}
+		{ (void)val; }
 
 		iterator
 		insert (iterator position, const value_type& val);
@@ -109,7 +125,9 @@ namespace ft
 		insert (InputIterator first, InputIterator last);
 
 		void erase (iterator position);
+		
 		size_type erase (const key_type& k);
+		
 		void erase (iterator first, iterator last);
 
 		void swap (map& x);
@@ -118,17 +136,31 @@ namespace ft
 
 		/* Observers */
 
-		key_compare key_comp() const;
-		value_compare value_comp() const;
+		key_compare
+		key_comp() const;
+		
+		value_compare
+		value_comp() const;
 
 		/* Operations */
 
-		iterator	find (const key_type& k);const_iterator find (const key_type& k) const;
-		size_type	count (const key_type& k) const;
-		iterator	lower_bound (const key_type& k);const_iterator lower_bound (const key_type& k) const;
-		iterator	upper_bound (const key_type& k);const_iterator upper_bound (const key_type& k) const;
-		pair<const_iterator,const_iterator> equal_range (const key_type& k) const;
-		pair<iterator,iterator>             equal_range (const key_type& k);
+		iterator	
+		find (const key_type& k);const_iterator find (const key_type& k) const;
+		
+		size_type
+		count (const key_type& k) const;
+		
+		iterator
+		lower_bound (const key_type& k);const_iterator lower_bound (const key_type& k) const;
+		
+		iterator
+		upper_bound (const key_type& k);const_iterator upper_bound (const key_type& k) const;
+		
+		pair<const_iterator,const_iterator>
+		equal_range (const key_type& k) const;
+		
+		pair<iterator,iterator>
+		equal_range (const key_type& k);
 
 		/* Allocator */
 
@@ -149,6 +181,10 @@ namespace ft
         size_type			_size;
 		size_type			_capacity;
 		pointer				_root;
+
+
+
+
     };
 
 
