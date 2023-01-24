@@ -18,7 +18,7 @@ namespace ft
 		private:
 			void operator&() const;    	/* Can't take address of nullptr */
 
-	} nullptr = {};  
+	} null_ptr = {};  
 
 };
 

@@ -26,6 +26,6 @@ int main (int argc, char **argv)
 	insert_vector();
 	modifiers_vector();
 
-	LIB::map<int, std::string>test;
+	// LIB::map<int, std::string>test;
 
 }

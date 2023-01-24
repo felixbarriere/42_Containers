@@ -19,10 +19,20 @@ namespace ft
 	    typedef Allocator                           allocator_type;	                            
 	    typedef value_type&                         reference;
 		typedef	Compare								value_compare;
-	    // typedef typename Allocator::node_ptr         pointer;	       //typename tells the compiler that an unknown identifier is a type (cf Allocator).                           
+	    // typedef typename Allocator::node_ptr        pointer;	       //typename tells the compiler that an unknown identifier is a type (cf Allocator).                           
 	    typedef typename Node::node_ptr	            node_ptr;                          
 		typedef typename Node::color				color;
 
+    /* ****************************************************************************************** */
+	/****************************************** MEMBER DATAS **************************************/
+
+	private:
+		value_compare	_comp;
+		allocator_type	_alloc;
+		node_ptr		_end;
+		node_ptr		_root;
+		node_ptr		LEAF_NULL;
+		// size_type		_size;
 
     /* ****************************************************************************************** */
 	/****************************************** CONSTRUCTORS / DESTRUCTORS ************************/
@@ -30,13 +40,25 @@ namespace ft
 	RBT(const value_compare& comp)
 				: _comp(comp), _alloc(allocator_type()), _end(_alloc.allocate(1)), _root(_end)
 	{
-		_alloc.construct(_end, Node(value_type()), 1);
+		this->LEAF_NULL = _alloc.allocate(1);
+		_alloc.construct(LEAF_NULL, Node(value_type()), 1);
+
+		LEAF_NULL->parent = ft::null_ptr;
+		LEAF_NULL->left = ft::null_ptr;
+		LEAF_NULL->right = ft::null_ptr;
+		LEAF_NULL->color = BLACK;
+		this->_root = LEAF_NULL;
+
 	}
 
 	~RBT() {}
 
     /* ****************************************************************************************** */
 	/****************************************** MEMBER FUNCTIONS **********************************/
+
+	/*  preorder (data, left, right)
+		inorder (left, data, right)
+		postorder (left, right, data) */
 
 	node_ptr
 	min(node_ptr node)
@@ -76,15 +98,7 @@ namespace ft
 		/* equilibrer l'arbre */
 	}
 
-    /* ****************************************************************************************** */
-	/****************************************** MEMBER DATAS **************************************/
 
-	private:
-		value_compare	_comp;
-		allocator_type	_alloc;
-		node_ptr		_end;
-		node_ptr		_root;
-		// size_type		_size;
 	};
 
 

@@ -14,7 +14,9 @@ namespace ft
         value_type		key;
         int				color;
         // int         key;
-        node*			left, right, parent;
+        node*			left;
+        node*			right;
+        node*			parent;
         node*			node_ptr; 
 
         // node*			right;
@@ -22,7 +24,7 @@ namespace ft
 
         /* constructors */
 
-		node (value_type  &data2) : key(data2), color (RED), left(ft::nullptr), right(ft::nullptr), parent(ft::nullptr)
+		node (value_type  &data2) : key(data2), color (RED), left(ft::null_ptr), right(ft::null_ptr), parent(ft::null_ptr)
 		{}
 
     };

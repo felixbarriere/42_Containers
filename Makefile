@@ -1,6 +1,12 @@
 NAME = Containers
 
 SRCS = 	main.cpp \
+		srcs_main/vec_constructors.cpp \
+		srcs_main/vec_assign.cpp \
+		srcs_main/vec_insert.cpp \
+		srcs_main/vec_modifiers.cpp \
+		srcs_main/vec_pushpop.cpp \
+		srcs_main/vec_resize.cpp \
 
 OBJS_PATH = objects/
 
@@ -8,7 +14,7 @@ OBJS = ${addprefix ${OBJS_PATH}, ${SRCS:.cpp=.o}}
 
 CC = c++
 
-CFLAGS = -Wall -Werror -Wextra  -std=c++98 -MMD -MP
+CFLAGS = -Wall -Werror -Wextra -DLIB=ft -std=c++98 -MMD -MP
 
 all:		$(NAME)
 
