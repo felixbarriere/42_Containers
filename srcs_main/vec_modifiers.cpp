@@ -13,11 +13,19 @@ void    modifiers_vector()
 
     LIB::vector<int> test_operator_equal = test4;
 
+    std::cout << "test_operator_equal[2]= " << test_operator_equal[1] << std::endl;
+
+
     test_operator_equal.push_back(42);
     std::cout << "PUSH_BACK: test_operator_equal[2]= " << test_operator_equal[2] << std::endl;
 
     test_operator_equal.clear();
-    std::cout << "Clear: test_operator_equal[2]= " << test_operator_equal[2] << std::endl;
+
+    test_operator_equal.push_back(43);
+    test_operator_equal.push_back(43);
+    std::cout << "CLEAR: test_operator_equal[2]= " << test_operator_equal[2] << std::endl;
+    test_operator_equal.push_back(43);
+    std::cout << "CLEAR: test_operator_equal[2]= " << test_operator_equal[2] << std::endl;
 
     std::cout << "test_operator_equal.front()= " << test_operator_equal.front() << std::endl;
     std::cout << "test_operator_equal.back()= " << test_operator_equal.back() << std::endl;

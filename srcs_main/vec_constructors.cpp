@@ -9,7 +9,7 @@ void    constructors_vector()
     LIB::vector<int> test;
     LIB::vector<int> test2(2, 98);
     std::cout << "test2[1]= " << test2[1] << std::endl;
-    std::cout << "test2[5]= " << test2[5] << std::endl;  //should return invalid read
+    // std::cout << "test2[5]= " << test2[5] << std::endl;  //should return invalid read
 
     LIB::vector<int> test3(test2.begin() + 1, test2.end());
     std::cout << "test3[0]= " << test3[0] << std::endl;

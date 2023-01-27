@@ -19,13 +19,27 @@ int main (int argc, char **argv)
 	(void)argc;
 	(void)argv;
 	
-	constructors_vector();
-	assign_vector();
-	pushpop_vector();
-	resize_vector();
-	insert_vector();
-	modifiers_vector();
+	/* VECTOR */
+	// constructors_vector();
+	// assign_vector();
+	// pushpop_vector();
+	// resize_vector();
+	// insert_vector();
+	// modifiers_vector();
 
-	// LIB::map<int, std::string>test;
+	/* MAP */
+
+
+	LIB::map<int, std::string>test;
+	test.insert( std::pair<int, std::string>(1, "test"));
+
+	// creer iterator
+	LIB::map<int, std::string>::iterator it = test.begin();
+
+	for (; it != test.end(); it++)
+	{
+		std::cout << it->first << std::endl;
+		std::cout << it->second << std::endl;
+	}
 
 }

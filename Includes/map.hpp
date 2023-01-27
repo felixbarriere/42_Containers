@@ -21,10 +21,11 @@ to go before b in the strict weak ordering the function defines. */
 
 # include <iostream>
 # include <iterator>
-# include "utils/pair.hpp"
-# include "utils/node_struct.hpp"
-# include "utils/null_ptr.hpp"
-# include "utils/red_black_tree.hpp"
+# include "pair.hpp"
+# include "node_struct.hpp"
+# include "null_ptr.hpp"
+# include "red_black_tree.hpp"
+# include "iterators_map.hpp"
 // # include <stdexcept>
 
 
@@ -38,17 +39,18 @@ namespace ft
         /* ****************************************************************************************** */
 		/****************************************** ALIASES *******************************************/
 
-        typedef Key                                 key_type;	                                
-        typedef T                                   mapped_type;
-        typedef ft::pair<const Key, T>              value_type;	       //change to ft                         
-        typedef std::size_t                         size_type;	                                 
-        typedef std::ptrdiff_t                      difference_type;                        
-        typedef Compare                             key_compare;                              
-        typedef Allocator                           allocator_type;	                            
-        typedef value_type&                         reference;	                                
-        typedef const value_type&                   const_reference;	                            
-        typedef typename Allocator::pointer         pointer;	         //typename tells the compiler that an unknown identifier is a type (cf Allocator).                           
-        typedef typename Allocator::const_pointer   const_pointer;	                            
+        typedef Key                                 			key_type;	                                
+        typedef T                                   			mapped_type;
+        typedef ft::pair<const Key, T>              			value_type;	       //change to ft                         
+        typedef std::size_t                         			size_type;	                                 
+        typedef std::ptrdiff_t                      			difference_type;                        
+        typedef Compare                             			key_compare;                              
+        typedef Allocator                           			allocator_type;	                            
+        typedef value_type&                         			reference;	                                
+        typedef const value_type&                   			const_reference;	                            
+        typedef typename Allocator::pointer         			pointer;	         //typename tells the compiler that an unknown identifier is a type (cf Allocator).                           
+        typedef typename Allocator::const_pointer   			const_pointer;	                            
+		typedef	typename ft::RBT<value_type, value_compare>		RBT;
         
         typedef value_type                              iterator;
         typedef const value_type                        const_iterator;             
@@ -69,6 +71,17 @@ namespace ft
 				bool	operator()(const value_type& x, const value_type& y) const
 				{ return comp(x.first, y.first); }  // first ==>cf ft::pair
 		};              
+
+
+		/* ****************************************************************************************** */
+		/**************************************** MEMBER DATAS ****************************************/
+    protected:
+		allocator_type		_allocator;
+		key_compare			_comp;
+        size_type			_size;
+		size_type			_capacity;
+		pointer				_root;
+		RBT					_RBT;
 
         /* ****************************************************************************************** */
 		/****************************************** CONSTRUCTORS **************************************/
@@ -113,9 +126,12 @@ namespace ft
 
 		/* Modifiers */
 
-		pair<iterator,bool>
+		pair<iterator, bool>
 		insert (const value_type& val)   //need make_pair
-		{ (void)val; }
+		{ 
+			// (void)val;
+				
+		}
 
 		iterator
 		insert (iterator position, const value_type& val);
@@ -173,14 +189,7 @@ namespace ft
         /* insert */
         /* delete */
 
-        /* ****************************************************************************************** */
-		/**************************************** MEMBER DATAS ****************************************/
-    protected:
-		allocator_type		_allocator;
-		key_compare			_comp;
-        size_type			_size;
-		size_type			_capacity;
-		pointer				_root;
+
 
 
 

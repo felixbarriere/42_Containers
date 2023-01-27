@@ -7,12 +7,12 @@
 # include <iterator>
 // # include <stdexcept>
 
-# include "utils/iterators.hpp"
-# include "utils/reverse_iterators.hpp"
-# include "utils/equal.hpp"
-# include "utils/lexicographical_compare.hpp"
-# include "utils/enable_if.hpp"
-# include "utils/equal.hpp"
+# include "iterators.hpp"
+# include "reverse_iterators.hpp"
+# include "equal.hpp"
+# include "lexicographical_compare.hpp"
+# include "enable_if.hpp"
+# include "equal.hpp"
 
 // std::is_integral<int>::value;
 
@@ -197,7 +197,7 @@ namespace ft
 		{
 			if (n < this->_capacity)
 				return ;
-			else if (n > this->max_size())
+			else if (n > this->_allocator.max_size())
 				throw std::length_error("vector::reserve");
 			
 			pointer	temp = _allocator.allocate(n);
@@ -225,19 +225,19 @@ namespace ft
 		T&
 		at(size_type n)
 		{
-			if (n <= this->_size)
+			if (n < this->_size)
 				return (*(this->_begin + n));
 			else
-				throw std::out_of_range("Requested index is out of range");
+				throw std::out_of_range("vector::at\n");
 		}
 		
 		const T&
 		at(size_type n) const
 		{
-			if (n <= this->_size)
+			if (n < this->_size)
 				return (*(this->_begin + n));
 			else
-				throw std::out_of_range("Requested index is out of range");
+				throw std::out_of_range("vector::at\n");
 		}
 
 		T&
@@ -261,7 +261,7 @@ namespace ft
 			size_t distance = std::distance(first, last);
 			this->clear();
 			reserve(distance);
-			for (size_t i = 0; first != last; ++first, ++i)
+			for (size_t i = 0; first != last; first++, i++)
 				this->_allocator.construct(this->_begin + i, *first);
 			this->_size = distance;
 		}
@@ -419,6 +419,7 @@ namespace ft
 			x._allocator = _temp_allocator;
 			x._begin = _temp_begin;
 		}
+		
 		void
 		clear()		// Removes all elements from the vector (which are destroyed), leaving the container with a size of 0.
 		{
