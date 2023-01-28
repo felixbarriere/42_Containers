@@ -1,3 +1,5 @@
-0a1,2
-> 1
-> test
+1,4d0
+< test
+< test.size = 1
+< 
+< test.size = 2

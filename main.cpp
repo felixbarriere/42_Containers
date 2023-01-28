@@ -31,15 +31,21 @@ int main (int argc, char **argv)
 
 
 	LIB::map<int, std::string>test;
-	test.insert( std::pair<int, std::string>(1, "test"));
+	test.insert( std::pair<char, std::string>('a', "test"));
+
+	// std::cout << test['a'] << std::endl;
+	// std::cout << "test.size = " << test.size() << std::endl;
+
+	// std::cout << test[3] << std::endl;
+	// std::cout << "test.size = " << test.size() << std::endl;
 
 	// creer iterator
-	LIB::map<int, std::string>::iterator it = test.begin();
+	// LIB::map<int, std::string>::iterator it = test.begin();
 
-	for (; it != test.end(); it++)
-	{
-		std::cout << it->first << std::endl;
-		std::cout << it->second << std::endl;
-	}
+	// for (; it != test.end(); it++)
+	// {
+	// 	std::cout << it->first << std::endl;
+	// 	std::cout << it->second << std::endl;
+	// }
 
 }

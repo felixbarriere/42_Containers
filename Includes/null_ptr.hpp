@@ -5,7 +5,6 @@
 
 namespace ft
 {
-	                   
 	const class nullptr_t
 	{
 		public:

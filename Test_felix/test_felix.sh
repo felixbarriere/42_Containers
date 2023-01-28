@@ -16,14 +16,14 @@ INCLUDE="../main.cpp
 # cd ..
 
 ################### Make with ft ###################
-#echo "compiling with FT"
-#make="$CC $CFLAGS $INCLUDE -DLIB=ft -o $NAME"
-#${make}
+echo "compiling with FT"
+make="$CC $CFLAGS $INCLUDE -DLIB=ft -o $NAME"
+${make}
 
-#echo "compilation FT done"
+echo "compilation FT done"
 
 #valgrind 
-#./Containers > result_ft
+./Containers > result_ft
 
 ################### Make with std ################### 
 echo "compiling with STD"

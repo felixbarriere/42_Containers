@@ -31,8 +31,8 @@ to go before b in the strict weak ordering the function defines. */
 
 namespace ft
 {
-    template < typename Key, typename T, typename Compare = std::less<Key>,
-                typename Allocator = std::allocator<std::pair<const Key, T> > >
+    template < typename Key, typename Value, typename Compare = std::less<Key>,
+                typename Allocator = std::allocator<std::pair<const Key, Value> > >
     class map
     {
     public:
@@ -40,8 +40,8 @@ namespace ft
 		/****************************************** ALIASES *******************************************/
 
         typedef Key                                 			key_type;	                                
-        typedef T                                   			mapped_type;
-        typedef ft::pair<const Key, T>              			value_type;	       //change to ft                         
+        typedef Value                                   		mapped_type;
+        typedef ft::pair<const Key, Value>              		value_type;	       //change to ft                         
         typedef std::size_t                         			size_type;	                                 
         typedef std::ptrdiff_t                      			difference_type;                        
         typedef Compare                             			key_compare;                              
@@ -49,16 +49,10 @@ namespace ft
         typedef value_type&                         			reference;	                                
         typedef const value_type&                   			const_reference;	                            
         typedef typename Allocator::pointer         			pointer;	         //typename tells the compiler that an unknown identifier is a type (cf Allocator).                           
-        typedef typename Allocator::const_pointer   			const_pointer;	                            
-		typedef	typename ft::RBT<value_type, value_compare>		RBT;
-        
-        typedef value_type                              iterator;
-        typedef const value_type                        const_iterator;             
-        typedef std::reverse_iterator<iterator>         reverse_iterator;         //change to ft         
-        typedef std::reverse_iterator<const_iterator>   const_reverse_iterator;   //change to ft  
+        typedef typename Allocator::const_pointer   			const_pointer;	
 
-		/* ****************************************************************************************** */
-		/**************************************** NESTED CLASS ****************************************/
+
+		/* Nested Class */
 		class value_compare : public std::binary_function<value_type, value_type, bool>
 		{
 			friend class map;
@@ -70,7 +64,15 @@ namespace ft
 				typedef	bool result_type;
 				bool	operator()(const value_type& x, const value_type& y) const
 				{ return comp(x.first, y.first); }  // first ==>cf ft::pair
-		};              
+		};           
+
+		typedef	typename ft::RBT<value_type, value_compare>		RBT;
+        typedef value_type                             			iterator;
+        typedef const value_type                       			const_iterator;             
+        typedef ft::reverse_iterator<iterator>         reverse_iterator;         //change to ft         
+        typedef ft::reverse_iterator<const_iterator>   const_reverse_iterator;   //change to ft  
+
+
 
 
 		/* ****************************************************************************************** */
@@ -85,9 +87,10 @@ namespace ft
 
         /* ****************************************************************************************** */
 		/****************************************** CONSTRUCTORS **************************************/
-        explicit
+    public:    
+		explicit
         map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
-					: _allocator(alloc), _comp(comp), _size(0), _capacity(0), _root()
+					: _allocator(alloc), _comp(comp), _size(0), _capacity(0), _root(), _RBT(comp)
 		{}
 
         // template <class InputIterator>
@@ -105,7 +108,15 @@ namespace ft
 
 		/* Iterators */
 		iterator begin();const_iterator begin() const;
-		iterator end();const_iterator end() const;
+
+		iterator
+		end()
+		{
+			return (iterator(_RBT.getLeafNULL(), _RBT.getRoot(), _RBT.getLeafNULL()));
+		}
+		
+		const_iterator end() const;
+		
 		reverse_iterator rbegin();const_reverse_iterator rbegin() const;
 		reverse_iterator rend();const_reverse_iterator rend() const;
 		const_iterator cbegin() const;
@@ -121,7 +132,19 @@ namespace ft
 
 		/* Element access */
 
-		mapped_type& operator[] (const key_type& k);
+		mapped_type& operator[] (const key_type& k)
+		{
+			iterator it = find(k);
+			if ( it == end() )
+			{
+				insert(make_pair(k,mapped_type()));
+				it = find (k);
+			}
+			return (it->second);
+		}
+
+
+
 		mapped_type& at (const key_type& k);const mapped_type& at (const key_type& k) const;
 
 		/* Modifiers */
@@ -130,6 +153,10 @@ namespace ft
 		insert (const value_type& val)   //need make_pair
 		{ 
 			// (void)val;
+
+
+
+			_RBT.insert(val);
 				
 		}
 
@@ -161,7 +188,16 @@ namespace ft
 		/* Operations */
 
 		iterator	
-		find (const key_type& k);const_iterator find (const key_type& k) const;
+		find (const key_type& k)
+		{
+			return (iterator(_RBT.find(k), _RBT.getRoot(), _RBT.getLeafNULL()));
+		}
+		
+		const_iterator
+		find (const key_type& k) const
+		{
+			return (_RBT.find(k));
+		}
 		
 		size_type
 		count (const key_type& k) const;

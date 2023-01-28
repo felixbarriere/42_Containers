@@ -8,10 +8,10 @@ namespace ft
     template <typename value_type>
     class node
     {
-
+    public:
 
         /* member types */
-        value_type		key;
+        value_type		data;
         int				color;
         // int         key;
         node*			left;
@@ -23,8 +23,12 @@ namespace ft
         // node*			parent;
 
         /* constructors */
+        node () : data(), color (BLACK), left(ft::null_ptr), right(ft::null_ptr),
+                                        parent(ft::null_ptr), node_ptr(ft::null_ptr)
+        {}
 
-		node (value_type  &data2) : key(data2), color (RED), left(ft::null_ptr), right(ft::null_ptr), parent(ft::null_ptr)
+		node (const value_type  &data2) : data(data2), color (RED), left(ft::null_ptr), right(ft::null_ptr),
+                                        parent(ft::null_ptr), node_ptr(ft::null_ptr)
 		{}
 
     };

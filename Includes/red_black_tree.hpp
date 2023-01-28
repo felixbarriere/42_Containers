@@ -20,8 +20,9 @@ namespace ft
 	    typedef value_type&                         reference;
 		typedef	Compare								value_compare;
 	    // typedef typename Allocator::node_ptr        pointer;	       //typename tells the compiler that an unknown identifier is a type (cf Allocator).                           
-	    typedef typename Node::node_ptr	            NodePtr;                          
-		typedef typename Node::color				color;
+	    // typedef typename Node::node_ptr	            NodePtr;                          
+	    typedef typename Allocator::pointer		        NodePtr;                          
+		// typedef typename Node::color				color;
 
     /* ****************************************************************************************** */
 	/****************************************** MEMBER DATAS **************************************/
@@ -37,17 +38,18 @@ namespace ft
     /* ****************************************************************************************** */
 	/****************************************** CONSTRUCTORS / DESTRUCTORS ************************/
 
-	RBT(const value_compare& comp)
-				: _comp(comp), _alloc(allocator_type()), _end(_alloc.allocate(1)), _root(_end)  //, _end(_alloc.allocate(1))
+	public:
+	RBT(const value_compare& comp = value_compare())
+			: _comp(comp), _alloc(allocator_type()), _end(_alloc.allocate(1)), _root(_end)
 	{
 		this->LEAF_NULL = _alloc.allocate(1);
-		_alloc.construct(LEAF_NULL, Node(value_type()), 1);
+		_alloc.construct(LEAF_NULL, Node(value_type()));	
 
 		LEAF_NULL->parent = ft::null_ptr;
 		LEAF_NULL->left = ft::null_ptr;
 		LEAF_NULL->right = ft::null_ptr;
 		LEAF_NULL->color = BLACK;
-		this->_root = LEAF_NULL;
+		// this->_root = LEAF_NULL;
 	}
 
 	~RBT() {}
@@ -84,28 +86,70 @@ namespace ft
 		return (node);
 	}
 
+	NodePtr 
+	maximum(NodePtr node) 
+	{
+		while (node->right != LEAF_NULL)
+		{
+		node = node->right;
+    	}
+    	return (node);
+  	}
+
+	
+	NodePtr 
+	maximum(NodePtr node) const
+	{
+		while (node->right != LEAF_NULL)
+		{
+		node = node->right;
+    	}
+    	return (node);
+  	}
+
+	void
+	getLeafNULL() { return (this->LEAF_NULL); }
+
+	void
+	getRoot() { return (this->_root); }
+
 	NodePtr
 	begin() { return (minimum(_root)); }
 
 	NodePtr
 	begin() const { return (minimum(_root)); }
 
-	void
-	insert(int key) 
+	NodePtr
+	find(NodePtr node, int key)
 	{
-		NodePtr node = new Node;
-		node->parent = ft::null_ptr;
-		node->data = key;
-		node->left = LEAF_NULL;
-		node->right = LEAF_NULL;
-		node->color = 1;
+		if (node == LEAF_NULL || key == node->data)
+			return (node);
+
+		if (key < node->data)
+			return find(node->left, key);
+
+		return (find(node->right, key));
+	}
+
+	void
+	insert(value_type key_value) 
+	{
+		NodePtr node = _alloc.allocate(1);
+		_alloc.construct(node, Node(key_value));
+
+		// NodePtr node = new Node;
+		// node->parent = ft::null_ptr;
+		// node->data = key;
+		// node->left = LEAF_NULL;
+		// node->right = LEAF_NULL;
+		// node->color = 1;
 
 		NodePtr y = ft::null_ptr;
 		NodePtr x = this->_root;
 
 		while (x != LEAF_NULL) {
 		y = x;
-		if (node->data < x->data) {
+		if (node->data.first < x->data.first) {
 			x = x->left;
 		} else {
 			x = x->right;
@@ -115,7 +159,7 @@ namespace ft
 		node->parent = y;
 		if (y == ft::null_ptr) {
 		_root = node;
-		} else if (node->data < y->data) {
+		} else if (node->data.first < y->data.first) {				// < ok ou utiliser _comp ?
 		y->left = node;
 		} else {
 		y->right = node;
