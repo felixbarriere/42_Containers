@@ -7,7 +7,7 @@
 namespace ft
 {
 
-	template <typename T, typename Compare, typename Node = ft::node<T>,
+	template <typename T, class Compare, typename Node = ft::node<T>,
 											typename Allocator = std::allocator<Node> >
 	class RBT
 	{
@@ -37,7 +37,7 @@ namespace ft
 	/****************************************** CONSTRUCTORS / DESTRUCTORS ************************/
 
 	public:
-	RBT(const value_compare& comp = value_compare())
+	RBT(const value_compare &comp = value_compare())
 			: _comp(comp), _alloc(allocator_type()), _end(_alloc.allocate(1)), _root(_end)
 	{
 		this->LEAF_NULL = _alloc.allocate(1);
@@ -47,7 +47,7 @@ namespace ft
 		LEAF_NULL->left = ft::null_ptr;
 		LEAF_NULL->right = ft::null_ptr;
 		LEAF_NULL->color = BLACK;
-		// this->_root = LEAF_NULL;
+		this->_root = LEAF_NULL;
 	}
 
 	~RBT()
@@ -135,11 +135,12 @@ namespace ft
 		return (node);
 	}
 
+	/****************************************** INSERT **********************************/
 	NodePtr
 	insert(value_type key_value) 
 	{
 		NodePtr node = _alloc.allocate(1);
-		_alloc.construct(node, Node(key_value));
+		_alloc.construct(node, Node(key_value, LEAF_NULL, LEAF_NULL));
 
 		// NodePtr node = new Node;
 		// node->parent = ft::null_ptr;
@@ -151,21 +152,36 @@ namespace ft
 		NodePtr y = ft::null_ptr;
 		NodePtr x = this->_root;
 
+		// check where to insert the node
 		while (x != LEAF_NULL)
 		{
+			std::cout << "********************************** ICI2 **********************************" << std::endl;
 			y = x;
 			if (_comp(node->data, x->data))
+			{
+				std::cout << "********************************** ICI4 **********************************" << std::endl;
+
 				x = x->left;
+			}
 			else if (_comp(x->data, node->data))
+			{
+				std::cout << "********************************** ICI5 **********************************" << std::endl;
+
 				x = x->right;
+			}
 			else 
 			{
+				std::cout << "********************************** ICI3 **********************************" << std::endl;
 				_alloc.destroy(node);
 				_alloc.deallocate(node, 1);
 				return (ft::null_ptr);
 			}
 		}
 
+		std::cout << "********************************** SORTIE **********************************" << std::endl;
+
+
+		// insert the node
 		node->parent = y;
 		if (y == ft::null_ptr)
 			_root = node;
@@ -186,52 +202,9 @@ namespace ft
 		return (node);
   	}
 
-	void
-	insertFix(NodePtr k)
-	{
-		NodePtr u;
-		while (k->parent->color == RED)
-		{
-			if (k->parent == k->parent->parent->right) {
-			u = k->parent->parent->left;
-			if (u->color == RED) {
-				u->color = BLACK;
-				k->parent->color = BLACK;
-				k->parent->parent->color = RED;
-				k = k->parent->parent;
-			} else {
-				if (k == k->parent->left) {
-				k = k->parent;
-				rightRotate(k);
-				}
-				k->parent->color = BLACK;
-				k->parent->parent->color = RED;
-				leftRotate(k->parent->parent);
-			}
-			} else {
-			u = k->parent->parent->right;
 
-			if (u->color == RED) {
-				u->color = BLACK;
-				k->parent->color = BLACK;
-				k->parent->parent->color = RED;
-				k = k->parent->parent;
-			} else {
-				if (k == k->parent->right) {
-				k = k->parent;
-				leftRotate(k);
-				}
-				k->parent->color = BLACK;
-				k->parent->parent->color = RED;
-				rightRotate(k->parent->parent);
-			}
-			}
-			if (k == _root) {
-			break;
-			}
-		}
-		_root->color = BLACK;
-	}
+
+	/****************************************** DELETE **********************************/
 
 	void
 	deleteNode(int data)
@@ -321,8 +294,8 @@ namespace ft
 		_alloc.deallocate(LEAF_NULL, 1);
 	}
 
+	/****************************************** REEQUILIBRAGE **********************************/
 
-	/* REEQUILIBRAGE */
 
 	void leftRotate(NodePtr x) 
 	{
@@ -372,6 +345,54 @@ namespace ft
 			u->parent->right = v;
 		v->parent = u->parent;
   	}
+
+	void
+	insertFix(NodePtr k)
+	{
+		NodePtr u;
+		while (k->parent->color == RED)
+		{
+			if (k->parent == k->parent->parent->right) {
+			u = k->parent->parent->left;
+			if (u->color == RED) {
+				u->color = BLACK;
+				k->parent->color = BLACK;
+				k->parent->parent->color = RED;
+				k = k->parent->parent;
+			} else {
+				if (k == k->parent->left) {
+				k = k->parent;
+				rightRotate(k);
+				}
+				k->parent->color = BLACK;
+				k->parent->parent->color = RED;
+				leftRotate(k->parent->parent);
+			}
+			} else {
+			u = k->parent->parent->right;
+
+			if (u->color == RED) {
+				u->color = BLACK;
+				k->parent->color = BLACK;
+				k->parent->parent->color = RED;
+				k = k->parent->parent;
+			} else {
+				if (k == k->parent->right) {
+				k = k->parent;
+				leftRotate(k);
+				}
+				k->parent->color = BLACK;
+				k->parent->parent->color = RED;
+				rightRotate(k->parent->parent);
+			}
+			}
+			if (k == _root) {
+			break;
+			}
+		}
+		_root->color = BLACK;
+	}
+
 	};
 };
 

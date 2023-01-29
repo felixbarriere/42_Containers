@@ -17,12 +17,13 @@ INCLUDE="../main.cpp
 
 ################### Make with ft ###################
 echo "compiling with FT"
-make="$CC $CFLAGS $INCLUDE -DLIB=ft -o $NAME"
+make="$CC $CFLAGS $INCLUDE -DLIB=ft -o $NAME -fsanitize=leak -fsanitize=address"
 ${make}
 
 echo "compilation FT done"
 
-valgrind --leak-check=full ./Containers > result_ft
+#valgrind --leak-check=full --track-origins=yes
+./Containers > result_ft
 
 ################### Make with std ################### 
 echo "compiling with STD"

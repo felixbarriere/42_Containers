@@ -21,6 +21,8 @@ to go before b in the strict weak ordering the function defines. */
 
 # include <iostream>
 # include <iterator>
+# include "reverse_iterators.hpp"
+# include "lexicographical_compare.hpp"
 # include "pair.hpp"
 # include "node_struct.hpp"
 # include "null_ptr.hpp"
@@ -50,8 +52,8 @@ namespace ft
         typedef const value_type&                   			const_reference;	                            
         typedef typename Allocator::pointer         			pointer;	         //typename tells the compiler that an unknown identifier is a type (cf Allocator).                           
         typedef typename Allocator::const_pointer   			const_pointer;	
-        typedef typename ft::iterator_map<value_type, ft::node<value_type> >   		iterator;	
-        typedef typename ft::iterator_map<const value_type, ft::node<value_type> >   		const_iterator;	
+        typedef typename ft::iterator_map<value_type, ft::node<value_type> >   			iterator;	
+        typedef typename ft::iterator_map<const value_type, ft::node<value_type> >   	const_iterator;	
 
 
 		/* Nested Class */
@@ -81,7 +83,7 @@ namespace ft
 		/**************************************** MEMBER DATAS ****************************************/
     protected:
 		allocator_type		_allocator;
-		key_compare			_comp;
+		value_compare		_comp;
         size_type			_size;
 		// size_type			_capacity;
 		// pointer				_root;
@@ -92,14 +94,21 @@ namespace ft
     public:    
 		explicit
         map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
-					: _allocator(alloc), _comp(comp), _size(0), _RBT(comp)
-		{}
+					: _allocator(alloc), _comp(value_compare(comp)), _size(0), _RBT(_comp)
+		{
+			std::cout << "********************************** CONSTRUCTOR **********************************" << std::endl;
+
+		}
 
         // template <class InputIterator>
         // map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(),
 		// const allocator_type& alloc = allocator_type()); 
 
-        map (const map& x) { *this = x; }
+        map (const map& x)
+		{ 
+			std::cout << "********************************** COPY CONSTRUCTOR **********************************" << std::endl;
+			*this = x;
+		}
 
 		~map()
 		{
@@ -138,7 +147,12 @@ namespace ft
 		/* Capacity */
 
 		bool empty() const;
-		size_type size() const;
+		
+		
+		size_type size() const { return ( this->_size); }
+
+
+
 		size_type max_size() const;
 
 		/* Element access */
@@ -148,7 +162,7 @@ namespace ft
 			iterator it = find(k);
 			if ( it == end() )
 			{
-				insert(ft::make_pair(k,mapped_type()));
+				insert(value_type(k,mapped_type()));
 				it = find (k);
 			}
 			return (it->second);
@@ -162,13 +176,18 @@ namespace ft
 		/* Modifiers */
 
 		ft::pair<iterator, bool>
-		insert (const value_type& val)   //need make_pair
+		insert (const value_type &val)   //need make_pair
 		{ 
+			std::cout << "********************************** ICI1 **********************************" << std::endl;
+
 			if (_RBT.insert(val) == ft::null_ptr)
+			{
+			std::cout << "********************************** ICI MAP **********************************" << std::endl;
+
 				return (ft::make_pair(iterator(_RBT.find(_RBT.getRoot(), val), _RBT.getRoot(), _RBT.getLeafNULL()), false));
+			}
 			_size++;
 			return (ft::make_pair(iterator(_RBT.find(_RBT.getRoot(), val), _RBT.getRoot(), _RBT.getLeafNULL()), true));
-
 		}
 
 		// iterator
@@ -214,10 +233,12 @@ namespace ft
 		count (const key_type& k) const;
 		
 		iterator
-		lower_bound (const key_type& k);const_iterator lower_bound (const key_type& k) const;
+		lower_bound (const key_type& k);
+		const_iterator lower_bound (const key_type& k) const;
 		
 		iterator
-		upper_bound (const key_type& k);const_iterator upper_bound (const key_type& k) const;
+		upper_bound (const key_type& k);
+		const_iterator upper_bound (const key_type& k) const;
 		
 		pair<const_iterator,const_iterator>
 		equal_range (const key_type& k) const;
@@ -229,23 +250,17 @@ namespace ft
 
 		allocator_type get_allocator() const;
 
-        /* ****************************************************************************************** */
-		/****************************************** INSIDE OPERATIONS *********************************/
-        /* left_rotate */
-        /* right_rotate */
-        /* insert */
-        /* delete */
-
-
-
-
-
-
     };
 
 
 	/* ****************************************************************************************** */
 	/**************************************** NON-MEMBER OPERATORS ********************************/
+
+	template <class Key, class T, class Compare, class Alloc>
+	bool	operator<(const ft::map<Key, T, Compare, Alloc>& lhs, const ft::map<Key, T, Compare, Alloc>& rhs)
+	{
+		return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+	}
 };
 
 #endif

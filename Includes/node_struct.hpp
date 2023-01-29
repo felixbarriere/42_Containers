@@ -31,6 +31,11 @@ namespace ft
                                         parent(ft::null_ptr), node_ptr(ft::null_ptr)
 		{}
 
+        node (const value_type  &data2, node *ptr_left, node *ptr_right)
+                        : data(data2), color (RED), left(ptr_left), right(ptr_right),
+                                        parent(ft::null_ptr), node_ptr(ft::null_ptr)
+		{}
+
     };
 };
 
