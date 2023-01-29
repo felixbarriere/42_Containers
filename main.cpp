@@ -29,11 +29,13 @@ int main (int argc, char **argv)
 
 	/* MAP */
 
+	LIB::map<int, int>test;
+	// test.insert( LIB::pair<int, int>(1, 100) );
 
-	LIB::map<int, std::string>test;
-	test.insert( std::pair<char, std::string>('a', "test"));
+	// LIB::map<int, std::string>test2;
+	// test2.insert( LIB::pair<int, std::string>(1, "test") );
 
-	// std::cout << test['a'] << std::endl;
+	// std::cout << test[1] << std::endl;
 	// std::cout << "test.size = " << test.size() << std::endl;
 
 	// std::cout << test[3] << std::endl;

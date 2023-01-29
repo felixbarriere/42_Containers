@@ -50,6 +50,8 @@ namespace ft
         typedef const value_type&                   			const_reference;	                            
         typedef typename Allocator::pointer         			pointer;	         //typename tells the compiler that an unknown identifier is a type (cf Allocator).                           
         typedef typename Allocator::const_pointer   			const_pointer;	
+        typedef typename ft::iterator_map<value_type, ft::node<value_type> >   		iterator;	
+        typedef typename ft::iterator_map<const value_type, ft::node<value_type> >   		const_iterator;	
 
 
 		/* Nested Class */
@@ -67,8 +69,8 @@ namespace ft
 		};           
 
 		typedef	typename ft::RBT<value_type, value_compare>		RBT;
-        typedef value_type                             			iterator;
-        typedef const value_type                       			const_iterator;             
+        // typedef value_type                             			iterator;
+        // typedef const value_type                       const_iterator;             
         typedef ft::reverse_iterator<iterator>         reverse_iterator;         //change to ft         
         typedef ft::reverse_iterator<const_iterator>   const_reverse_iterator;   //change to ft  
 
@@ -81,8 +83,8 @@ namespace ft
 		allocator_type		_allocator;
 		key_compare			_comp;
         size_type			_size;
-		size_type			_capacity;
-		pointer				_root;
+		// size_type			_capacity;
+		// pointer				_root;
 		RBT					_RBT;
 
         /* ****************************************************************************************** */
@@ -90,18 +92,27 @@ namespace ft
     public:    
 		explicit
         map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
-					: _allocator(alloc), _comp(comp), _size(0), _capacity(0), _root(), _RBT(comp)
+					: _allocator(alloc), _comp(comp), _size(0), _RBT(comp)
 		{}
 
         // template <class InputIterator>
         // map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(),
 		// const allocator_type& alloc = allocator_type()); 
 
-        // map (const map& x);
+        map (const map& x) { *this = x; }
 
-		// ~map();
+		~map()
+		{
+			if (_size != 0)
+				_RBT.delete_tree(_RBT.getRoot());
+			_RBT.delete_LEAF_NULL();
+		}
 
-		map& operator= (const map& x);
+		map& operator=(const map& x)
+		{
+			(void)x;
+			return (*this);
+		}
 
         /* ****************************************************************************************** */
 		/****************************************** MEMBER FUNCTIONS **********************************/
@@ -137,7 +148,7 @@ namespace ft
 			iterator it = find(k);
 			if ( it == end() )
 			{
-				insert(make_pair(k,mapped_type()));
+				insert(ft::make_pair(k,mapped_type()));
 				it = find (k);
 			}
 			return (it->second);
@@ -145,27 +156,27 @@ namespace ft
 
 
 
-		mapped_type& at (const key_type& k);const mapped_type& at (const key_type& k) const;
+		mapped_type& at (const key_type& k);
+		const mapped_type& at (const key_type& k) const;
 
 		/* Modifiers */
 
-		pair<iterator, bool>
+		ft::pair<iterator, bool>
 		insert (const value_type& val)   //need make_pair
 		{ 
-			// (void)val;
+			if (_RBT.insert(val) == ft::null_ptr)
+				return (ft::make_pair(iterator(_RBT.find(_RBT.getRoot(), val), _RBT.getRoot(), _RBT.getLeafNULL()), false));
+			_size++;
+			return (ft::make_pair(iterator(_RBT.find(_RBT.getRoot(), val), _RBT.getRoot(), _RBT.getLeafNULL()), true));
 
-
-
-			_RBT.insert(val);
-				
 		}
 
-		iterator
-		insert (iterator position, const value_type& val);
+		// iterator
+		// insert (iterator position, const value_type& val);
 
-		template <class InputIterator>
-		void
-		insert (InputIterator first, InputIterator last);
+		// template <class InputIterator>
+		// void
+		// insert (InputIterator first, InputIterator last);
 
 		void erase (iterator position);
 		
@@ -190,13 +201,13 @@ namespace ft
 		iterator	
 		find (const key_type& k)
 		{
-			return (iterator(_RBT.find(k), _RBT.getRoot(), _RBT.getLeafNULL()));
+			return (iterator(_RBT.find(_RBT.getRoot(), value_type(k, mapped_type())), _RBT.getRoot(), _RBT.getLeafNULL()));
 		}
 		
 		const_iterator
 		find (const key_type& k) const
 		{
-			return (_RBT.find(k));
+			return (iterator(_RBT.find(_RBT.getRoot(), value_type(k, mapped_type())), _RBT.getRoot(), _RBT.getLeafNULL()));
 		}
 		
 		size_type

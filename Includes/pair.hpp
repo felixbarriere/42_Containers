@@ -9,8 +9,8 @@ namespace ft
 
 	/* ****************************************************************************************** */
 	/****************************************** CONSTRUCTORS **************************************/
-		typedef _T1 first_type;
-		typedef _T2 second_type;   
+		// typedef _T1 first_type;
+		// typedef _T2 second_type;   
 
 		_T1 first;              
 		_T2 second;             
@@ -22,6 +22,7 @@ namespace ft
 		template<class _U1, class _U2>
 		pair(const pair<_U1, _U2>& __p) : first(__p.first), second(__p.second) { }
 
+		~pair() {}
 		// no destructor on source code?
 
 		/* ****************************************************************************************** */
@@ -45,12 +46,13 @@ namespace ft
 		}
 	};
 
-	/* ****************************************************************************************** */
-	/**************************************** NON-MEMBER OPERATORS ********************************/
-
+	/* MAKE_PAIR */
 	template<class _T1, class _T2>
 	inline pair<_T1, _T2>
 	make_pair(_T1 __x, _T2 __y) { return pair<_T1, _T2>(__x, __y); }
+
+	/* ****************************************************************************************** */
+	/**************************************** NON-MEMBER OPERATORS ********************************/
 
 	/// Two pairs of the same type are equal iff their members are equal.
 	template<class _T1, class _T2>

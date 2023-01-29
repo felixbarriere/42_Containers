@@ -22,8 +22,7 @@ ${make}
 
 echo "compilation FT done"
 
-#valgrind 
-./Containers > result_ft
+valgrind --leak-check=full ./Containers > result_ft
 
 ################### Make with std ################### 
 echo "compiling with STD"
