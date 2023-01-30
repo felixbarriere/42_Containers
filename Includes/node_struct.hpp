@@ -6,32 +6,32 @@
 namespace ft
 {
     template <typename value_type>
-    class node
+    struct Node
     {
-    public:
+    // public:
 
         /* member types */
         value_type		data;
-        int				color;
+        size_t			color;
         // int         key;
-        node*			left;
-        node*			right;
-        node*			parent;
-        node*			node_ptr; 
+        Node*			left;
+        Node*			right;
+        Node*			parent;
+        Node*			node_ptr; 
 
         // node*			right;
         // node*			parent;
 
         /* constructors */
-        node () : data(), color (BLACK), left(ft::null_ptr), right(ft::null_ptr),
+        Node () : data(), color (BLACK), left(ft::null_ptr), right(ft::null_ptr),
                                         parent(ft::null_ptr), node_ptr(ft::null_ptr)
         {}
 
-		node (const value_type  &data2) : data(data2), color (RED), left(ft::null_ptr), right(ft::null_ptr),
+		Node (const value_type  &data2) : data(data2), color (RED), left(ft::null_ptr), right(ft::null_ptr),
                                         parent(ft::null_ptr), node_ptr(ft::null_ptr)
 		{}
 
-        node (const value_type  &data2, node *ptr_left, node *ptr_right)
+        Node (const value_type  &data2, Node *ptr_left, Node *ptr_right)
                         : data(data2), color (RED), left(ptr_left), right(ptr_right),
                                         parent(ft::null_ptr), node_ptr(ft::null_ptr)
 		{}

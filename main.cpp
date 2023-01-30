@@ -29,23 +29,41 @@ int main (int argc, char **argv)
 
 	/* MAP */
 
-	LIB::map<int, int>test;
-
 	std::cout << "********************************** TEST MAIN **********************************" << std::endl;
 
-	std::cout << test.size() << std::endl;
+	LIB::map<std::string, std::string>test;
+
+	std::cout  << "test.max_size() = " << test.max_size() << std::endl;
+
+	// std::cout << "test.size()= " << test.size() << std::endl;
+
+	// std::cout << " **** test.insert **** " << std::endl;
+	// test.insert( LIB::pair<int, std::string>(1, "100") );
+	// test.insert( LIB::pair<int, std::string>(2, "200") );
+
+	// std::cout << "test.size= " << test.size() << std::endl;
+
+	// 	// creer iterator
+	// LIB::map<int, std::string>::iterator it;
+	// it = test.begin();
+	// // (void)it;
+
+	// for (; it != test.end(); it++)
+	// 	std::cout  << "test[it]= " << it->first << " : "<< it->second << std::endl;
+
+	
+	
+	// std::cout  << "test[2]= " << test[2] << std::endl;
+	// std::cout  << "test[0]= " << test[0] << std::endl;
 
 
-	test.insert( LIB::pair<int, int>(1, 100) );
-
-	std::cout << test.size() << std::endl;
 
 	// LIB::map<int, std::string>test2;
 	// test2.insert( LIB::pair<int, std::string>(1, "test") );
 
 	// std::cout << "test.size = " << test.size() << std::endl;
 
-	// std::cout << test[3] << std::endl;
+
 	// std::cout << "test.size = " << test.size() << std::endl;
 
 	// creer iterator

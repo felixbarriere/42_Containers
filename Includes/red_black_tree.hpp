@@ -7,7 +7,7 @@
 namespace ft
 {
 
-	template <typename T, class Compare, typename Node = ft::node<T>,
+	template <typename T, class Compare, typename Node = ft::Node<T>,
 											typename Allocator = std::allocator<Node> >
 	class RBT
 	{
@@ -29,7 +29,7 @@ namespace ft
 	private:
 		value_compare	_comp;
 		allocator_type	_alloc;
-		NodePtr			_end;
+		// NodePtr			_end;
 		NodePtr			_root;
 		NodePtr			LEAF_NULL;
 
@@ -38,22 +38,23 @@ namespace ft
 
 	public:
 	RBT(const value_compare &comp = value_compare())
-			: _comp(comp), _alloc(allocator_type()), _end(_alloc.allocate(1)), _root(_end)
+			: _comp(comp), _alloc(allocator_type()) //, _root(_end) //_end(_alloc.allocate(1)),
 	{
 		this->LEAF_NULL = _alloc.allocate(1);
 		_alloc.construct(LEAF_NULL, Node(value_type()));	
 
-		LEAF_NULL->parent = ft::null_ptr;
-		LEAF_NULL->left = ft::null_ptr;
-		LEAF_NULL->right = ft::null_ptr;
-		LEAF_NULL->color = BLACK;
+		// LEAF_NULL->parent = ft::null_ptr;
+		// LEAF_NULL->right = ft::null_ptr;
+		// LEAF_NULL->left = ft::null_ptr;
+		// LEAF_NULL->color = BLACK;
+
 		this->_root = LEAF_NULL;
 	}
 
 	~RBT()
 	{
 		// _alloc.destroy(LEAF_NULL);
-		_alloc.deallocate(_end, 1);
+		// _alloc.deallocate(_end, 1);
 		// _alloc.deallocate(_root, 1);
 
 	}
@@ -70,12 +71,17 @@ namespace ft
 	// 	node->color = 0;
 	// }
 
+	size_type max_size() const
+	{
+		return ( _alloc.max_size() ) ;    //std::allocator<T>::max_size
+	}
+	
 	NodePtr
 	minimum(NodePtr node)
 	{
-		if (!node || node == _end)
+		if (!node)
 			return (node);
-		while (node->left != _end)
+		while (node->left != LEAF_NULL)
 			node = node->left;
 		return (node);
 	}
@@ -83,9 +89,9 @@ namespace ft
 	NodePtr
 	minimum(NodePtr node) const
 	{
-		if (!node || node == _end)
+		if (!node)
 			return (node);
-		while (node->left != _end)
+		while (node->left != LEAF_NULL)
 			node = node->left;
 		return (node);
 	}
@@ -111,11 +117,13 @@ namespace ft
     	return (node);
   	}
 
-	NodePtr
-	getLeafNULL() { return (this->LEAF_NULL); }
+
 
 	NodePtr
-	getRoot() { return (this->_root); }
+	getLeafNULL() const { return (this->LEAF_NULL); }
+
+	NodePtr
+	getRoot() const { return (this->_root); }
 
 	NodePtr
 	begin() { return (minimum(_root)); }
@@ -126,11 +134,15 @@ namespace ft
 	NodePtr
 	find(const NodePtr node, const value_type& key) const
 	{
+		// std::cout << "********* FIND RBT ***********" << std::endl;
+		// std::cout << "node->data.second =" << node->data.second << std::endl;
+		// std::cout << "key.second =" << key.second << std::endl;
+
 		if (node == LEAF_NULL)
 			return (LEAF_NULL);
 		else if (_comp(key, node->data))
 			return find(node->left, key);
-		else 
+		else if(_comp(node->data, key))
 			return (find(node->right, key));
 		return (node);
 	}
@@ -142,46 +154,38 @@ namespace ft
 		NodePtr node = _alloc.allocate(1);
 		_alloc.construct(node, Node(key_value, LEAF_NULL, LEAF_NULL));
 
-		// NodePtr node = new Node;
-		// node->parent = ft::null_ptr;
-		// node->data = key;
-		// node->left = LEAF_NULL;
-		// node->right = LEAF_NULL;
-		// node->color = 1;
-
 		NodePtr y = ft::null_ptr;
 		NodePtr x = this->_root;
 
 		// check where to insert the node
 		while (x != LEAF_NULL)
 		{
-			std::cout << "********************************** ICI2 **********************************" << std::endl;
+			// std::cout << "************* ICI2 ***************" << std::endl;
 			y = x;
 			if (_comp(node->data, x->data))
 			{
-				std::cout << "********************************** ICI4 **********************************" << std::endl;
+				// std::cout << "*************** ICI4 **************" << std::endl;
 
 				x = x->left;
 			}
 			else if (_comp(x->data, node->data))
 			{
-				std::cout << "********************************** ICI5 **********************************" << std::endl;
+				// std::cout << "************* ICI5 *****************" << std::endl;
 
 				x = x->right;
 			}
 			else 
 			{
-				std::cout << "********************************** ICI3 **********************************" << std::endl;
+				// std::cout << "************** ICI3 **************" << std::endl;
 				_alloc.destroy(node);
 				_alloc.deallocate(node, 1);
 				return (ft::null_ptr);
 			}
 		}
 
-		std::cout << "********************************** SORTIE **********************************" << std::endl;
+		// std::cout << "************* INSERT RBT ***************" << std::endl;
 
-
-		// insert the node
+		// insert node
 		node->parent = y;
 		if (y == ft::null_ptr)
 			_root = node;
@@ -190,19 +194,29 @@ namespace ft
 		else
 			y->right = node;
 
+		// std::cout << "************* INSERT RBT2 ***************" << std::endl;
+
+		// change color if needed
 		if (node->parent == ft::null_ptr)
 		{
 			node->color = BLACK;
+
+			// std::cout << "node->data.second =" << node->data.second << std::endl;
+
 			return (node);
 		}
+
+		// std::cout << "************* INSERT RBT3 ***************" << std::endl;
+
 
 		if (node->parent->parent == ft::null_ptr)
 			return (node);
 		insertFix(node);
+		
+		// std::cout << "node->data.second =" << node->data.second << std::endl;
+
 		return (node);
   	}
-
-
 
 	/****************************************** DELETE **********************************/
 
@@ -283,8 +297,6 @@ namespace ft
 
 		_alloc.destroy(node);
 		_alloc.deallocate(node, 1);
-		// _alloc.destroy(_root);
-		// _alloc.deallocate(_root, 1);
 	}
 
 	void

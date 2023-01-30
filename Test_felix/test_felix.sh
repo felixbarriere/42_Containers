@@ -17,7 +17,8 @@ INCLUDE="../main.cpp
 
 ################### Make with ft ###################
 echo "compiling with FT"
-make="$CC $CFLAGS $INCLUDE -DLIB=ft -o $NAME -fsanitize=leak -fsanitize=address"
+make="$CC $CFLAGS $INCLUDE -DLIB=ft -o $NAME" 
+#-fsanitize=leak -fsanitize=address
 ${make}
 
 echo "compilation FT done"

@@ -18,6 +18,7 @@ to go before b in the strict weak ordering the function defines. */
 # define BLACK 0
 # define RED 1
 
+# include <limits>
 
 # include <iostream>
 # include <iterator>
@@ -34,7 +35,7 @@ to go before b in the strict weak ordering the function defines. */
 namespace ft
 {
     template < typename Key, typename Value, typename Compare = std::less<Key>,
-                typename Allocator = std::allocator<std::pair<const Key, Value> > >
+                class Allocator = std::allocator<ft::pair<const Key, Value> > >
     class map
     {
     public:
@@ -45,15 +46,15 @@ namespace ft
         typedef Value                                   		mapped_type;
         typedef ft::pair<const Key, Value>              		value_type;	       //change to ft                         
         typedef std::size_t                         			size_type;	                                 
-        typedef std::ptrdiff_t                      			difference_type;                        
+        typedef std::ptrdiff_t                      			difference_type;   //result of subtracting two pointers              
         typedef Compare                             			key_compare;                              
         typedef Allocator                           			allocator_type;	                            
         typedef value_type&                         			reference;	                                
         typedef const value_type&                   			const_reference;	                            
         typedef typename Allocator::pointer         			pointer;	         //typename tells the compiler that an unknown identifier is a type (cf Allocator).                           
         typedef typename Allocator::const_pointer   			const_pointer;	
-        typedef typename ft::iterator_map<value_type, ft::node<value_type> >   			iterator;	
-        typedef typename ft::iterator_map<const value_type, ft::node<value_type> >   	const_iterator;	
+        typedef typename ft::iterator_map<value_type, Node<value_type> >   			iterator;	
+        typedef typename ft::iterator_map<const value_type, Node<value_type> >   	const_iterator;	
 
 
 		/* Nested Class */
@@ -66,6 +67,7 @@ namespace ft
 				value_compare(key_compare c) : comp(c) {};
 			public:
 				typedef	bool result_type;
+
 				bool	operator()(const value_type& x, const value_type& y) const
 				{ return comp(x.first, y.first); }  // first ==>cf ft::pair
 		};           
@@ -96,8 +98,6 @@ namespace ft
         map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
 					: _allocator(alloc), _comp(value_compare(comp)), _size(0), _RBT(_comp)
 		{
-			std::cout << "********************************** CONSTRUCTOR **********************************" << std::endl;
-
 		}
 
         // template <class InputIterator>
@@ -106,7 +106,6 @@ namespace ft
 
         map (const map& x)
 		{ 
-			std::cout << "********************************** COPY CONSTRUCTOR **********************************" << std::endl;
 			*this = x;
 		}
 
@@ -119,7 +118,16 @@ namespace ft
 
 		map& operator=(const map& x)
 		{
-			(void)x;
+			// if (*this != x)
+			// {
+
+			// _allocator = x._allocator;
+			// _comp = x._comp;
+        	// _size = x._size;
+			// _RBT = x._RBT;
+			// }
+			if (this == &x)
+				return (*this);
 			return (*this);
 		}
 
@@ -127,7 +135,13 @@ namespace ft
 		/****************************************** MEMBER FUNCTIONS **********************************/
 
 		/* Iterators */
-		iterator begin();const_iterator begin() const;
+		iterator
+		begin() { return(iterator(_RBT.begin(), _RBT.getRoot(), _RBT.getLeafNULL())) ; }
+		
+		const_iterator begin() const
+		{ 
+			return(const_iterator(_RBT.begin(), _RBT.getRoot(), _RBT.getLeafNULL())) ;
+		}
 
 		iterator
 		end()
@@ -135,7 +149,10 @@ namespace ft
 			return (iterator(_RBT.getLeafNULL(), _RBT.getRoot(), _RBT.getLeafNULL()));
 		}
 		
-		const_iterator end() const;
+		const_iterator end() const
+		{
+			return (const_iterator(_RBT.getLeafNULL(), _RBT.getRoot(), _RBT.getLeafNULL()));
+		}
 		
 		reverse_iterator rbegin();const_reverse_iterator rbegin() const;
 		reverse_iterator rend();const_reverse_iterator rend() const;
@@ -151,9 +168,14 @@ namespace ft
 		
 		size_type size() const { return ( this->_size); }
 
+		size_type max_size() const
+		{
+			// return ( this->_allocator.max_size() );
 
-
-		size_type max_size() const;
+			// return ( _RBT.max_size() );
+			return ( (std::numeric_limits<difference_type>::max() / sizeof(Node<value_type>)));					  //std::allocator<T>::max_size
+			// return ( static_cast<unsigned long>(std::numeric_limits<difference_type>::max()));					  //std::allocator<T>::max_size
+		}
 
 		/* Element access */
 
@@ -165,6 +187,9 @@ namespace ft
 				insert(value_type(k,mapped_type()));
 				it = find (k);
 			}
+			// std::cout << "********************************** OPERATOR[] **********************************" << std::endl;
+			// std::cout << "it->second: " << it->second << std::endl;
+			
 			return (it->second);
 		}
 
@@ -178,15 +203,14 @@ namespace ft
 		ft::pair<iterator, bool>
 		insert (const value_type &val)   //need make_pair
 		{ 
-			std::cout << "********************************** ICI1 **********************************" << std::endl;
-
 			if (_RBT.insert(val) == ft::null_ptr)
 			{
-			std::cout << "********************************** ICI MAP **********************************" << std::endl;
+			// std::cout << "********* INSERT MAP ***********" << std::endl;
 
 				return (ft::make_pair(iterator(_RBT.find(_RBT.getRoot(), val), _RBT.getRoot(), _RBT.getLeafNULL()), false));
 			}
 			_size++;
+			// std::cout << "********* INSERT MAP 2 ***********" << std::endl;
 			return (ft::make_pair(iterator(_RBT.find(_RBT.getRoot(), val), _RBT.getRoot(), _RBT.getLeafNULL()), true));
 		}
 
