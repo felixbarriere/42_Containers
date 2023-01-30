@@ -14,7 +14,8 @@ namespace ft
     /* ****************************************************************************************** */
 	/****************************************** ALIASES *******************************************/
 	public:
-	    typedef T					                value_type;	       //change to ft                         
+	    typedef T					                value_type;	       //change to ft  
+		typedef typename value_type::first_type		key_type;                       
 	    typedef std::size_t                         size_type;	                                 
 	    typedef Allocator                           allocator_type;	                            
 	    typedef value_type&                         reference;
@@ -79,10 +80,16 @@ namespace ft
 	NodePtr
 	minimum(NodePtr node)
 	{
+		// std::cout << "********* MINIMUM RBT ***********" << std::endl;
+
 		if (!node)
 			return (node);
-		while (node->left != LEAF_NULL)
+		// std::cout << "********* MINIMUM2 RBT ***********" << std::endl;
+		
+		while (node->left && node->left != LEAF_NULL)
 			node = node->left;
+		// std::cout << "********* MINIMUM3 RBT ***********" << std::endl;
+		
 		return (node);
 	}
 
@@ -134,10 +141,6 @@ namespace ft
 	NodePtr
 	find(const NodePtr node, const value_type& key) const
 	{
-		// std::cout << "********* FIND RBT ***********" << std::endl;
-		// std::cout << "node->data.second =" << node->data.second << std::endl;
-		// std::cout << "key.second =" << key.second << std::endl;
-
 		if (node == LEAF_NULL)
 			return (LEAF_NULL);
 		else if (_comp(key, node->data))
@@ -145,6 +148,34 @@ namespace ft
 		else if(_comp(node->data, key))
 			return (find(node->right, key));
 		return (node);
+	}
+
+	NodePtr end() { return (maximum(_root)); }
+	
+	NodePtr end() const { return (maximum(_root)); }
+
+	NodePtr
+	lower_bound (const key_type& key)
+	{
+		std::cout << "key: " << key << std::endl;
+
+		NodePtr	it = begin();
+		std::cout << "it: " << it->data.first << std::endl;
+
+		NodePtr	ite = end();   //SEGFAULT
+		
+		std::cout << "it: " << it->data.first << std::endl;
+
+		while (it != ite)
+		{
+			std::cout << "it: " << it->data.first << std::endl;
+			if (it->data.first == key)
+				break ;
+			it++;
+		}
+		return (it);
+
+		// return (iterator(_RBT.find(_RBT.lower_bound(), val), _RBT.getRoot(), _RBT.getLeafNULL()));
 	}
 
 	/****************************************** INSERT **********************************/

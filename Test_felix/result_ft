@@ -1,2 +1,33 @@
 ********************************** TEST MAIN **********************************
-test.max_size() = 88686269585142075
+test.max_size() = 115292150460684697
+test.size()= 0
+
+ **************** insert **************** 
+
+test.size= 2
+test[it]= 1 : 100
+test[it]= 2 : 200
+test[2]= 200
+test[0]= 
+
+ **************** insert (hint) **************** 
+
+test[it]= 0 : 
+test[it]= 1 : 100
+test[it]= 2 : 200
+test[it]= 3 : 300
+test[it]= 5 : 500
+test2[4]= 400
+test.size = 5
+
+ **************** insert (range) **************** 
+
+test[it]= 0 : 
+test[it]= 1 : 100
+test[it]= 2 : 200
+test[it]= 3 : 300
+test[it]= 5 : 500
+k: 3
+key: 3
+it: 0
+it: 0

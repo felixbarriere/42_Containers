@@ -23,6 +23,7 @@ to go before b in the strict weak ordering the function defines. */
 # include <iostream>
 # include <iterator>
 # include "reverse_iterators.hpp"
+# include "enable_if.hpp"
 # include "lexicographical_compare.hpp"
 # include "pair.hpp"
 # include "node_struct.hpp"
@@ -100,9 +101,12 @@ namespace ft
 		{
 		}
 
-        // template <class InputIterator>
-        // map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(),
-		// const allocator_type& alloc = allocator_type()); 
+        template <class InputIterator>
+        map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
+								: _allocator(alloc), _comp(value_compare(comp)), _size(0), _RBT(_comp) 
+		{
+			insert(first, last);
+		} 
 
         map (const map& x)
 		{ 
@@ -136,7 +140,10 @@ namespace ft
 
 		/* Iterators */
 		iterator
-		begin() { return(iterator(_RBT.begin(), _RBT.getRoot(), _RBT.getLeafNULL())) ; }
+		begin() 
+		{
+			return(iterator(_RBT.begin(), _RBT.getRoot(), _RBT.getLeafNULL())) ;
+		}
 		
 		const_iterator begin() const
 		{ 
@@ -154,12 +161,17 @@ namespace ft
 			return (const_iterator(_RBT.getLeafNULL(), _RBT.getRoot(), _RBT.getLeafNULL()));
 		}
 		
-		reverse_iterator rbegin();const_reverse_iterator rbegin() const;
-		reverse_iterator rend();const_reverse_iterator rend() const;
-		const_iterator cbegin() const;
-		const_iterator cend() const;
-		const_reverse_iterator crbegin() const;
-		const_reverse_iterator crend() const;
+		reverse_iterator
+		rbegin() { return (reverse_iterator(end())); }
+		
+		const_reverse_iterator 
+		rbegin() const {  return (reverse_iterator(end())); }
+
+		reverse_iterator
+		rend() { return (reverse_iterator(begin())); }
+		
+		const_reverse_iterator
+		rend() const { return (reverse_iterator(begin())); }
 
 		/* Capacity */
 
@@ -172,8 +184,8 @@ namespace ft
 		{
 			// return ( this->_allocator.max_size() );
 
-			// return ( _RBT.max_size() );
-			return ( (std::numeric_limits<difference_type>::max() / sizeof(Node<value_type>)));					  //std::allocator<T>::max_size
+			return ( _RBT.max_size() );
+			// return ( (std::numeric_limits<difference_type>::max() / sizeof(Node<value_type>)));					  //std::allocator<T>::max_size
 			// return ( static_cast<unsigned long>(std::numeric_limits<difference_type>::max()));					  //std::allocator<T>::max_size
 		}
 
@@ -214,12 +226,26 @@ namespace ft
 			return (ft::make_pair(iterator(_RBT.find(_RBT.getRoot(), val), _RBT.getRoot(), _RBT.getLeafNULL()), true));
 		}
 
-		// iterator
-		// insert (iterator position, const value_type& val);
+		iterator
+		insert (iterator position, const value_type& val)
+		{
+			(void)position;
+			insert(val);
+			return (iterator(_RBT.find(_RBT.getRoot(), val), _RBT.getRoot(), _RBT.getLeafNULL()));
+		}
 
-		// template <class InputIterator>
-		// void
-		// insert (InputIterator first, InputIterator last);
+		template <class InputIterator>
+		void
+		insert (InputIterator first, InputIterator last)
+		{
+			// std::cout << "********* INSERT range ***********" << std::endl;
+
+			while (first != last)
+			{
+				insert(*first);
+				first++;
+			}
+		}
 
 		void erase (iterator position);
 		
@@ -257,8 +283,21 @@ namespace ft
 		count (const key_type& k) const;
 		
 		iterator
-		lower_bound (const key_type& k);
-		const_iterator lower_bound (const key_type& k) const;
+		lower_bound (const key_type& k)
+		{
+			// std::cout << "value_type(k, mapped_type()): " << value_type(k, mapped_type()) << std::endl;
+			std::cout << "k: " << k << std::endl;
+
+
+
+			return (iterator(_RBT.lower_bound(k), _RBT.getRoot(), _RBT.getLeafNULL()));
+		}
+
+		const_iterator 
+		lower_bound (const key_type& k) const
+		{
+			return (iterator(_RBT.lower_bound(value_type(k, mapped_type())), _RBT.getRoot(), _RBT.getLeafNULL()));
+		}
 		
 		iterator
 		upper_bound (const key_type& k);
