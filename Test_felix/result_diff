@@ -1,9 +1,13 @@
-2c2
-< test.max_size() = 115292150460684697
+7,16c7
+< root->data.first: 2
+< root->data.second: 200
+< val.first: 3
+< node->data.first: 2
+< node->data.second: 200
+< val > tmp->data 
+< val > tmp->data 
+< res->data.first: 2
+< res->data.second: 200
+< it2->first= 2
 ---
-> test.max_size() = 128102389400760775
-30,33d29
-< k: 3
-< key: 3
-< it: 0
-< it: 0
+> it2->first= 3

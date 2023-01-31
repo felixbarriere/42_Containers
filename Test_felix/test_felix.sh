@@ -2,7 +2,7 @@
 
 #################### Variables Makefile ###################
 NAME="Containers"
-CC="clang++"
+CC="c++"
 CFLAGS="-Wall -Werror -Wextra  -std=c++98"
 INCLUDE="../main.cpp 
 	 ../srcs_main/vec_constructors.cpp

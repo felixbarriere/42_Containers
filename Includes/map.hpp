@@ -35,8 +35,8 @@ to go before b in the strict weak ordering the function defines. */
 
 namespace ft
 {
-    template < typename Key, typename Value, typename Compare = std::less<Key>,
-                class Allocator = std::allocator<ft::pair<const Key, Value> > >
+    template < class Key, class Value, class Compare = std::less<Key>, 
+										class Allocator = std::allocator<ft::pair<const Key, Value> > >
     class map
     {
     public:
@@ -68,16 +68,16 @@ namespace ft
 				value_compare(key_compare c) : comp(c) {};
 			public:
 				typedef	bool result_type;
+				typedef value_type	first_arg;
+				typedef value_type	second_arg;
 
 				bool	operator()(const value_type& x, const value_type& y) const
 				{ return comp(x.first, y.first); }  // first ==>cf ft::pair
 		};           
 
 		typedef	typename ft::RBT<value_type, value_compare>		RBT;
-        // typedef value_type                             			iterator;
-        // typedef const value_type                       const_iterator;             
-        typedef ft::reverse_iterator<iterator>         reverse_iterator;         //change to ft         
-        typedef ft::reverse_iterator<const_iterator>   const_reverse_iterator;   //change to ft  
+        typedef ft::reverse_iterator<iterator>         			reverse_iterator;           
+        typedef ft::reverse_iterator<const_iterator>   			const_reverse_iterator;  
 
 
 
@@ -88,8 +88,6 @@ namespace ft
 		allocator_type		_allocator;
 		value_compare		_comp;
         size_type			_size;
-		// size_type			_capacity;
-		// pointer				_root;
 		RBT					_RBT;
 
         /* ****************************************************************************************** */
@@ -108,7 +106,7 @@ namespace ft
 			insert(first, last);
 		} 
 
-        map (const map& x)
+        map (const map& x) : _allocator(x._allocator), _comp(x._comp), _size(x._size), _RBT(x._RBT)
 		{ 
 			*this = x;
 		}
@@ -122,16 +120,16 @@ namespace ft
 
 		map& operator=(const map& x)
 		{
-			// if (*this != x)
-			// {
-
-			// _allocator = x._allocator;
-			// _comp = x._comp;
-        	// _size = x._size;
-			// _RBT = x._RBT;
-			// }
 			if (this == &x)
 				return (*this);
+			
+
+			_comp = x._comp;
+			_allocator = x._allocator;
+			_RBT.delete_tree(_RBT.getRoot());
+			insert(x.begin(), x.end());
+        	_size = x._size;
+
 			return (*this);
 		}
 
@@ -141,25 +139,17 @@ namespace ft
 		/* Iterators */
 		iterator
 		begin() 
-		{
-			return(iterator(_RBT.begin(), _RBT.getRoot(), _RBT.getLeafNULL())) ;
-		}
+		{ return(iterator(_RBT.begin(), _RBT.getRoot(), _RBT.getLeafNULL())) ; }
 		
 		const_iterator begin() const
-		{ 
-			return(const_iterator(_RBT.begin(), _RBT.getRoot(), _RBT.getLeafNULL())) ;
-		}
+		{ return(const_iterator(_RBT.begin(), _RBT.getRoot(), _RBT.getLeafNULL())) ; }
 
 		iterator
 		end()
-		{
-			return (iterator(_RBT.getLeafNULL(), _RBT.getRoot(), _RBT.getLeafNULL()));
-		}
+		{ return (iterator(_RBT.getLeafNULL(), _RBT.getRoot(), _RBT.getLeafNULL())); }
 		
 		const_iterator end() const
-		{
-			return (const_iterator(_RBT.getLeafNULL(), _RBT.getRoot(), _RBT.getLeafNULL()));
-		}
+		{ return (const_iterator(_RBT.getLeafNULL(), _RBT.getRoot(), _RBT.getLeafNULL())); }
 		
 		reverse_iterator
 		rbegin() { return (reverse_iterator(end())); }
@@ -175,7 +165,7 @@ namespace ft
 
 		/* Capacity */
 
-		bool empty() const;
+		bool empty() const { return (_RBT.getRoot() == _RBT.getLeafNULL()); }	//std::map::empty
 		
 		
 		size_type size() const { return ( this->_size); }
@@ -255,7 +245,14 @@ namespace ft
 
 		void swap (map& x);
 
-		void clear();
+		void clear()
+		{
+			if (_size != 0)
+			{
+				_RBT.clear();
+				_size = 0;
+			}
+		}
 
 		/* Observers */
 
@@ -282,36 +279,65 @@ namespace ft
 		size_type
 		count (const key_type& k) const;
 		
+		// returns an iterator pointing to the key in the map container which is equivalent to k
 		iterator
 		lower_bound (const key_type& k)
 		{
 			// std::cout << "value_type(k, mapped_type()): " << value_type(k, mapped_type()) << std::endl;
-			std::cout << "k: " << k << std::endl;
+			// std::cout << "k: " << k << std::endl;
 
 
 
-			return (iterator(_RBT.lower_bound(k), _RBT.getRoot(), _RBT.getLeafNULL()));
+			return (iterator(_RBT.lower_bound(value_type(k, mapped_type()))
+																		,_RBT.getRoot(), _RBT.getLeafNULL()));
 		}
 
 		const_iterator 
 		lower_bound (const key_type& k) const
 		{
-			return (iterator(_RBT.lower_bound(value_type(k, mapped_type())), _RBT.getRoot(), _RBT.getLeafNULL()));
+			return (const_iterator(_RBT.lower_bound(value_type(k, mapped_type()))
+																		, _RBT.getRoot(), _RBT.getLeafNULL()));
 		}
 		
+		// returns an iterator pointing to the immediate next element just greater than k.
 		iterator
-		upper_bound (const key_type& k);
-		const_iterator upper_bound (const key_type& k) const;
+		upper_bound (const key_type& k)
+		{
+			// std::cout << "value_type(k, mapped_type()): " << value_type(k, mapped_type()) << std::endl;
+			// std::cout << "k: " << k << std::endl;
+
+			return (iterator(_RBT.upper_bound(value_type(k, mapped_type()))
+																		,_RBT.getRoot(), _RBT.getLeafNULL()));
+		}
+
+		const_iterator 
+		upper_bound (const key_type& k) const
+		{
+			return (const_iterator(_RBT.upper_bound(value_type(k, mapped_type()))
+																		, _RBT.getRoot(), _RBT.getLeafNULL()));
+		}
 		
-		pair<const_iterator,const_iterator>
-		equal_range (const key_type& k) const;
+		ft::pair<const_iterator,const_iterator>
+		equal_range (const key_type& k) const
+		{
+			return (ft::make_pair(lower_bound(k), upper_bound(k)));
+		}
 		
-		pair<iterator,iterator>
-		equal_range (const key_type& k);
+		ft::pair<iterator,iterator>
+		equal_range (const key_type& k)
+		{
+			return (ft::make_pair(lower_bound(k), upper_bound(k)));
+		}
 
 		/* Allocator */
 
 		allocator_type get_allocator() const;
+
+		void 
+		printTree()
+		{
+			_RBT.printTree();
+		}
 
     };
 

@@ -1,6 +1,11 @@
 #ifndef RED_BLACK_TREE_HPP
 # define RED_BLACK_TREE_HPP
 
+# define BRED "\e[1;31m"
+# define BBLU "\e[1;34m"
+
+# define CRESET "\e[0m"
+
 # include "node_struct.hpp"
 # include "null_ptr.hpp"
 
@@ -31,6 +36,8 @@ namespace ft
 		value_compare	_comp;
 		allocator_type	_alloc;
 		// NodePtr			_end;
+
+	// public:
 		NodePtr			_root;
 		NodePtr			LEAF_NULL;
 
@@ -44,10 +51,10 @@ namespace ft
 		this->LEAF_NULL = _alloc.allocate(1);
 		_alloc.construct(LEAF_NULL, Node(value_type()));	
 
-		// LEAF_NULL->parent = ft::null_ptr;
-		// LEAF_NULL->right = ft::null_ptr;
-		// LEAF_NULL->left = ft::null_ptr;
-		// LEAF_NULL->color = BLACK;
+		LEAF_NULL->parent = ft::null_ptr;
+		LEAF_NULL->right = ft::null_ptr;
+		LEAF_NULL->left = ft::null_ptr;
+		LEAF_NULL->color = BLACK;
 
 		this->_root = LEAF_NULL;
 	}
@@ -72,33 +79,32 @@ namespace ft
 	// 	node->color = 0;
 	// }
 
+	// bool empty() const { return ( _root == LEAF_NULL ); }	//std::map::empty
+
+
 	size_type max_size() const
 	{
 		return ( _alloc.max_size() ) ;    //std::allocator<T>::max_size
 	}
 	
+
+
 	NodePtr
 	minimum(NodePtr node)
 	{
-		// std::cout << "********* MINIMUM RBT ***********" << std::endl;
-
-		if (!node)
+		if (node == LEAF_NULL)
 			return (node);
-		// std::cout << "********* MINIMUM2 RBT ***********" << std::endl;
-		
-		while (node->left && node->left != LEAF_NULL)
+		while (node->left != LEAF_NULL)		//node->left && 
 			node = node->left;
-		// std::cout << "********* MINIMUM3 RBT ***********" << std::endl;
-		
 		return (node);
 	}
 
 	NodePtr
 	minimum(NodePtr node) const
 	{
-		if (!node)
+		if (node == LEAF_NULL)
 			return (node);
-		while (node->left != LEAF_NULL)
+		while (node->left != LEAF_NULL)		//node->left && 
 			node = node->left;
 		return (node);
 	}
@@ -106,25 +112,26 @@ namespace ft
 	NodePtr 
 	maximum(NodePtr node) 
 	{
+		if (node == LEAF_NULL)
+			return (node);
 		while (node->right != LEAF_NULL)
 		{
-		node = node->right;
+			node = node->right;
     	}
     	return (node);
   	}
-
 	
 	NodePtr 
 	maximum(NodePtr node) const
 	{
+		if (node == LEAF_NULL)
+			return (node);
 		while (node->right != LEAF_NULL)
 		{
-		node = node->right;
+			node = node->right;
     	}
     	return (node);
   	}
-
-
 
 	NodePtr
 	getLeafNULL() const { return (this->LEAF_NULL); }
@@ -133,10 +140,10 @@ namespace ft
 	getRoot() const { return (this->_root); }
 
 	NodePtr
-	begin() { return (minimum(_root)); }
+	begin() { return ( minimum(_root) ); }
 
 	NodePtr
-	begin() const { return (minimum(_root)); }
+	begin() const { return ( minimum(_root) ); }
 
 	NodePtr
 	find(const NodePtr node, const value_type& key) const
@@ -155,28 +162,63 @@ namespace ft
 	NodePtr end() const { return (maximum(_root)); }
 
 	NodePtr
-	lower_bound (const key_type& key)
+	lower_bound2(const value_type &val, NodePtr node) const
 	{
-		std::cout << "key: " << key << std::endl;
+		NodePtr tmp = node;
+		NodePtr	res = LEAF_NULL;
 
-		NodePtr	it = begin();
-		std::cout << "it: " << it->data.first << std::endl;
+		std::cout << "val.first: " << val.first << std::endl;
+		std::cout << "node->data.first: " << node->data.first << std::endl;
+		std::cout << "node->data.second: " << node->data.second << std::endl;
 
-		NodePtr	ite = end();   //SEGFAULT
-		
-		std::cout << "it: " << it->data.first << std::endl;
+		while(tmp != LEAF_NULL)
+			if (_comp(tmp->data, val) == false)
+			{
+				std::cout << "val > tmp->data " << std::endl;
 
-		while (it != ite)
-		{
-			std::cout << "it: " << it->data.first << std::endl;
-			if (it->data.first == key)
-				break ;
-			it++;
-		}
-		return (it);
+				res = node;
+				tmp = tmp->left;
+			}
+			else
+				tmp = tmp->right;
 
-		// return (iterator(_RBT.find(_RBT.lower_bound(), val), _RBT.getRoot(), _RBT.getLeafNULL()));
+		std::cout << "res->data.first: " << res->data.first << std::endl;
+		std::cout << "res->data.second: " << res->data.second << std::endl;
+		return (res);
 	}
+
+	NodePtr
+	upper_bound2(const value_type &val, NodePtr node) const
+	{
+		NodePtr tmp = node;
+		NodePtr	res = LEAF_NULL;
+
+		while(tmp != LEAF_NULL)
+		{
+			if (_comp(val, tmp->data) == true)
+			{
+				res = tmp;
+				tmp = tmp->left;
+			}
+			else
+				tmp = tmp->right;
+		}
+		return (res);
+	}
+
+	NodePtr
+	upper_bound (const value_type& key) const
+	{
+		return (upper_bound2(key, _root));
+	}	
+	NodePtr
+	lower_bound (const value_type& key) const
+	{
+		std::cout << "root->data.first: " << _root->data.first << std::endl;
+		std::cout << "root->data.second: " << _root->data.second << std::endl;
+		return (lower_bound2(key, _root));
+	}
+	
 
 	/****************************************** INSERT **********************************/
 	NodePtr
@@ -191,30 +233,18 @@ namespace ft
 		// check where to insert the node
 		while (x != LEAF_NULL)
 		{
-			// std::cout << "************* ICI2 ***************" << std::endl;
 			y = x;
 			if (_comp(node->data, x->data))
-			{
-				// std::cout << "*************** ICI4 **************" << std::endl;
-
 				x = x->left;
-			}
 			else if (_comp(x->data, node->data))
-			{
-				// std::cout << "************* ICI5 *****************" << std::endl;
-
 				x = x->right;
-			}
 			else 
 			{
-				// std::cout << "************** ICI3 **************" << std::endl;
 				_alloc.destroy(node);
 				_alloc.deallocate(node, 1);
 				return (ft::null_ptr);
 			}
 		}
-
-		// std::cout << "************* INSERT RBT ***************" << std::endl;
 
 		// insert node
 		node->parent = y;
@@ -225,27 +255,15 @@ namespace ft
 		else
 			y->right = node;
 
-		// std::cout << "************* INSERT RBT2 ***************" << std::endl;
-
 		// change color if needed
 		if (node->parent == ft::null_ptr)
 		{
 			node->color = BLACK;
-
-			// std::cout << "node->data.second =" << node->data.second << std::endl;
-
 			return (node);
 		}
-
-		// std::cout << "************* INSERT RBT3 ***************" << std::endl;
-
-
 		if (node->parent->parent == ft::null_ptr)
 			return (node);
 		insertFix(node);
-		
-		// std::cout << "node->data.second =" << node->data.second << std::endl;
-
 		return (node);
   	}
 
@@ -337,6 +355,23 @@ namespace ft
 		_alloc.deallocate(LEAF_NULL, 1);
 	}
 
+	void clear()
+	{
+		clear2(_root);
+		_root = LEAF_NULL;
+	}
+
+	void clear2(NodePtr node)
+	{
+		if (node == LEAF_NULL)
+			return ;
+		clear2(node->right);
+		clear2(node->left);
+		
+		_alloc.destroy(node);
+		_alloc.deallocate(node, 1);
+	}
+
 	/****************************************** REEQUILIBRAGE **********************************/
 
 
@@ -395,46 +430,100 @@ namespace ft
 		NodePtr u;
 		while (k->parent->color == RED)
 		{
-			if (k->parent == k->parent->parent->right) {
-			u = k->parent->parent->left;
-			if (u->color == RED) {
-				u->color = BLACK;
-				k->parent->color = BLACK;
-				k->parent->parent->color = RED;
-				k = k->parent->parent;
-			} else {
-				if (k == k->parent->left) {
-				k = k->parent;
-				rightRotate(k);
+			if (k->parent == k->parent->parent->right)
+			{
+				u = k->parent->parent->left;
+				if (u->color == RED)
+				{
+					u->color = BLACK;
+					k->parent->color = BLACK;
+					k->parent->parent->color = RED;
+					k = k->parent->parent;
 				}
-				k->parent->color = BLACK;
-				k->parent->parent->color = RED;
-				leftRotate(k->parent->parent);
+				else
+				{
+					if (k == k->parent->left)
+					{
+						k = k->parent;
+						rightRotate(k);
+					}
+					k->parent->color = BLACK;
+					k->parent->parent->color = RED;
+					leftRotate(k->parent->parent);
+				}
 			}
-			} else {
-			u = k->parent->parent->right;
+			else 
+			{
+				u = k->parent->parent->right;
 
-			if (u->color == RED) {
-				u->color = BLACK;
-				k->parent->color = BLACK;
-				k->parent->parent->color = RED;
-				k = k->parent->parent;
-			} else {
-				if (k == k->parent->right) {
-				k = k->parent;
-				leftRotate(k);
+				if (u->color == RED)
+				{
+					u->color = BLACK;
+					k->parent->color = BLACK;
+					k->parent->parent->color = RED;
+					k = k->parent->parent;
 				}
-				k->parent->color = BLACK;
-				k->parent->parent->color = RED;
-				rightRotate(k->parent->parent);
+				else
+				{
+					if (k == k->parent->right)
+					{
+						k = k->parent;
+						leftRotate(k);
+					}
+					k->parent->color = BLACK;
+					k->parent->parent->color = RED;
+					rightRotate(k->parent->parent);
+				}
 			}
-			}
-			if (k == _root) {
-			break;
+			if (k == _root) 
+			{
+				break;
 			}
 		}
 		_root->color = BLACK;
 	}
+
+
+	/* PRINT TREE */
+
+	void printTree()
+	{
+    	if (_root)
+		{
+      		printHelper(this->_root, "", true);
+		}
+
+	}
+
+	void printHelper(NodePtr root, std::string indent, bool last)
+	{
+	if (root != LEAF_NULL)
+	{
+		std::cout << indent;
+		if (last)
+		{
+			std::cout << "R----";
+			indent += "   ";
+		}
+		else
+		{
+			std::cout << "L----";
+			indent += "|  ";
+		}
+
+		if (root->color == RED)
+		{
+			std::cout << BRED << root->data.first << "(" << "RED" << ")" << "--->" << root->data.second << CRESET<< std::endl;
+		}
+		else
+		{
+			std::cout << BBLU << root->data.first << "(" << "BLACK" << ")" << "--->" << root->data.second << CRESET << std::endl;
+		}
+		printHelper(root->left, indent, false);
+		printHelper(root->right, indent, true);
+	}
+	}
+
 
 	};
 };
