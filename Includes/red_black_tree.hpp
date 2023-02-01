@@ -16,20 +16,20 @@ namespace ft
 											typename Allocator = std::allocator<Node> >
 	class RBT
 	{
-    /* ****************************************************************************************** */
+	/* ****************************************************************************************** */
 	/****************************************** ALIASES *******************************************/
 	public:
-	    typedef T					                value_type;	       //change to ft  
+		typedef T					                value_type;	       //change to ft  
 		typedef typename value_type::first_type		key_type;                       
-	    typedef std::size_t                         size_type;	                                 
-	    typedef Allocator                           allocator_type;	                            
-	    typedef value_type&                         reference;
+		typedef std::size_t                         size_type;	                                 
+		typedef Allocator                           allocator_type;	                            
+		typedef value_type&                         reference;
 		typedef	Compare								value_compare;
-	    // typedef typename Allocator::node_ptr        pointer;	       //typename tells the compiler that an unknown identifier is a type (cf Allocator).                           
-	    // typedef typename Node::node_ptr	            NodePtr;                          
-	    typedef typename Allocator::pointer		    NodePtr;                          
+		// typedef typename Allocator::node_ptr        pointer;	       //typename tells the compiler that an unknown identifier is a type (cf Allocator).                           
+		// typedef typename Node::node_ptr	            NodePtr;                          
+		typedef typename Allocator::pointer		    NodePtr;                          
 
-    /* ****************************************************************************************** */
+	/* ****************************************************************************************** */
 	/****************************************** MEMBER DATAS **************************************/
 
 	private:
@@ -41,7 +41,7 @@ namespace ft
 		NodePtr			_root;
 		NodePtr			LEAF_NULL;
 
-    /* ****************************************************************************************** */
+	/* ****************************************************************************************** */
 	/****************************************** CONSTRUCTORS / DESTRUCTORS ************************/
 
 	public:
@@ -67,7 +67,7 @@ namespace ft
 
 	}
 
-    /* ****************************************************************************************** */
+	/* ****************************************************************************************** */
 	/****************************************** MEMBER FUNCTIONS **********************************/
 
 	// void initializeNULLNode(NodePtr node, NodePtr parent)
@@ -117,9 +117,9 @@ namespace ft
 		while (node->right != LEAF_NULL)
 		{
 			node = node->right;
-    	}
-    	return (node);
-  	}
+		}
+		return (node);
+	}
 	
 	NodePtr 
 	maximum(NodePtr node) const
@@ -129,9 +129,9 @@ namespace ft
 		while (node->right != LEAF_NULL)
 		{
 			node = node->right;
-    	}
-    	return (node);
-  	}
+		}
+		return (node);
+	}
 
 	NodePtr
 	getLeafNULL() const { return (this->LEAF_NULL); }
@@ -164,44 +164,40 @@ namespace ft
 	NodePtr
 	lower_bound2(const value_type &val, NodePtr node) const
 	{
-		NodePtr tmp = node;
 		NodePtr	res = LEAF_NULL;
 
-		std::cout << "val.first: " << val.first << std::endl;
-		std::cout << "node->data.first: " << node->data.first << std::endl;
-		std::cout << "node->data.second: " << node->data.second << std::endl;
-
-		while(tmp != LEAF_NULL)
-			if (_comp(tmp->data, val) == false)
+		if (node == LEAF_NULL)
+			return (res);
+		while(node != LEAF_NULL)
+		{
+			if (_comp(node->data, val) == false)
 			{
-				std::cout << "val > tmp->data " << std::endl;
 
 				res = node;
-				tmp = tmp->left;
+				node = node->left;
 			}
 			else
-				tmp = tmp->right;
+				node = node->right;
+		}
 
-		std::cout << "res->data.first: " << res->data.first << std::endl;
-		std::cout << "res->data.second: " << res->data.second << std::endl;
 		return (res);
 	}
 
 	NodePtr
 	upper_bound2(const value_type &val, NodePtr node) const
 	{
-		NodePtr tmp = node;
+		// NodePtr tmp = node;
 		NodePtr	res = LEAF_NULL;
 
-		while(tmp != LEAF_NULL)
+		while(node != LEAF_NULL)
 		{
-			if (_comp(val, tmp->data) == true)
+			if (_comp(val, node->data) == true)
 			{
-				res = tmp;
-				tmp = tmp->left;
+				res = node;
+				node = node->left;
 			}
 			else
-				tmp = tmp->right;
+				node = node->right;
 		}
 		return (res);
 	}
@@ -214,12 +210,9 @@ namespace ft
 	NodePtr
 	lower_bound (const value_type& key) const
 	{
-		std::cout << "root->data.first: " << _root->data.first << std::endl;
-		std::cout << "root->data.second: " << _root->data.second << std::endl;
 		return (lower_bound2(key, _root));
 	}
 	
-
 	/****************************************** INSERT **********************************/
 	NodePtr
 	insert(value_type key_value) 
@@ -265,17 +258,17 @@ namespace ft
 			return (node);
 		insertFix(node);
 		return (node);
-  	}
+	}
 
 	/****************************************** DELETE **********************************/
 
-	void
-	deleteNode(int data)
+	bool
+	deleteNode(value_type data)
 	{
-    	deleteNodeHelper(this->_root, data);
+		return (deleteNodeHelper(this->_root, data));
 	}
 
-	void deleteNodeHelper(NodePtr node, int key)
+	bool deleteNodeHelper(NodePtr node, value_type key)
 	{
 		NodePtr z = LEAF_NULL;
 		NodePtr x, y;
@@ -283,10 +276,10 @@ namespace ft
 		// Searching the node to delete
 		while (node != LEAF_NULL)
 		{
-			if (node->data == key) {
+			if (node->data == key) 
+			{
 				z = node;
 			}
-
 			if (node->data <= key)
 				node = node->right;
 			else
@@ -297,7 +290,7 @@ namespace ft
 		if (z == LEAF_NULL)
 		{
 			std::cout << "Key not found in the tree" << std::endl;
-			return;
+			return (false);
 		}
 
 		y = z;
@@ -333,6 +326,7 @@ namespace ft
 		delete z;
 		if (y_original_color == 0)
 			deleteFix(x);
+		return (true);
 	}
 
 	void
@@ -422,11 +416,11 @@ namespace ft
 		else
 			u->parent->right = v;
 		v->parent = u->parent;
-  	}
+	}
 
 	void
 	insertFix(NodePtr k)
-	{
+	{	
 		NodePtr u;
 		while (k->parent->color == RED)
 		{
@@ -483,45 +477,119 @@ namespace ft
 		_root->color = BLACK;
 	}
 
+	// For balancing the tree after deletion
+	void deleteFix(NodePtr x) {
+	NodePtr s;
+	while (x != _root && x->color == 0) 
+	{
+		if (x == x->parent->left)
+		{
+			s = x->parent->right;
+			if (s->color == 1) 
+			{
+				s->color = 0;
+				x->parent->color = 1;
+				leftRotate(x->parent);
+				s = x->parent->right;
+			}
+
+			if (s->left->color == 0 && s->right->color == 0) 
+			{
+				s->color = 1;
+				x = x->parent;
+			} 
+			else 
+			{
+				if (s->right->color == 0) 
+				{
+					s->left->color = 0;
+					s->color = 1;
+					rightRotate(s);
+					s = x->parent->right;
+				}
+
+				s->color = x->parent->color;
+				x->parent->color = 0;
+				s->right->color = 0;
+				leftRotate(x->parent);
+				x = _root;
+			}
+		} 
+		else 
+		{
+			s = x->parent->left;
+			if (s->color == 1) 
+			{
+				s->color = 0;
+				x->parent->color = 1;
+				rightRotate(x->parent);
+				s = x->parent->left;
+			}
+
+			if (s->right->color == 0 && s->right->color == 0) 
+			{
+				s->color = 1;
+				x = x->parent;
+			} 
+			else
+			{
+				if (s->left->color == 0) 
+				{
+					s->right->color = 0;
+					s->color = 1;
+					leftRotate(s);
+					s = x->parent->left;
+				}
+
+				s->color = x->parent->color;
+				x->parent->color = 0;
+				s->left->color = 0;
+				rightRotate(x->parent);
+				x = _root;
+			}
+		}
+	}
+	x->color = 0;
+	}
 
 	/* PRINT TREE */
 
 	void printTree()
 	{
-    	if (_root)
+		if (_root)
 		{
-      		printHelper(this->_root, "", true);
+			printHelper(this->_root, "", true);
 		}
 
 	}
 
 	void printHelper(NodePtr root, std::string indent, bool last)
 	{
-	if (root != LEAF_NULL)
-	{
-		std::cout << indent;
-		if (last)
+		if (root != LEAF_NULL)
 		{
-			std::cout << "R----";
-			indent += "   ";
-		}
-		else
-		{
-			std::cout << "L----";
-			indent += "|  ";
-		}
+			std::cout << indent;
+			if (last)
+			{
+				std::cout << "R----";
+				indent += "   ";
+			}
+			else
+			{
+				std::cout << "L----";
+				indent += "|  ";
+			}
 
-		if (root->color == RED)
-		{
-			std::cout << BRED << root->data.first << "(" << "RED" << ")" << "--->" << root->data.second << CRESET<< std::endl;
+			if (root->color == RED)
+			{
+				std::cout << BRED << root->data.first << "(" << "RED" << ")" << "--->" << root->data.second << CRESET<< std::endl;
+			}
+			else
+			{
+				std::cout << BBLU << root->data.first << "(" << "BLACK" << ")" << "--->" << root->data.second << CRESET << std::endl;
+			}
+			printHelper(root->left, indent, false);
+			printHelper(root->right, indent, true);
 		}
-		else
-		{
-			std::cout << BBLU << root->data.first << "(" << "BLACK" << ")" << "--->" << root->data.second << CRESET << std::endl;
-		}
-		printHelper(root->left, indent, false);
-		printHelper(root->right, indent, true);
-	}
 	}
 
 

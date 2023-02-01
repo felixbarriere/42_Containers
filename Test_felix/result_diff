@@ -1,13 +1,3 @@
-7,16c7
+35,36d34
 < root->data.first: 2
 < root->data.second: 200
-< val.first: 3
-< node->data.first: 2
-< node->data.second: 200
-< val > tmp->data 
-< val > tmp->data 
-< res->data.first: 2
-< res->data.second: 200
-< it2->first= 2
----
-> it2->first= 3
