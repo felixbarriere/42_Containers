@@ -280,7 +280,7 @@ namespace ft
 			{
 				z = node;
 			}
-			if (node->data <= key)
+			if (_comp(node->data, key))
 				node = node->right;
 			else
 				node = node->left;
@@ -288,10 +288,7 @@ namespace ft
 
 		// The searched node is not in the tree
 		if (z == LEAF_NULL)
-		{
-			std::cout << "Key not found in the tree" << std::endl;
 			return (false);
-		}
 
 		y = z;
 		int y_original_color = y->color;

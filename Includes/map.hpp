@@ -156,13 +156,13 @@ namespace ft
 		rbegin() { return (reverse_iterator(end())); }
 		
 		const_reverse_iterator 
-		rbegin() const {  return (reverse_iterator(end())); }
+		rbegin() const {  return (const_reverse_iterator(end())); }
 
 		reverse_iterator
 		rend() { return (reverse_iterator(begin())); }
 		
 		const_reverse_iterator
-		rend() const { return (reverse_iterator(begin())); }
+		rend() const { return (const_reverse_iterator(begin())); }
 
 		/* Capacity */
 
@@ -416,7 +416,7 @@ namespace ft
 	}
 
 	template <class Key, class T, class Compare, class Alloc>
-	bool	swap(const ft::map<Key, T, Compare, Alloc>& lhs, const ft::map<Key, T, Compare, Alloc>& rhs)
+	void	swap(ft::map<Key, T, Compare, Alloc>& lhs, ft::map<Key, T, Compare, Alloc>& rhs)
 	{
 		return (lhs.swap(rhs));
 	}

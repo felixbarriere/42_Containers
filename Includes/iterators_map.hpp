@@ -156,18 +156,39 @@ namespace ft
 	void
 	_decrement() 
 	{
+		// std::cout  << "decrement" << it5->first << " : "<< it5->second << std::endl;
+		// std::cout  << "DECREMENT" << std::endl;
+
 		if (_current == _end)
 		{
+			// std::cout  << "DECREMENT: _current == _end" << std::endl;
+
 			_current = _max(_root);
 			return ;
 		}
 		if (_current->left != _end)
+		{
+			// std::cout  << "DECREMENT: _current != _end" << std::endl;
+			// std::cout  << "_current :" << _current->data.first << std::endl;
+
 			_current = _max(_current->left);
+		}
 		else
 		{
+
 			node_ptr tmp_parent = _current->parent;
-			for (; tmp_parent && tmp_parent != _end && _current == tmp_parent->left; _current = tmp_parent)
+			// for (; tmp_parent && tmp_parent != _end && _current == tmp_parent->left; _current = tmp_parent)
+			// 	_current = tmp_parent;
+			while (tmp_parent && tmp_parent != _end && _current == tmp_parent->left) // == + petite key_value
+			{
 				_current = tmp_parent;
+				tmp_parent = tmp_parent->parent;
+			}
+			// if (tmp_parent && tmp_parent != _end && _current == tmp_parent->left) // == + petite key_value
+			// {
+			// 	_current = _root;
+			// 	return ;
+			// }
 			_current = tmp_parent;
 		}
 	}
