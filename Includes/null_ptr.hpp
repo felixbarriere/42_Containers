@@ -15,7 +15,7 @@ namespace ft
 			operator T C::*() const { return 0; }   
 
 		private:
-			void operator&() const;    	/* Can't take address of nullptr */
+			void operator&() const;
 
 	} null_ptr = {};  
 

@@ -246,7 +246,7 @@ namespace ft
 		else if (_comp(node->data, y->data))  // < ok ou utiliser _comp ?
 			y->left = node;
 		else
-			y->right = node;
+			y->right = node;				//si key existe deja, insert right
 
 		// change color if needed
 		if (node->parent == ft::null_ptr)
@@ -256,6 +256,8 @@ namespace ft
 		}
 		if (node->parent->parent == ft::null_ptr)
 			return (node);
+		
+		// reequilibrate
 		insertFix(node);
 		return (node);
 	}

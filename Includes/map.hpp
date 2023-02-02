@@ -46,7 +46,7 @@ namespace ft
 
         typedef Key                                 			key_type;	                                
         typedef Value                                   		mapped_type;
-        typedef ft::pair<const Key, Value>              		value_type;	       //change to ft                         
+        typedef ft::pair<const Key, Value>              		value_type;	                          
         typedef std::size_t                         			size_type;	                                 
         typedef std::ptrdiff_t                      			difference_type;   //result of subtracting two pointers              
         typedef Compare                             			key_compare;                              
@@ -123,8 +123,6 @@ namespace ft
 		{
 			if (this == &x)
 				return (*this);
-			
-
 			_comp = x._comp;
 			_allocator = x._allocator;
 			_RBT.delete_tree(_RBT.getRoot());
@@ -137,7 +135,7 @@ namespace ft
         /* ****************************************************************************************** */
 		/****************************************** MEMBER FUNCTIONS **********************************/
 
-		/* Iterators */
+		/* ******************* Iterators ******************* */
 		iterator
 		begin() 
 		{ return(iterator(_RBT.begin(), _RBT.getRoot(), _RBT.getLeafNULL())) ; }
@@ -164,7 +162,8 @@ namespace ft
 		const_reverse_iterator
 		rend() const { return (const_reverse_iterator(begin())); }
 
-		/* Capacity */
+
+		/* ******************* Capacity ******************* */
 
 		bool empty() const { return (_RBT.getRoot() == _RBT.getLeafNULL()); }	//std::map::empty
 		
@@ -173,7 +172,7 @@ namespace ft
 
 		size_type max_size() const { return ( _RBT.max_size() ); }
 
-		/* Element access */
+		/* ******************* Element access ******************* */
 
 		mapped_type& operator[] (const key_type& k)
 		{
@@ -183,8 +182,6 @@ namespace ft
 				insert(value_type(k,mapped_type()));
 				it = find (k);
 			}
-			// std::cout << "********************************** OPERATOR[] **********************************" << std::endl;
-			// std::cout << "it->second: " << it->second << std::endl;
 			
 			return (it->second);
 		}
@@ -192,24 +189,21 @@ namespace ft
 		mapped_type& at (const key_type& k);
 		const mapped_type& at (const key_type& k) const;
 
-		/* Modifiers */
+		/* ******************* Modifiers ******************* */
 
 		ft::pair<iterator, bool>
 		insert (const value_type &val)   //need make_pair
 		{ 
 			if (_RBT.insert(val) == ft::null_ptr)
 			{
-			// std::cout << "********* INSERT MAP ***********" << std::endl;
-
 				return (ft::make_pair(iterator(_RBT.find(_RBT.getRoot(), val), _RBT.getRoot(), _RBT.getLeafNULL()), false));
 			}
 			_size++;
-			// std::cout << "********* INSERT MAP 2 ***********" << std::endl;
 			return (ft::make_pair(iterator(_RBT.find(_RBT.getRoot(), val), _RBT.getRoot(), _RBT.getLeafNULL()), true));
 		}
 
 		iterator
-		insert (iterator position, const value_type& val)
+		insert (iterator position, const value_type& val)   //hint
 		{
 			(void)position;
 			insert(val);
@@ -220,8 +214,6 @@ namespace ft
 		void
 		insert (InputIterator first, InputIterator last)
 		{
-			// std::cout << "********* INSERT range ***********" << std::endl;
-
 			while (first != last)
 			{
 				insert(*first);
@@ -285,7 +277,7 @@ namespace ft
 			}
 		}
 
-		/* Observers */
+		/* ******************* Observers ******************* */
 
 		key_compare
 		key_comp() const
@@ -299,7 +291,7 @@ namespace ft
 			return (_comp);
 		}
 
-		/* Operations */
+		/* ******************* Operations ******************* */
 
 		iterator	
 		find (const key_type& k)
@@ -363,7 +355,7 @@ namespace ft
 			return (ft::make_pair(lower_bound(k), upper_bound(k)));
 		}
 
-		/* Allocator */
+		/* ******************* Allocator ******************* */
 
 		allocator_type get_allocator() const { return (_allocator); }
 
