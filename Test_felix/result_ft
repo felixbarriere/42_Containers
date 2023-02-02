@@ -1,27 +1,145 @@
+ [0;33m************  TEST VECTOR  ************[0m 
 
- **************** Bounds **************** 
+ [0;33m************  Constructors ************[0m 
 
+test2[1]= 98
+test3[0]= 98
+ [0;33m************  Assign  ************[0m 
 
+test[2]= 104
+test[3]= 105
+ [0;33m************  Push Pop  ************[0m 
 
+test[i]= 11
+test[i]= 34
+test[i]= 23
+Pop_back
+test[last]= 23
+Pop_back
+test[last]= 34
+Strings
+vct[8]= One long string
+vct2[0]= Another long string
+ [0;33m************  Resize  ************[0m 
 
- **************** Erase **************** 
+vct[i]= 0
+vct[i]= 0
+vct.size()= 2
+Resize
+vct[i]= 0
+vct[i]= 0
+vct[i]= 0
+vct[i]= 0
+vct[i]= 0
+vct.size()= 5
+vct[2]= 42
+vct[i]= 0
+vct[i]= 0
+vct[i]= 42
+vct[i]= 0
+vct[i]= 0
+test4[0]= 98
+test4.at(1)= 98
+test_copy[0]= 98
 
-test[it]= 0 : 600
+ [0;33m************  Insert  ************[0m 
+
+test[i]= 3
+test[i]= 2
+test[i]= 4
+test[i]= 5
+test[i]= 6
+test[i]= 7
+test_insert[i]= 3
+test_insert[i]= 2
+test_insert[i]= 4
+test_insert[i]= 3
+test_insert[i]= 2
+test_insert[i]= 4
+test_insert[i]= 5
+test_insert[i]= 6
+test3[i]= 3
+test3[i]= 2
+test3[i]= 4
+test3[i]= 3
+test3[i]= 3
+test3[i]= 2
+test3[i]= 4
+test3[i]= 3
+test3[i]= 2
+test3[i]= 4
+test3[i]= 5
+test_operator_equal[0]= 3
+
+ [0;33m************  Modifiers  ************[0m 
+
+test_operator_equal[2]= 98
+PUSH_BACK: test_operator_equal[2]= 42
+CLEAR: test_operator_equal[2]= 42
+CLEAR: test_operator_equal[2]= 43
+test_operator_equal.front()= 43
+test_operator_equal.back()= 43
+test_operator_equal.size()= 3
+test_operator_equal.front()= 43
+POP_BACK: test_operator_equal.back()= 4
+POP_BACK: test_operator_equal.size()= 5
+ [0;33m************  TEST MAP  ************[0m 
+
+ [0;33m************  Size  ************[0m 
+
+test.max_size() = 128102389400760775
+test.size()= 0
+
+ [0;33m************  Insert  ************[0m 
+
+test.size= 2
+test[it]= 1 : 100
+test[it]= 2 : 200
+test[2]= 200
+test[0]= 
+
+ [0;33m************  Insert(hint)  ************[0m 
+
+test[it]= 0 : 
 test[it]= 1 : 100
 test[it]= 2 : 200
 test[it]= 3 : 300
-test[it]= 4 : 400
+test[it]= 5 : 500
+test2[4]= 400
+test.size = 5
+
+ [0;33m************  Insert(range)  ************[0m 
+
+test[it]= 0 : 
+test[it]= 1 : 100
+test[it]= 2 : 200
+test[it]= 3 : 300
 test[it]= 5 : 500
 
- **************** Iterators **************** 
+ [0;33m************  Bounds  ************[0m 
+
+
+
+it2->first= 3
+it3->first= 4
+
+ [0;33m************  Erase  ************[0m 
+
+test[it]= 0 : 600
+test[it]= 1 : 100
+test[it]= 3 : 300
+test[it]= 4 : 400
+test[it]= 5 : 500
+test[it]= 0 : 600
+test[it]= 1 : 100
+test[it]= 3 : 300
+test[it]= 5 : 500
+
+ [0;33m************  Iterators  ************[0m 
 
 it4= 0 : 600
 it5= 0 : 600
-it4--= 0 : 100
-it5--= 0 : 100
 it4++= 0 : 100
 it5++= 0 : 100
 it4++= 2 : 300
 it5++= 2 : 300
-it4--= 4 : 300
-it5--= 4 : 300

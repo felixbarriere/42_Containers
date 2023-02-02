@@ -1,2 +1,0 @@
-#ifndef ITERATORS_MAP_HPP
-# define ITERATORS_MAP_HPP

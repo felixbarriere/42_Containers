@@ -11,6 +11,12 @@ INCLUDE="../main.cpp
 	 ../srcs_main/vec_resize.cpp
 	 ../srcs_main/vec_insert.cpp
 	 ../srcs_main/vec_modifiers.cpp
+	 ../srcs_main/map_size.cpp
+	 ../srcs_main/map_insert.cpp
+	 ../srcs_main/map_bounds.cpp
+	 ../srcs_main/map_erase.cpp
+	 ../srcs_main/map_iterators.cpp
+
 	 "
 
 # cd ..

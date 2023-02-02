@@ -7,6 +7,7 @@ SRCS = 	main.cpp \
 		srcs_main/vec_modifiers.cpp \
 		srcs_main/vec_pushpop.cpp \
 		srcs_main/vec_resize.cpp \
+		srcs_main/map_size.cpp \
 
 OBJS_PATH = objects/
 
